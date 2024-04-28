@@ -1,4 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
+  layout "auth"
   include Devise::Controllers::Rememberable
 
   # We need to intercept the Sessions#create action for processing OTP
