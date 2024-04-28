@@ -1,0 +1,8 @@
+html {
+    scroll-behavior: smooth;
+}
+
+.required:after {
+    content:" *";
+    color: red;
+}

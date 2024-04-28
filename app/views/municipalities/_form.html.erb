@@ -1,15 +1,10 @@
 <%= form_with(model: municipality) do |form| %>
   <%= render "error_messages", resource: form.object %>
 
-  <div class="form-group">
-    <%#= form.label :account_id %>
-    <%#= form.text_field :account_id, class: "form-control" %>
-    <%# Hidden account_id for the current account %>
-    <%= form.hidden_field :account_id, value: current_account.id %>
-  </div>
+  <%= form.hidden_field :account_id, value: current_account.id %>
 
   <div class="form-group">
-    <%= form.label :name %>
+    <%= form.label :name, class: "required" %>
     <%= form.text_field :name, class: "form-control" %>
   </div>
 

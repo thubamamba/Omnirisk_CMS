@@ -14,4 +14,8 @@ class User < ApplicationRecord
 
   validates :avatar, resizable_image: true
   validates :name, presence: true
+
+  scope :internal_users, -> { where("email LIKE ?", "%@entresure.co.za") }
+
+  ADMIN_ROLES = [:super_admin, :insurance_officer]
 end
