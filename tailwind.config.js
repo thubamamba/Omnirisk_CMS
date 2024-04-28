@@ -37,6 +37,10 @@ module.exports = {
         gray: colors.neutral,
         "code-400": "#fefcf9",
         "code-600": "#3c455b",
+        "omni": {
+          primary: "#40bad2",
+          secondary: "#2BCDCE"
+        }
       },
       fontFamily: {
         sans: ['Inter', ...defaultTheme.fontFamily.sans],

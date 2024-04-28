@@ -4,4 +4,8 @@
   <%= nav_link_to t(".pricing"), pricing_path, class: "nav-link" %>
 <% end %>
 
+<% unless user_signed_in? %>
+  <%= render "shared/toggle_dark_mode" %>
+<% end %>
+
 <%= nav_link_to tag.span(t(".announcements")), announcements_path, class: ["nav-link", unread_announcements_class(current_user)] %>

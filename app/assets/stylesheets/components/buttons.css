@@ -7,7 +7,7 @@ button[disabled]        .when-enabled { display: none; }
 @layer components {
   .btn {
     @apply no-underline shadow-sm inline-flex items-center justify-between rounded-md px-3 py-2 text-sm font-semibold;
-    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-500;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-omni-secondary;
 
     &:hover,
     &:focus {
@@ -42,13 +42,13 @@ button[disabled]        .when-enabled { display: none; }
   }
 
   .btn-primary {
-    @apply bg-primary-600 text-white;
-    @apply hover:bg-primary-500 hover:text-white;
-    @apply focus:text-white focus-visible:text-white focus-visible:outline-primary-500;
+    @apply bg-omni-primary text-white;
+    @apply hover:bg-omni-secondary hover:text-white;
+    @apply focus:text-white focus-visible:text-white focus-visible:outline-omni-secondary;
 
     &.btn-outline {
-      @apply bg-transparent border border-primary-500 text-primary-500 shadow-none;
-      @apply hover:bg-primary-500 hover:text-white;
+      @apply bg-transparent border border-omni-secondary text-omni-secondary shadow-none;
+      @apply hover:bg-omni-secondary hover:text-white;
     }
   }
 
@@ -56,7 +56,7 @@ button[disabled]        .when-enabled { display: none; }
   .btn-tertiary {
     @apply bg-white border border-gray-300 text-gray-800;
     @apply hover:bg-gray-100 hover:text-gray-700;
-    @apply focus:text-gray-700 focus-visible:text-gray-700 focus-visible:text-gray-700 focus-visible:outline-primary-500 dark:focus-visible:outline-white/20;
+    @apply focus:text-gray-700 focus-visible:text-gray-700 focus-visible:text-gray-700 focus-visible:outline-omni-secondary dark:focus-visible:outline-white/20;
     @apply dark:bg-gray-800 dark:text-white dark:border-gray-700 dark:hover:text-white dark:hover:bg-gray-700 dark:focus-visible:ring-gray-700;
 
     &.btn-outline {
@@ -112,9 +112,9 @@ button[disabled]        .when-enabled { display: none; }
   }
 
   .btn-link {
-    @apply text-primary-500 bg-transparent shadow-none focus-visible:outline-primary-500;
-    @apply dark:hover:text-primary-500 dark:hover:bg-gray-800;
-    @apply hover:text-primary-600;
+    @apply text-omni-secondary bg-transparent shadow-none focus-visible:outline-omni-secondary;
+    @apply dark:hover:text-omni-secondary dark:hover:bg-gray-800;
+    @apply hover:text-omni-primary;
   }
 
   .btn-expanded,

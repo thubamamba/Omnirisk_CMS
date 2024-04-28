@@ -19,3 +19,6 @@ application.register('slideover', Slideover)
 
 import Flatpickr from 'stimulus-flatpickr'
 application.register('flatpickr', Flatpickr)
+
+import DarkToggle from './dark_toggle_controller'
+application.register('dark-toggle', DarkToggle)

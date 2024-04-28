@@ -18,6 +18,13 @@ module JumpstartApp
     # Common ones are `templates`, `generators`, or `middleware`, for example.
     config.autoload_lib(ignore: %w[assets generators jumpstart rails tasks templates])
 
+    # Different routes for auth pages
+    config.to_prepare do
+      Users::SessionsController.layout "auth"
+      Users::RegistrationsController.layout proc { |_controller| user_signed_in? ? "application" : "auth" }
+      Users::PasswordsController.layout proc { |_controller| user_signed_in? ? "application" : "auth" }
+    end
+
     # Configuration for the application, engines, and railties goes here.
     #
     # These settings can be overridden in specific environments using the files

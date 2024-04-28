@@ -1,0 +1,25 @@
+---
+application_name: Omnirisk Solutions
+business_name: Omnirisk Solutions Pty Ltd
+business_address: |-
+  30 Pointer Crescent,
+  Garsfontein,
+  Pretoria,
+  Gauteng, 0042
+domain: https://claims.omnirisksolutions.co.za/
+support_email: support@omnirisksolutions.co.za
+default_from_email: Omnirisk Support <no-reply@omnirisksolutions.co.za>
+background_job_processor: async
+email_provider: 
+personal_accounts: false
+apns: false
+fcm: false
+integrations:
+omniauth_providers:
+payment_processors:
+multitenancy:
+- path
+gems:
+- acts_as_tenant
+- rack-attack
+- whenever
