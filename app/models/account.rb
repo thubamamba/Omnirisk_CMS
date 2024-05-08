@@ -17,6 +17,7 @@ class Account < ApplicationRecord
   scope :team, -> { where(personal: false) }
   scope :sorted, -> { order(personal: :desc, name: :asc) }
 
+  has_one :municipality
   has_one_attached :avatar
 
   validates :avatar, resizable_image: true

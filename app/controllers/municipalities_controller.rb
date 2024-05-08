@@ -6,7 +6,7 @@ class MunicipalitiesController < ApplicationController
     @pagy, @municipalities = pagy(Municipality.sort_by_params(params[:sort], sort_direction))
 
     # Uncomment to authorize with Pundit
-    # authorize @municipalities
+    authorize @municipalities
   end
 
   # GET /municipalities/1 or /municipalities/1.json
@@ -18,7 +18,7 @@ class MunicipalitiesController < ApplicationController
     @municipality = Municipality.new
 
     # Uncomment to authorize with Pundit
-    # authorize @municipality
+    authorize @municipality
   end
 
   # GET /municipalities/1/edit

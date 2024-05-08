@@ -1,0 +1,43 @@
+<%= content_for :title, "Claims" %>
+<%= turbo_stream_from :claims %>
+
+<div class="container px-4 mx-auto my-8">
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <h1 class="h3">Claims</h1>
+
+      <div class="text-sm font-medium">
+        <span class="text-gray-500 dark:text-gray-300/75">Sort by:</span>
+        <%= sortable @claims, :municipality_id, "Municipality", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :status, "Status", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :claim_number, "Claim number", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :claim_type, "Claim type", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :type_of_property_loss, "Type of property loss", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :date_of_loss, "Date of loss", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :police_ref_number, "Police ref number", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :police_station_incident_reported_to, "Police station incident reported to", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :nature_of_incident, "Nature of incident", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :insured_property_ownership, "Insured property ownership", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :description_of_incident, "Description of incident", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @claims, :incident_location, "Incident location", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+      </div>
+    </div>
+
+    <%= link_to t("scaffold.new.title", model: "Claim"), new_claim_path, class: "btn btn-secondary" %>
+  </div>
+
+  <%= tag.div id: ("claims" if first_page?), class: "bg-white dark:bg-gray-900 dark:border dark:border-gray-700 rounded-md shadow p-6 space-y-8" do %>
+    <%= render partial: "claims/claim", collection: @claims, as: :claim, cached: true %>
+
+    <div class="hidden only:block text-center">
+      <p class="mb-4 h3">Create your first Claim</p>
+      <%= link_to t("scaffold.new.title", model: "Claim"), new_claim_path, class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <% if @pagy.pages > 1 %>
+    <div class="my-6 text-center">
+      <%== pagy_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>

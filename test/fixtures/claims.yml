@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  municipality: one
+  status: MyString
+  claim_number: MyString
+  claim_type: MyString
+  type_of_property_loss: MyString
+  date_of_loss: 2024-05-04 13:49:17
+  police_ref_number: MyString
+  police_station_incident_reported_to: MyString
+  nature_of_incident: MyString
+  insured_property_ownership: MyString
+  description_of_incident: MyText
+  incident_location: MyString
+
+two:
+  municipality: two
+  status: MyString
+  claim_number: MyString
+  claim_type: MyString
+  type_of_property_loss: MyString
+  date_of_loss: 2024-05-04 13:49:17
+  police_ref_number: MyString
+  police_station_incident_reported_to: MyString
+  nature_of_incident: MyString
+  insured_property_ownership: MyString
+  description_of_incident: MyText
+  incident_location: MyString

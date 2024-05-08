@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_04_28_193133) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_08_140239) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -156,6 +156,44 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_28_193133) do
     t.index ["user_id", "user_type"], name: "user_index"
   end
 
+  create_table "claims", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "municipality_id", null: false
+    t.string "status"
+    t.string "claim_number"
+    t.string "claim_type"
+    t.string "type_of_property_loss"
+    t.datetime "date_of_loss"
+    t.string "police_ref_number"
+    t.string "police_station_incident_reported_to"
+    t.string "nature_of_incident"
+    t.string "insured_property_ownership"
+    t.text "description_of_incident"
+    t.string "incident_location"
+    t.boolean "is_active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_property_insured_elsewhere"
+    t.boolean "have_you_suffered_previous_loss"
+    t.boolean "has_other_party_interest"
+    t.boolean "was_property_occupied_during_damage"
+    t.text "property_loss_location"
+    t.datetime "declaration_accepted_at", precision: nil
+    t.datetime "information_sharing_accepted_at", precision: nil
+    t.index ["municipality_id"], name: "index_claims_on_municipality_id"
+  end
+
+  create_table "comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "claim_id", null: false
+    t.bigint "user_id", null: false
+    t.text "description"
+    t.boolean "is_verified"
+    t.boolean "is_active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["claim_id"], name: "index_comments_on_claim_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "connected_accounts", force: :cascade do |t|
     t.bigint "owner_id"
     t.string "provider"
@@ -169,6 +207,22 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_28_193133) do
     t.string "access_token_secret"
     t.string "owner_type"
     t.index ["owner_id", "owner_type"], name: "index_connected_accounts_on_owner_id_and_owner_type"
+  end
+
+  create_table "flipper_features", force: :cascade do |t|
+    t.string "key", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_flipper_features_on_key", unique: true
+  end
+
+  create_table "flipper_gates", force: :cascade do |t|
+    t.string "feature_key", null: false
+    t.string "key", null: false
+    t.text "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feature_key", "key", "value"], name: "index_flipper_gates_on_feature_key_and_key_and_value", unique: true
   end
 
   create_table "inbound_webhooks", force: :cascade do |t|
@@ -402,6 +456,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_28_193133) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  create_table "witnesses", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "claim_id", null: false
+    t.string "witness_prefix"
+    t.string "witness_name"
+    t.string "witness_contact_number"
+    t.string "witness_email"
+    t.string "witness_physical_address"
+    t.boolean "is_verified", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["claim_id"], name: "index_witnesses_on_claim_id"
+  end
+
   add_foreign_key "account_invitations", "accounts"
   add_foreign_key "account_invitations", "users", column: "invited_by_id"
   add_foreign_key "account_users", "accounts"
@@ -409,8 +476,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_04_28_193133) do
   add_foreign_key "accounts", "users", column: "owner_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "claims", "municipalities"
+  add_foreign_key "comments", "claims"
+  add_foreign_key "comments", "users"
   add_foreign_key "municipalities", "accounts"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
+  add_foreign_key "witnesses", "claims"
 end

@@ -1,0 +1,53 @@
+<div id="<%= dom_id claim %>">
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Municipality</p>
+    <%= claim.municipality_id %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Status</p>
+    <%= claim.status %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Claim number</p>
+    <%= claim.claim_number %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Claim type</p>
+    <%= claim.claim_type %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Type of property loss</p>
+    <%= claim.type_of_property_loss %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Date of loss</p>
+    <%= claim.date_of_loss %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Police ref number</p>
+    <%= claim.police_ref_number %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Police station incident reported to</p>
+    <%= claim.police_station_incident_reported_to %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Nature of incident</p>
+    <%= claim.nature_of_incident %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Insured property ownership</p>
+    <%= claim.insured_property_ownership %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Description of incident</p>
+    <%= claim.description_of_incident %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Incident location</p>
+    <%= claim.incident_location %>
+  </div>
+  <% if action_name != "show" %>
+    <%= link_to "View this claim", claim, class: "btn btn-secondary" %>
+  <% end %>
+</div>

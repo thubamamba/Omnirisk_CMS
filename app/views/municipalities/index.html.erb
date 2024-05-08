@@ -14,7 +14,9 @@
       </div>
     </div>
 
-    <%= link_to t("scaffold.new.title", model: "Municipality"), new_municipality_path, class: "btn btn-secondary" %>
+    <% if Flipper.enabled?(:add_municipality) && current_user.admin? %>
+      <%= link_to t("scaffold.new.title", model: "Municipality"), new_municipality_path, class: "btn btn-secondary" %>
+    <% end %>
   </div>
 
   <%= tag.div id: ("municipalities" if first_page?), class: "bg-white dark:bg-gray-900 dark:border dark:border-gray-700 rounded-md shadow p-6 space-y-8" do %>

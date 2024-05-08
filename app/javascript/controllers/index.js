@@ -22,3 +22,6 @@ application.register('flatpickr', Flatpickr)
 
 import DarkToggle from './dark_toggle_controller'
 application.register('dark-toggle', DarkToggle)
+
+import TextareaAutogrow from 'stimulus-textarea-autogrow'
+application.register('textarea-autogrow', TextareaAutogrow)

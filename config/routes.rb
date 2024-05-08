@@ -1,5 +1,8 @@
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
+  resources :witnesses
+  resources :comments
+  resources :claims
   draw :accounts
   draw :api
   draw :billing
@@ -9,6 +12,7 @@ Rails.application.routes.draw do
 
   authenticated :user, lambda { |u| u.admin? } do
     draw :admin
+    mount Flipper::UI.app(Flipper) => "/flipper", :as => :flipper_ui
   end
 
   resources :announcements, only: [:index, :show]

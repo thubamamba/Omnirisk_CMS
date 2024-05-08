@@ -1,0 +1,133 @@
+<%= form_with(model: claim) do |form| %>
+  <%= render "error_messages", resource: form.object %>
+
+  <div class="form-group">
+    <%= form.label :municipality_id %>
+    <%= form.select :municipality_id, options_from_collection_for_select(Municipality.order(:name), :id, :name), { prompt: 'Select Municipality' }, class: "form-control mr-4" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :claim_type %>
+    <%= form.select :industry,
+                    Claim::CLAIM_TYPE, { include_blank: "Select your claim" },
+                    { class: "form-control" } %>
+  </div>
+
+  <%########## Property Claim #############%>
+  <div class="form-group">
+    <%= form.label "Is the property insured by another insurer?", class: "required" %>
+    <%#= form.text_field :type_of_property_loss, class: "form-control" %>
+    <div class="flex items-center space-x-4">
+      <%= form.collection_radio_buttons :is_property_insured_elsewhere, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :type_of_property_loss, class: "required" %>
+    <%#= form.text_field :type_of_property_loss, class: "form-control" %>
+    <div class="flex items-center space-x-4">
+    <%= form.collection_radio_buttons :type_of_property_loss, ["All Risk (Portables)", "Electronic Equipment", "Office Content", "Building"], :itself, :to_s, class: "form-control inline" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label "Have you previously suffered loss/damage?", class: "required" %>
+    <div class="flex items-center space-x-4">
+      <%= form.collection_radio_buttons :have_you_suffered_previous_loss, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label "Has any other party an interest in the insured property eg; Credit Agreement?", class: "required" %>
+    <div class="flex items-center space-x-4">
+      <%= form.collection_radio_buttons :has_other_party_interest, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :date_of_loss, class: "required"%>
+    <%= form.date_field :date_of_loss, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :police_ref_number %>
+    <%= form.text_field :police_ref_number, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :police_station_incident_reported_to %>
+    <%= form.text_field :police_station_incident_reported_to, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :nature_of_incident %>
+    <%#= form.text_field :nature_of_incident, class: "form-control" %>
+    <div class="flex items-center space-x-4">
+      <%= form.collection_radio_buttons :nature_of_incident, %w[Loss Damage Incident], :itself, :to_s, class: "form-control inline" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label "Ownership of the insured property", class: "required" %>
+    <%= form.text_field :insured_property_ownership, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label "Was the property Occupied during the damage?", class: "required" %>
+    <div class="flex items-center space-x-4">
+      <%= form.collection_radio_buttons :was_property_occupied_during_damage, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= form.label "Describe the incident or how the loss/damage occurred", class: "required" %>
+    <%= form.text_area :description_of_incident, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label "Where did the loss/damage or Incident occur?", class: "required" %>
+    <%= form.text_field :incident_location, class: "form-control" %>
+  </div>
+
+  <%# Acceptance %>
+  <div class="form-group">
+    <div class="flex items-center space-x-4">
+      <%= form.check_box :accept_information_sharing, class: "form-checkbox" %>
+      <%= form.label "Information Sharing - Consent of Insured", class: "text-lg font-medium" %>
+    </div>
+    <p class="text-md ml-4">You agree to share your information:</p>
+    <ol class="ml-4">
+      <li>I acknowledge that sharing of insurance information for underwriting and claims purposes (including credit information) between insurers is in the best interest as it enables insurers to underwrite policies and assess risks fairly and to reduce the incidence of fraudulent claims with a view to limiting premiums.</li>
+      <li>
+        I waive my right to privacy with regard to underwriting or claims information (including credit information) that I provide or that is provided by another person on my behalf in respect of any insurance policy or claim made or lodged by me, This is on my own behalf as well as on the behalf of any person I represent in terms of this insurance policy.
+      </li>
+      <li>
+        I acknowledge that the Insurance information provided by me may be stored in the shared database and used as set out above as well as for any decision pertaining to the continuance of my policy or the meeting of any claim I may submit.
+      </li>
+      <li>
+        I consent to such information being disclosed to any other insurance company or its agent 5. I acknowledge that the information may be verified against legally recognised sources or database
+      </li>
+    </ol>
+  </div>
+
+  <div class="form-group">
+    <div class="flex items-center space-x-4">
+      <%= form.check_box :accept_declaration, class: "form-checkbox" %>
+      <%= form.label "Declaration", class: "text-lg font-medium" %>
+    </div>
+    <p class="text-md ml-4">I/ we hereby declare that I/ we have suffered loss of or damage to the property enumerated on the reserve hereof and that the said property was in my/ our possession immediately prior to the said loss/ damage which occurred in the circumstance described above. I / we hereby warrant that the item/s being claimed for has been reported as well as black listed with the relevant Cellular Service Provider/s. I / we hereby acknowledge that it is a further condition precedent to liability of the company under this policy that Omnirisk Solutions may make an inquiry, where applicable, to the relevant Cellular Service Provider/s or their authorised representatives to obtain further information regarding date and time of the device/s or sim card last usage. I/ we hereby declare that the afore going particulars to be true in every respect.</p>
+    <p class="text-md ml-4 font-medium">N.B IT IS IMPORTANT THAT YOU NOTIFY THE INSURERS IMMEDIATELY WHEN YOU BECOME AWARE OF ANY IMPENDING PROSECUTION, INQUEST OR DEMAND.</p>
+  </div>
+
+
+
+  <div>
+    <%= form.button button_text(form.send(:submit_default_value)), class: "btn btn-primary" %>
+
+    <% if form.object.new_record? %>
+      <%= link_to t("cancel"), claims_path, class: "btn btn-secondary" %>
+    <% else %>
+      <%= link_to t("cancel"), claim_path(@claim), class: "btn btn-secondary" %>
+    <% end %>
+  </div>
+<% end %>

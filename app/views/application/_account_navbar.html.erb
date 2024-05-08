@@ -8,5 +8,7 @@
     <%= nav_link_to t(".billing"), subscriptions_path, class: "block no-underline p-3 px-6", active_class: active_class, inactive_class: inactive_class, starts_with: ["/subscriptions", "/payment_methods"] if Jumpstart.config.payments_enabled? %>
   <% end %>
   <%= nav_link_to t(".accounts"), accounts_path, class: "block no-underline p-3 px-6", active_class: active_class, inactive_class: inactive_class, starts_with: "/accounts" %>
-  <%= nav_link_to t(".api_tokens"), api_tokens_path, class: "block no-underline p-3 px-6 rounded-b", active_class: active_class, inactive_class: inactive_class, starts_with: "/api_tokens" %>
+  <% if Flipper.enabled?(:user_api_tokens) && current_user.admin? %>
+    <%= nav_link_to t(".api_tokens"), api_tokens_path, class: "block no-underline p-3 px-6 rounded-b", active_class: active_class, inactive_class: inactive_class, starts_with: "/api_tokens" %>
+  <% end %>
 </div>
