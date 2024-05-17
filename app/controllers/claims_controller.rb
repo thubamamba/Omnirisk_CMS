@@ -15,7 +15,7 @@ class ClaimsController < ApplicationController
 
   # GET /claims/new
   def new
-    @claim = Claim.new
+    @claim = Claim.new(claim_params)
 
     # Uncomment to authorize with Pundit
     # authorize @claim
@@ -79,7 +79,9 @@ class ClaimsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def claim_params
-    params.require(:claim).permit(:municipality_id, :status, :claim_number, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :property_claim_photos, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at)
+    # params.require(:claim).permit(:municipality_id, :status, :claim_number, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :property_claim_photos, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at, :property_claim_photos)
+
+    params.fetch(:claim, {}).permit(:municipality_id, :status, :claim_number, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :property_claim_photos, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at, :property_claim_photos)
 
     # Uncomment to use Pundit permitted attributes
     # params.require(:claim).permit(policy(@claim).permitted_attributes)

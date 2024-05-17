@@ -2,7 +2,11 @@
 Rails.application.routes.draw do
   resources :witnesses
   resources :comments
-  resources :claims
+  resources :claims do
+    member do
+      delete :delete_property_claim_photos
+    end
+  end
   draw :accounts
   draw :api
   draw :billing

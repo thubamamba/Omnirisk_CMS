@@ -6,88 +6,127 @@
     <%= form.select :municipality_id, options_from_collection_for_select(Municipality.order(:name), :id, :name), { prompt: 'Select Municipality' }, class: "form-control mr-4" %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :claim_type %>
-    <%= form.select :industry,
-                    Claim::CLAIM_TYPE, { include_blank: "Select your claim" },
-                    { class: "form-control" } %>
-  </div>
+  <div data-controller="conditional-form-element">
+    <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :claim_type_requirements, conditional_form_element_target: "submitBtn" } %>
 
-  <%########## Property Claim #############%>
-  <div class="form-group">
-    <%= form.label "Is the property insured by another insurer?", class: "required" %>
-    <%#= form.text_field :type_of_property_loss, class: "form-control" %>
-    <div class="flex items-center space-x-4">
-      <%= form.collection_radio_buttons :is_property_insured_elsewhere, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
+    <div class="form-group">
+      <%= form.label :claim_type %>
+      <%= form.select :claim_type, Claim.claim_types, { include_blank: true }, { data: { action: "change->conditional-form-element#remoteSubmit"}} %>
     </div>
   </div>
 
-  <div class="form-group">
-    <%= form.label :type_of_property_loss, class: "required" %>
-    <%#= form.text_field :type_of_property_loss, class: "form-control" %>
-    <div class="flex items-center space-x-4">
-    <%= form.collection_radio_buttons :type_of_property_loss, ["All Risk (Portables)", "Electronic Equipment", "Office Content", "Building"], :itself, :to_s, class: "form-control inline" %>
-    </div>
-  </div>
+  <%= turbo_frame_tag :claim_type_requirements do %>
+    <%########## Property Claim #############%>
+    <% if claim.property? %>
+      <div class="form-group">
+        <%= form.label "Is the property insured by another insurer?", class: "required" %>
+        <%#= form.text_field :type_of_property_loss, class: "form-control" %>
+        <div class="flex items-center space-x-4">
+          <%#= form.collection_radio_buttons :is_property_insured_elsewhere, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
+          <%= form.collection_radio_buttons :is_property_insured_elsewhere, [[true, 'Yes'], [false, 'No']], :first, :last, class: "form-control inline" %>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <%= form.label "Have you previously suffered loss/damage?", class: "required" %>
-    <div class="flex items-center space-x-4">
-      <%= form.collection_radio_buttons :have_you_suffered_previous_loss, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
-    </div>
-  </div>
+      <div class="form-group">
+        <%= form.label :type_of_property_loss, class: "required" %>
+        <%#= form.text_field :type_of_property_loss, class: "form-control" %>
+        <div class="flex items-center space-x-4">
+        <%= form.collection_radio_buttons :type_of_property_loss, ["All Risk (Portables)", "Electronic Equipment", "Office Content", "Building"], :itself, :to_s, class: "form-control inline" %>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <%= form.label "Has any other party an interest in the insured property eg; Credit Agreement?", class: "required" %>
-    <div class="flex items-center space-x-4">
-      <%= form.collection_radio_buttons :has_other_party_interest, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
-    </div>
-  </div>
+      <div class="form-group">
+        <%= form.label "Have you previously suffered loss/damage?", class: "required" %>
+        <div class="flex items-center space-x-4">
+          <%= form.collection_radio_buttons :have_you_suffered_previous_loss, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <%= form.label :date_of_loss, class: "required"%>
-    <%= form.date_field :date_of_loss, class: "form-control" %>
-  </div>
+      <div class="form-group">
+        <%= form.label "Has any other party an interest in the insured property eg; Credit Agreement?", class: "required" %>
+        <div class="flex items-center space-x-4">
+          <%= form.collection_radio_buttons :has_other_party_interest, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <%= form.label :police_ref_number %>
-    <%= form.text_field :police_ref_number, class: "form-control" %>
-  </div>
+      <div class="form-group">
+        <%= form.label :date_of_loss, class: "required"%>
+        <%= form.date_field :date_of_loss, class: "form-control" %>
+      </div>
 
-  <div class="form-group">
-    <%= form.label :police_station_incident_reported_to %>
-    <%= form.text_field :police_station_incident_reported_to, class: "form-control" %>
-  </div>
+      <div class="form-group">
+        <%= form.label :police_ref_number %>
+        <%= form.text_field :police_ref_number, class: "form-control" %>
+      </div>
 
-  <div class="form-group">
-    <%= form.label :nature_of_incident %>
-    <%#= form.text_field :nature_of_incident, class: "form-control" %>
-    <div class="flex items-center space-x-4">
-      <%= form.collection_radio_buttons :nature_of_incident, %w[Loss Damage Incident], :itself, :to_s, class: "form-control inline" %>
-    </div>
-  </div>
+      <div class="form-group">
+        <%= form.label :police_station_incident_reported_to %>
+        <%= form.text_field :police_station_incident_reported_to, class: "form-control" %>
+      </div>
 
-  <div class="form-group">
-    <%= form.label "Ownership of the insured property", class: "required" %>
-    <%= form.text_field :insured_property_ownership, class: "form-control" %>
-  </div>
+      <div class="form-group">
+        <%= form.label :nature_of_incident %>
+        <%#= form.text_field :nature_of_incident, class: "form-control" %>
+        <div class="flex items-center space-x-4">
+          <%= form.collection_radio_buttons :nature_of_incident, %w[Loss Damage Incident], :itself, :to_s, class: "form-control inline" %>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <%= form.label "Was the property Occupied during the damage?", class: "required" %>
-    <div class="flex items-center space-x-4">
-      <%= form.collection_radio_buttons :was_property_occupied_during_damage, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
-    </div>
-  </div>
+      <div class="form-group">
+        <%= form.label "Ownership of the insured property", class: "required" %>
+        <%= form.text_field :insured_property_ownership, class: "form-control" %>
+      </div>
 
-  <div class="form-group">
-    <%= form.label "Describe the incident or how the loss/damage occurred", class: "required" %>
-    <%= form.text_area :description_of_incident, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
-  </div>
+      <div class="form-group">
+        <%= form.label "Was the property Occupied during the damage?", class: "required" %>
+        <div class="flex items-center space-x-4">
+          <%= form.collection_radio_buttons :was_property_occupied_during_damage, %w[Yes No], :itself, :to_s, class: "form-control inline" %>
+        </div>
+      </div>
 
-  <div class="form-group">
-    <%= form.label "Where did the loss/damage or Incident occur?", class: "required" %>
-    <%= form.text_field :incident_location, class: "form-control" %>
-  </div>
+      <div class="form-group">
+        <%= form.label "Describe the incident or how the loss/damage occurred", class: "required" %>
+        <%= form.text_area :description_of_incident, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label "Where did the loss/damage or Incident occur?", class: "required" %>
+        <%= form.text_field :incident_location, class: "form-control" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :property_claim_photos, "Upload Additional images (forcible entry or damaged device)" %>
+        <%= form.file_field :property_claim_photos, multiple: true %>
+
+        <% if claim.property_claim_photos.attached? %>
+          <% post.property_claim_photos.each do |image| %>
+            <%= form.hidden_field :property_claim_photos, multiple: true, value: image.signed_id %>
+            <%= image_tag(image, height: 100) %>
+            <%= link_to "Remove", delete_property_claim_photos_claim_path(image), data: { turbo_method: :delete } %>
+            <br />
+          <% end %>
+        <% end %>
+      </div>
+    <% end %>
+    <%######## End Property Claim %>
+
+    <%########## Liability Claim #########%>
+    <% if claim.liability? %>
+    <p>This is liability</p>
+    <% end %>
+    <%########## End Liability Claim #########%>
+
+    <%###### Accident and Health ###########%>
+    <% if claim.accident_and_health? %>
+    <p>This is accident and health</p>
+    <% end %>
+
+    <%########## Vehicle Claim #########%>
+    <% if claim.vehicle? %>
+    <p>This is vehicle</p>
+    <% end %>
+    <%########## End Vehicle Claim #########%>
+  <% end %>
 
   <%# Acceptance %>
   <div class="form-group">
@@ -119,8 +158,7 @@
     <p class="text-md ml-4 font-medium">N.B IT IS IMPORTANT THAT YOU NOTIFY THE INSURERS IMMEDIATELY WHEN YOU BECOME AWARE OF ANY IMPENDING PROSECUTION, INQUEST OR DEMAND.</p>
   </div>
 
-
-
+  <%# CTA %>
   <div>
     <%= form.button button_text(form.send(:submit_default_value)), class: "btn btn-primary" %>
 
