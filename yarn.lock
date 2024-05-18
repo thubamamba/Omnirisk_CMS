@@ -1032,6 +1032,11 @@ signal-exit@^4.0.1:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-4.1.0.tgz#952188c1cbd546070e2dd20d0f41c0ae0530cb04"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
 
+signature_pad@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/signature_pad/-/signature_pad-5.0.0.tgz#774d948f270c170e8a6f2c8fa87b64d5de96f439"
+  integrity sha512-8BVdqf5EfgNIqkQolwPJqGGH1AYWgCdvRWBpYwDx5En9XWcVr4kT0JHLtFsMgTnNtQiJUACUJEgSHj8JNVf83Q==
+
 source-map-js@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.0.tgz#16b809c162517b5b8c3e7dcd315a2a5c2612b2af"

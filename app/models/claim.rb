@@ -4,19 +4,29 @@ class Claim < ApplicationRecord
   broadcasts_refreshes
   audited
   belongs_to :municipality
+  has_one_attached :signature
   has_many_attached :property_claim_photos
+  has_many_attached :liability_claim_photos
+
+  # enum claim_type: {
+  #   property: 'property',
+  #   liability: 'liability',
+  #   accident_and_health: 'Accident and Health',
+  #   vehicle: 'vehicle'
+  # }
 
   enum claim_type: {
-    property: 'property',
-    liability: 'liability',
+    property: 'Property',
+    liability: 'Liability',
     accident_and_health: 'Accident and Health',
-    vehicle: 'vehicle'
+    vehicle: 'Vehicle'
   }
 
   # Validation
   # TODO: Audit trail to figure out how added this claim
   validates :municipality, presence: true
-  validates :claim_type, presence: true
+  # validates :claim_type, presence: true
+  validates :signature, attached: true, content_type: %w[image/png image/jpeg image/jpg], on: [:create]
   after_validation :accept_declaration, on: [:create]
   after_validation :accept_information_sharing, on: [:create]
 
@@ -60,7 +70,18 @@ class Claim < ApplicationRecord
                   'Not taken up', 'Awaiting TP approach', 'Repairs Authorized', 'Claims fall within Excess', 'Approved',
                   'Rejected'].freeze
 
+  LIABILITY_DRIVERS_LICENSE_STATUS =%w[Learner Full].freeze
+  LIABILITY_VEHICLE_TRANSMISSION_TYPE = %w[Manual Automatic].freeze
+
   private
+
+  def self.claim_type_options
+    claim_types.keys.map { |key| [humanized_claim_type(key), key] }
+  end
+
+  def self.humanized_claim_type(key)
+    key.split('_').map(&:capitalize).join(' ')
+  end
 
   # def is_property_insured_elsewhere_valid
   #   return if is_property_insured_elsewhere.present? || [true, false].include?(is_property_insured_elsewhere)

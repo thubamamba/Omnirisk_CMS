@@ -34,7 +34,14 @@ class ClaimsController < ApplicationController
 
     respond_to do |format|
       if @claim.save
-        format.html { redirect_to @claim, notice: "Claim was successfully created." }
+        # Process signature
+        # if params[:claim][:signature_data].present?
+        #   @claim.signature.attach(data_uri_to_image(params[:claim][:signature_data]))
+        # end
+        if params[:claim][:signature_data].present?
+          attach_signature(@claim, params[:claim][:signature_data])
+        end
+        format.html { redirect_to @claim, notice: 'Claim was successfully created.' }
         format.json { render :show, status: :created, location: @claim }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -47,7 +54,7 @@ class ClaimsController < ApplicationController
   def update
     respond_to do |format|
       if @claim.update(claim_params)
-        format.html { redirect_to @claim, notice: "Claim was successfully updated." }
+        format.html { redirect_to @claim, notice: 'Claim was successfully updated.' }
         format.json { render :show, status: :ok, location: @claim }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -60,7 +67,7 @@ class ClaimsController < ApplicationController
   def destroy
     @claim.destroy!
     respond_to do |format|
-      format.html { redirect_to claims_url, status: :see_other, notice: "Claim was successfully destroyed." }
+      format.html { redirect_to claims_url, status: :see_other, notice: 'Claim was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -81,9 +88,33 @@ class ClaimsController < ApplicationController
   def claim_params
     # params.require(:claim).permit(:municipality_id, :status, :claim_number, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :property_claim_photos, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at, :property_claim_photos)
 
-    params.fetch(:claim, {}).permit(:municipality_id, :status, :claim_number, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :property_claim_photos, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at, :property_claim_photos)
+    params.fetch(:claim, {}).permit(:municipality_id, :status, :claim_number, :signature, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :property_claim_photos, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at, :property_claim_photos)
 
     # Uncomment to use Pundit permitted attributes
     # params.require(:claim).permit(policy(@claim).permitted_attributes)
+  end
+
+  def attach_signature(claim, signature_data)
+    decoded_data = Base64.decode64(signature_data.split(",")[1])
+    io = StringIO.new(decoded_data)
+    io.content_type = "image/png"
+    io.original_filename = generate_filename(claim)
+    claim.signature.attach(io)
+  end
+
+  def data_uri_to_image(data_uri, claim)
+    decoded_data = Base64.decode64(data_uri.split(',')[1])
+    io = StringIO.new(decoded_data)
+    io.content_type = 'image/png'
+    io.original_filename = generate_filename(claim)
+    # io.original_filename = "signature.png"
+    io
+  end
+
+  def generate_filename(claim)
+    municipality = claim.municipality.parameterize
+    date = claim.created_at.strftime('%Y%m%d')
+    first_name = claim.user.first_name.parameterize
+    "signature_#{municipality}_#{date}_#{first_name}.png"
   end
 end

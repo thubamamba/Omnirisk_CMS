@@ -26,5 +26,8 @@ application.register('condition-form-element', ConditionFormElement)
 import DarkToggle from './dark_toggle_controller'
 application.register('dark-toggle', DarkToggle)
 
+import SignaturePad from './signature_pad_controller'
+application.register('signature-pad', SignaturePad)
+
 import TextareaAutogrow from 'stimulus-textarea-autogrow'
 application.register('textarea-autogrow', TextareaAutogrow)
