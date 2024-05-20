@@ -48,12 +48,14 @@ class Claim < ApplicationRecord
 
   ### Validation for Liability Claims
   validates :public_liability_type, presence: true, if: :liability?
-  validates :liability_owner_email_address, email: true, presence: true, if: :liability?
+  validates :liability_owner_email_address, presence: true, 'valid_email_2/email': true, if: :liability?
 
   ## Validation for Property Liability Claims
 
 
   ### Validation for Motor Liability Claims
+  validates :liability_drivers_contact_number, presence: true, phone: {allow_blank: false, types: [:mobile, :fixed_line, :fixed_or_mobile]}, if: :motor_liability?
+  validates :liability_drivers_email, presence: true, 'valid_email_2/email': true, if: :motor_liability?
 
 
   # Auto generate claim number on create
@@ -85,6 +87,7 @@ class Claim < ApplicationRecord
 
   LIABILITY_DRIVERS_LICENSE_STATUS =%w[Learner Full].freeze
   LIABILITY_VEHICLE_TRANSMISSION_TYPE = %w[Manual Automatic].freeze
+  LIABILITY_VEHICLE_DRIVABLE = %w[Yes No].freeze
 
   private
 

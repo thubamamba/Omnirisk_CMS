@@ -105,7 +105,7 @@ class ClaimsController < ApplicationController
                                     :liability_personal_injury_details,
                                     :liability_personal_injury_address_of_injured_person,
                                     :liability_personal_injury_place_of_occurrence,
-                                    :liability_personal_injury_date_of_occurrence)
+                                    :liability_personal_injury_date_of_occurrence,  :liability_claim_type, :liability_owner_first_name, :liability_owner_last_name, :liability_owner_email_address, :liability_owner_contact_number, :liability_description_of_loss, :public_liability_type, :liability_vehicle_km_completed, :vehicle_value, :liability_vehicle_drivable, :liability_vehicle_towed,)
 
     # Uncomment to use Pundit permitted attributes
     # params.require(:claim).permit(policy(@claim).permitted_attributes)

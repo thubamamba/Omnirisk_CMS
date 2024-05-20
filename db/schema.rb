@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_20_084023) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_20_162453) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -235,6 +235,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_20_084023) do
     t.string "liability_personal_injury_address_of_injured_person"
     t.string "liability_personal_injury_place_of_occurrence"
     t.date "liability_personal_injury_date_of_occurrence"
+    t.string "liability_vehicle_km_completed"
+    t.string "vehicle_value"
+    t.string "liability_vehicle_drivable"
+    t.boolean "liability_vehicle_towed"
     t.index ["municipality_id"], name: "index_claims_on_municipality_id"
   end
 
