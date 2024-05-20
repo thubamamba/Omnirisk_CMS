@@ -1,66 +1,44 @@
-<!--<div class="mx-auto flex h-screen max-w-lg flex-col md:max-w-none md:flex-row md:pr-10">-->
-<div class="flex w-screen h-screen flex-wrap text-slate-800">
-  <div class="flex w-full flex-col md:w-1/2">
-    <div class="flex justify-center pt-12 md:justify-start md:pl-12">
-      <a class="" href="/">
-        <%= image_tag "Omnirisk_Logo.png", :class => "h-10", :alt => "Omnirisk Logo" %>
-      </a>
-    </div>
-    <div class="my-auto mx-auto flex flex-col justify-center px-6 pt-8 md:justify-start lg:w-[28rem]">
-      <p class="text-center text-black dark:text-white text-3xl font-bold md:leading-tight md:text-left md:text-5xl">
-        Welcome back <br />
-        to <span class="text-omni-primary">Omnirisk</span>
-      </p>
-      <p class="mt-2 mb-4 text-center font-medium md:text-left text-black dark:text-white">Sign in to your account below.</p>
-
-      <%= form_with(model: resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-        <div class="form-group">
-          <%= f.label :email %>
-          <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: true, class: "form-control" %>
-        </div>
-
-        <div class="form-group">
-          <%= f.label :password %>
-          <%= f.password_field :password, autocomplete: "current-password", placeholder: true, class: "form-control" %>
-        </div>
-
-        <% if devise_mapping.rememberable? -%>
+<div class="flex items-center min-h-screen bg-white dark:bg-gray-900">
+  <div class="container mx-auto">
+    <div class="max-w-md mx-auto my-10">
+      <div class="flex justify-center pt-6 mb-4">
+        <a class="" href="/">
+          <%= image_tag "Entresure_Logo.png", :class => "h-10", :alt => "Omnirisk Logo" %>
+        </a>
+      </div>
+      <div class="text-center">
+        <h1 class="text-center text-black dark:text-white text-3xl font-bold md:leading-tight md:text-5xl">
+          Welcome back <br />
+          to <span class="text-omni-primary">Omnirisk</span>.
+        </h1>
+        <p class="mt-2 mb-4 text-center font-medium text-black dark:text-white">Sign in to your account below.</p>
+      </div>
+      <div class="m-7">
+        <%= form_with(model: resource, as: resource_name, url: session_path(resource_name)) do |f| %>
           <div class="form-group">
-            <%= f.check_box :remember_me, class: "form-checkbox" %>
-            <%= f.label :remember_me, class: "inline-block" %>
+            <%= f.label :email %>
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: true, class: "form-control" %>
           </div>
-        <% end -%>
 
-        <div class="form-group">
-          <%= f.submit t('.sign_in'), class: "btn btn-primary btn-expanded" %>
-        </div>
-      <% end %>
+          <div class="form-group">
+            <%= f.label :password %>
+            <%= f.password_field :password, autocomplete: "current-password", placeholder: true, class: "form-control" %>
+          </div>
 
-      <%= render "devise/shared/links" %>
-    </div>
-  </div>
+          <% if devise_mapping.rememberable? -%>
+            <div class="form-group">
+              <%= f.check_box :remember_me, class: "form-checkbox" %>
+              <%= f.label :remember_me, class: "inline-block" %>
+            </div>
+          <% end -%>
 
+          <div class="form-group">
+            <%= f.submit t('.sign_in'), class: "btn btn-primary btn-expanded" %>
+          </div>
+        <% end %>
 
-  <div class="hidden lg:flex md:flex flex-col w-1/2 rounded-3xl bg-gradient-to-t from-omni-primary via-omni-secondary to-omni-primary px-4 py-10 text-white sm:px-10 justify-center">
-    <p class="mb-4 text-3xl font-bold md:text-4xl md:leading-snug">
-      Claims Management System
-    </p>
-    <p class="mb-28 leading-relaxed text-gray-200">
-      For Omnirisk Solutions (PTY) LTD. An authorised financial services provider.
-      FSP 29811 | FIA 0000296
-    </p>
-    <div class="bg-omni-primary rounded-2xl px-4 py-8">
-      <p class="mb-3 text-gray-200">
-        For Omnirisk Solutions (PTY) LTD. An authorised financial services provider.
-        FSP 29811 | FIA 0000296
-      </p>
-      <div class="">
-        <div class="flex items-center">
-          <img class="h-10 w-10 rounded-full object-cover" src="/images/y9s3xOJV6rnQPKIrdPYJy.png" alt="Simon Lewis" />
-          <p class="ml-4 w-56">
-            <strong class="block font-medium">Simon Lewis</strong>
-            <span class="text-xs text-gray-200"> Published 12 Bestsellers </span>
-          </p>
+        <div class="text-center">
+        <%= render "devise/shared/links" %>
         </div>
       </div>
     </div>

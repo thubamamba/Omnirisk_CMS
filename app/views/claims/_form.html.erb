@@ -32,7 +32,7 @@
         <%= form.label :type_of_property_loss, class: "required" %>
         <%#= form.text_field :type_of_property_loss, class: "form-control" %>
         <div class="flex items-center space-x-4">
-        <%= form.collection_radio_buttons :type_of_property_loss, ["All Risk (Portables)", "Electronic Equipment", "Office Content", "Building"], :itself, :to_s, class: "form-control inline" %>
+          <%= form.collection_radio_buttons :type_of_property_loss, ["All Risk (Portables)", "Electronic Equipment", "Office Content", "Building"], :itself, :to_s, class: "form-control inline" %>
         </div>
       </div>
 
@@ -95,6 +95,12 @@
         <%= form.text_field :incident_location, class: "form-control" %>
       </div>
 
+      <%# Date of the incident %>
+      <div class="form-group">
+        <%= form.label "Date of incident", class: "required" %>
+        <%= form.date_field :liability_personal_injury_date_of_occurrence, class: "form-control" %>
+      </div>
+
       <div class="form-group">
         <%= form.label :property_claim_photos, "Upload Additional images (forcible entry or damaged device)" %>
         <%= form.file_field :property_claim_photos, multiple: true %>
@@ -113,18 +119,236 @@
 
     <%########## Liability Claim #########%>
     <% if claim.liability? %>
-    <p>This is liability</p>
+      <%# Kind of liability claim %>
+      <div data-controller="conditional-form-element">
+        <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :liability_requirements, conditional_form_element_target: "submitBtn" } %>
+        <div class="form-group">
+          <%= form.label "What kind of liability claim is it?", class: "required" %>
+          <%= form.select :liability_claim_type, options_for_select(Claim.liability_claim_type_options, @claim.liability_claim_type), { include_blank: "Select your liability claim type" }, { data: { action: "change->conditional-form-element#remoteSubmit"}} %>
+        </div>
+      </div>
+
+      <%# Owner %>
+      <div class="flex xl:flex-row lg:flex-row flex-col">
+        <%# First name %>
+        <div class="w-full p-0.5">
+          <div class="form-group">
+            <%= form.label "First name of the owner" %>
+            <%= form.text_field :liability_owner_first_name, class: "form-control" %>
+          </div>
+        </div>
+
+        <%# Last name %>
+        <div class="w-full p-0.5">
+          <div class="form-group">
+            <%= form.label "Last name of the owner" %>
+            <%= form.text_field :liability_owner_last_name, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex xl:flex-row lg:flex-row flex-col">
+        <%# Email %>
+        <div class="w-full p-0.5">
+          <div class="form-group">
+            <%= form.label "Owner email address", class: "required" %>
+            <%= form.text_field :liability_owner_email_address, class: "form-control" %>
+          </div>
+        </div>
+
+        <%# Telephone Number %>
+        <div class="w-full p-0.5">
+          <div class="form-group">
+            <%= form.label "Owner telephone number" %>
+            <%= form.text_field :liability_owner_contact_number, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <%# Description of loss %>
+      <div class="form-group">
+        <%= form.label "Description of the loss" %>
+        <%= form.text_area :liability_description_of_loss, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+      </div>
+
+      <%#### Public Liability Claim %>
+      <%= turbo_frame_tag :liability_requirements do %>
+        <% if claim.public_liability? %>
+          <%# Choose type of public liability %>
+          <div class="form-group">
+            <%= form.label "What kind of public liability claim is it?", class: "required" %>
+            <%= form.select :public_liability_type, options_for_select(Claim.public_liability_type_options, @claim.public_liability_type), { include_blank: "Select your public liability claim type" }, class: "form-control" %>
+          </div>
+
+          <%# Public Liability Property Damage %>
+          <% if claim.property_damage? %>
+            <%# Witness %>
+            <div class="flex xl:flex-row lg:flex-row flex-col">
+              <%# First name %>
+              <div class="w-full p-0.5">
+                <div class="form-group">
+                  <%= form.label "Witness first name" %>
+                  <%= form.text_field :liability_property_witness_first_name, class: "form-control" %>
+                </div>
+              </div>
+
+              <%# Last name %>
+              <div class="w-full p-0.5">
+                <div class="form-group">
+                  <%= form.label "Witness last name" %>
+                  <%= form.text_field :liability_property_witness_last_name, class: "form-control" %>
+                </div>
+              </div>
+
+              <%# Contact Number %>
+              <div class="w-full p-0.5">
+                <div class="form-group">
+                  <%= form.label "Witness contact number" %>
+                  <%= form.text_field :liability_property_witness_contact_number, class: "form-control" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex xl:flex-row lg:flex-row flex-col">
+              <%# Police Reference number %>
+              <div class="w-full p-0.5">
+                <div class="form-group">
+                  <%= form.label "First name of the owner" %>
+                  <%= form.text_field :liability_owner_first_name, class: "form-control" %>
+                </div>
+              </div>
+
+              <%# Police station reported to %>
+              <div class="w-full p-0.5">
+                <div class="form-group">
+                  <%= form.label "Last name of the owner" %>
+                  <%= form.text_field :liability_owner_last_name, class: "form-control" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex xl:flex-row lg:flex-row flex-col">
+              <%# Police officer first name %>
+              <div class="w-full p-0.5">
+                <div class="form-group">
+                  <%= form.label "Police officer first name" %>
+                  <%= form.text_field :liability_property_police_officer_first_name, class: "form-control" %>
+                </div>
+              </div>
+
+              <%# Police officer last name %>
+              <div class="w-full p-0.5">
+                <div class="form-group">
+                  <%= form.label "Police officer last name" %>
+                  <%= form.text_field :liability_property_police_officer_last_name, class: "form-control" %>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <%= form.label "Is a claim being made against Municipality?", class: "required" %>
+              <%= form.collection_radio_buttons :liability_is_claim_against_municipality, [[true, 'Yes'], [false, 'No']], :first, :last, class: "form-control inline" %>
+            </div>
+
+            <%# Detailed description of the incident %>
+            <div class="form-group">
+              <%= form.label "Detailed description of the incident", class: "required" %>
+              <%= form.text_area :liability_description_of_incident, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+            </div>
+
+            <%# Claim details %>
+            <div class="form-group">
+              <%= form.label "Claim details", class: "required" %>
+              <%= form.text_area :liability_claim_details, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+              <p class="text-sm text-gray-700 dark:text-gray-100">If a claim has been made; or is being made against you, give details and attach any correspondence</p>
+            </div>
+          <% end %>
+
+          <%# Personal Injury %>
+          <% if claim.personal_injury? %>
+            <div class="flex xl:flex-row lg:flex-row flex-col">
+              <%# First name of the injured person %>
+              <div class="w-full p-0.5">
+                <div class="form-group">
+                  <%= form.label "First name of the injured person" %>
+                  <%= form.text_field :liability_personal_injury_first_name_of_injured_person, class: "form-control" %>
+                </div>
+              </div>
+
+              <%# Last name of the injured person %>
+              <div class="w-full p-0.5">
+                <div class="form-group">
+                  <%= form.label "Last name of the injured person" %>
+                  <%= form.text_field :liability_personal_injury_last_name_of_injured_person, class: "form-control" %>
+                </div>
+              </div>
+
+              <%# Age of the injured person %>
+              <div class="w-full p-0.5">
+                <div class="form-group">
+                  <%= form.label "Last name of the injured person" %>
+                  <%= form.number_field :liability_personal_injury_age_of_injured_person, class: "form-control" %>
+                </div>
+              </div>
+            </div>
+
+            <%# Details of the injury %>
+            <div class="form-group">
+              <%= form.label "Details of the injury" %>
+              <%= form.text_area :liability_personal_injury_details, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+            </div>
+
+            <%# Address of the injured person %>
+            <div class="form-group">
+              <%= form.label "Address of the injured person" %>
+              <%= form.text_area :liability_personal_injury_address_of_injured_person, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+            </div>
+
+            <%# Where the accident occurred %>
+            <div class="form-group">
+              <%= form.label "Where the accident occurred?", class: "required" %>
+              <%= form.text_field :liability_personal_injury_place_of_occurrence, class: "form-control" %>
+            </div>
+
+            <%# Towing Disclaimer %>
+            <%# TODO: Ensure this auto closes %>
+            <div id="accordion-flush" data-accordion="collapse"
+                 data-active-classes="bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
+                 data-inactive-classes="text-gray-500 dark:text-gray-400">
+              <p id="accordion-flush-heading-1">
+                <button type="button" class="flex justify-between items-center py-5 w-full font-medium text-left text-gray-900 rounded-t-xl border-b border-gray-200 dark:border-gray-700 dark:text-white" data-accordion-target="#accordion-flush-body-1" aria-expanded="true" aria-controls="accordion-flush-body-1">
+                  <span>Towing Disclaimer</span>
+                  <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </button>
+              </p>
+              <div id="accordion-flush-body-1" aria-labelledby="accordion-flush-heading-1">
+                <div class="py-5 border-b border-gray-200 dark:border-gray-700">
+                  <p class="mb-2 text-gray-500 dark:text-gray-400">
+                    If your vehicle is standing at a towing company/panelbeater's premises, we will not pay for the storage, security and administration costs. When a decision is made to pay the claim, we will compensate you for only the reasonable first towing costs. CAR HIRE: We do not pay for car hire costs, unless the vehicle is used for business purposes to generate income; and proof will be required (attach copy pf your policy schedule to reflect car hire option on your policy OR a letter from your Company confirming that the vehicle is used for business purposes and it must include your employee number, your daily duties and your occupation). WITNESS: If you are able to contact your witness, please request that the attached witness statement be completed. (This witness cannot be a passenger in your car).
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <%# Date of incident %>
+            <div class="form-group">
+              <%= form.label "Date of incident", class: "required" %>
+              <%= form.date_field :liability_personal_injury_date_of_occurrence, class: "form-control" %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
     <% end %>
     <%########## End Liability Claim #########%>
 
     <%###### Accident and Health ###########%>
     <% if claim.accident_and_health? %>
-    <p>This is accident and health</p>
+      <p>This is accident and health</p>
     <% end %>
 
     <%########## Vehicle Claim #########%>
     <% if claim.vehicle? %>
-    <p>This is vehicle</p>
+      <p>This is vehicle</p>
     <% end %>
     <%########## End Vehicle Claim #########%>
   <% end %>
@@ -160,13 +384,13 @@
   </div>
 
   <%# Signature %>
-<!--  <div class="signature-pad-container mb-6">-->
-<!--    <canvas data-signature-pad-target="canvas" width="400" height="200"></canvas>-->
-    <%#= form.hidden_field :signature_data, data: { signature_pad_target: "input" } %>
-<!--    <button type="button" data-action="signature-pad#clear">Clear Signature</button>-->
-<!--  </div>-->
+  <!--  <div class="signature-pad-container mb-6">-->
+  <!--    <canvas data-signature-pad-target="canvas" width="400" height="200"></canvas>-->
+  <%#= form.hidden_field :signature_data, data: { signature_pad_target: "input" } %>
+  <!--    <button type="button" data-action="signature-pad#clear">Clear Signature</button>-->
+  <!--  </div>-->
 
-  <div class="signature-pad-container">
+  <div class="signature-pad-container mb-6">
     <canvas data-signature-pad-target="canvas"></canvas>
     <input type="hidden" name="claim[signature_data]" data-signature-pad-target="input">
     <button type="button" data-action="signature-pad#clear">Clear Signature</button>

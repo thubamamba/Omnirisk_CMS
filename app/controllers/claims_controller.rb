@@ -88,7 +88,24 @@ class ClaimsController < ApplicationController
   def claim_params
     # params.require(:claim).permit(:municipality_id, :status, :claim_number, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :property_claim_photos, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at, :property_claim_photos)
 
-    params.fetch(:claim, {}).permit(:municipality_id, :status, :claim_number, :signature, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :property_claim_photos, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at, :property_claim_photos)
+    params.fetch(:claim, {}).permit(:municipality_id, :status, :claim_number, :signature, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :property_claim_photos, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at, :property_claim_photos, :liability_property_witness_first_name,
+                                    :liability_property_witness_last_name,
+                                    :liability_property_witness_contact_number,
+                                    :liability_property_police_ref_number,
+                                    :liability_property_police_station_case_reported_to,
+                                    :liability_property_police_report_date,
+                                    :liability_property_police_officer_first_name,
+                                    :liability_property_police_officer_last_name,
+                                    :liability_is_claim_against_municipality,
+                                    :liability_description_of_incident,
+                                    :liability_claim_details,
+                                    :liability_personal_injury_first_name_of_injured_person,
+                                    :liability_personal_injury_last_name_of_injured_person,
+                                    :liability_personal_injury_age_of_injured_person,
+                                    :liability_personal_injury_details,
+                                    :liability_personal_injury_address_of_injured_person,
+                                    :liability_personal_injury_place_of_occurrence,
+                                    :liability_personal_injury_date_of_occurrence)
 
     # Uncomment to use Pundit permitted attributes
     # params.require(:claim).permit(policy(@claim).permitted_attributes)

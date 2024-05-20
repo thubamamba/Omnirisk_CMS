@@ -8,18 +8,21 @@ class Claim < ApplicationRecord
   has_many_attached :property_claim_photos
   has_many_attached :liability_claim_photos
 
-  # enum claim_type: {
-  #   property: 'property',
-  #   liability: 'liability',
-  #   accident_and_health: 'Accident and Health',
-  #   vehicle: 'vehicle'
-  # }
-
   enum claim_type: {
     property: 'Property',
     liability: 'Liability',
     accident_and_health: 'Accident and Health',
     vehicle: 'Vehicle'
+  }
+
+  enum liability_claim_type: {
+    public_liability: 'Public Liability',
+    motor_liability: 'Motor (MTPL) Liability'
+  }
+
+  enum public_liability_type: {
+    property_damage: 'Property Damage',
+    personal_injury: 'Personal Injury'
   }
 
   # Validation
@@ -30,7 +33,7 @@ class Claim < ApplicationRecord
   after_validation :accept_declaration, on: [:create]
   after_validation :accept_information_sharing, on: [:create]
 
-  # Validation for Property Claims
+  ### Validation for Property Claims
   validates :is_property_insured_elsewhere, inclusion: [true, false], presence: true, if: :property?
   # validates :is_property_insured_elsewhere_valid, presence: true, if: :property?
   validates :type_of_property_loss, presence: true, if: :property?
@@ -42,6 +45,16 @@ class Claim < ApplicationRecord
   validates :description_of_incident, presence: true, if: :property?
   validates :incident_location, presence: true, if: :property?
   validates :property_claim_photos, attached: true, content_type: %w[image/png image/jpeg image/jpg], if: :property?
+
+  ### Validation for Liability Claims
+  validates :public_liability_type, presence: true, if: :liability?
+  validates :liability_owner_email_address, email: true, presence: true, if: :liability?
+
+  ## Validation for Property Liability Claims
+
+
+  ### Validation for Motor Liability Claims
+
 
   # Auto generate claim number on create
   before_create :generate_claim_number
@@ -76,10 +89,18 @@ class Claim < ApplicationRecord
   private
 
   def self.claim_type_options
-    claim_types.keys.map { |key| [humanized_claim_type(key), key] }
+    claim_types.keys.map { |key| [humanized_options(key), key] }
   end
 
-  def self.humanized_claim_type(key)
+  def self.liability_claim_type_options
+    liability_claim_types.keys.map { |key| [humanized_options(key), key] }
+  end
+
+  def self.public_liability_type_options
+    public_liability_types.keys.map { |key| [humanized_options(key), key] }
+  end
+
+  def self.humanized_options(key)
     key.split('_').map(&:capitalize).join(' ')
   end
 

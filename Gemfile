@@ -6,6 +6,7 @@ ruby File.read(".ruby-version").strip
 
 gem 'active_storage_validations'
 gem "audited"
+gem "email_validator"
 
 # Flipper
 gem "flipper"

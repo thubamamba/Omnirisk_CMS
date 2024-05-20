@@ -46,6 +46,15 @@ Rails.application.routes.draw do
     # get "/dashboard", to: "dashboard#show", as: :user_root
   end
 
+  # devise_scope :user do
+  #   authenticated :user do
+  #     root 'dashboard#show', as: :authenticated_root
+  #   end
+
+    # unauthenticated do
+    #   root 'devise/sessions#new', as: :unauthenticated_root
+    # end
+  # end
   # Non authenticated users go to login page
   # devise_scope :user do
   #   root to: "devise/sessions#new", as: :unauthenticated_root
@@ -55,7 +64,6 @@ Rails.application.routes.draw do
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up", to: "rails/health#show", as: :rails_health_check
 
-  # TODO: Fix this
   # Public marketing homepage
   root to: "static#index"
 end
