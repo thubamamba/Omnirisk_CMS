@@ -689,7 +689,358 @@
 
     <%###### Accident and Health ###########%>
     <% if claim.accident_and_health? %>
-      <p>This is accident and health</p>
+      <h4 class="border-b border-gray-400 pb-2 mb-6 mt-6">Accident and Health Claim</h4>
+      <%# Claimant Details %>
+      <div class="flex xl:flex-row lg:flex-row flex-col">
+        <%# Claimant First name %>
+        <div class="w-full p-0.5">
+          <div class="form-group">
+            <%= form.label "Claimant's first name", class: "required" %>
+            <%= form.text_field :accident_and_health_claimant_first_name, class: "form-control" %>
+          </div>
+        </div>
+
+        <%# Claimant Last name %>
+        <div class="w-full p-0.5">
+          <div class="form-group">
+            <%= form.label "Claimant's last name", class: "required" %>
+            <%= form.text_field :accident_and_health_claimant_first_name, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex xl:flex-row lg:flex-row flex-col">
+        <%# Claimant ID number %>
+        <div class="w-full p-0.5">
+          <div class="form-group">
+            <%= form.label "Claimant's ID number", class: "required" %>
+            <%= form.text_field :accident_and_health_claimant_id_number, class: "form-control" %>
+          </div>
+        </div>
+
+        <%# Claimant Occupation %>
+        <div class="w-full p-0.5">
+          <div class="form-group">
+            <%= form.label "Claimant's occupation", class: "required" %>
+            <%= form.text_field :accident_and_health_claimant_occupation, class: "form-control" %>
+          </div>
+        </div>
+      </div>
+
+      <div data-controller="conditional-form-element-health-claims">
+        <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :select_health_accident_claim_type, conditional_form_element_health_claims_target: "submitBtn" } %>
+        <div class="form-group">
+          <%= form.label "What kind of accident and health claim is it?", class: "required" %>
+          <%= form.select :accident_and_health_claim_type, options_for_select(Claim.accident_and_health_claim_type_options, @claim.accident_and_health_claim_type), { include_blank: "Select your claim type" }, { data: { action: "change->conditional-form-element-health-claims#remoteSubmitHealthClaim"}} %>
+        </div>
+      </div>
+
+      <%= turbo_frame_tag :select_health_accident_claim_type do %>
+        <%# Death Claims %>
+        <% if claim.death? %>
+          <h4 class="border-0 border-gray-400 pb-2 mb-6 mt-6">Death Claim</h4>
+
+          <div class="flex xl:flex-row lg:flex-row flex-col">
+            <%# Employee status %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Is the claimant a full time, permanent employee?", class: "required" %>
+                <%= form.select :accident_and_health_death_claim_claimant_employee_status,
+                                Claim::DEATH_CLAIMANT_EMPLOYEE_STATUS, { include_blank: "Select your option" },
+                                { class: "form-control" } %>
+              </div>
+            </div>
+
+            <%# Confirm claim form details are correct %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Please confirm the disability and dates of absence from work stated are correct" %>
+                <%= form.select :accident_and_health_death_claim_confirmation_of_form_accuracy,
+                                Claim::DEATH_CLAIM_CONFIRMATION_OF_FORM_ACCURACY, { include_blank: "Select your option" },
+                                { class: "form-control" } %>
+              </div>
+            </div>
+          </div>
+
+          <%# Nature of claimant's occupation %>
+          <div class="form-group">
+            <%= form.label "State fully the nature of the claimant's occupation and daily duties", class: "required" %>
+            <%= form.text_area :accident_and_health_death_claim_about_claimant_occupation, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+          </div>
+
+          <%# Date of death %>
+          <div class="form-group">
+            <%= form.label "Date of death", class: "required" %>
+            <%= form.date_field :accident_and_health_death_claim_date_of_death, class: "form-control" %>
+          </div>
+
+          <%# Cause of death %>
+          <div class="form-group">
+            <%= form.label "Cause of death", class: "required" %>
+            <%= form.date_field :accident_and_health_death_claim_death_cause, class: "form-control" %>
+          </div>
+
+          <%# Additional factors to cause of death %>
+          <div class="form-group">
+            <%= form.label "Any other material factors to cause of death?" %>
+            <%= form.select :accident_and_health_death_claim_any_factors_to_death_cause,
+                            Claim::DEATH_CLAIM_ADDITIONAL_FACTORS_TO_DEATH_CAUSE, { include_blank: "Select your option" },
+                            { class: "form-control" } %>
+          </div>
+
+          <%# Upload documents %>
+          <div class="mb-4">
+            <%= form.label "Upload supporting documents", class: "text-md" %>
+            <p class="text-sm font-medium text-gray-800 dark:text-gray-100">Death Certificate, Post Mortem Report, Report for occupational related death (if died on duty), Police Accident Report (Motor vehicle death), Police Ref No (If death still under investigation), Eye witness statements, Any other supporting documents, Certified Death Certificate, Post Mortem, Incident Report</p>
+          </div>
+        <% end %>
+
+        <%# Disability Claims %>
+        <% if claim.disability? %>
+          <h4 class="border-0 border-gray-400 pb-2 mb-6 mt-6">Disability Claim</h4>
+
+          <div class="flex xl:flex-row lg:flex-row flex-col">
+            <%# Accident Date %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Accident date", class: "required" %>
+                <%= form.date_field :accident_and_health_disability_claim_accident_date, class: "form-control" %>
+              </div>
+            </div>
+
+            <%# Last name %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Place of accident", class: "required" %>
+                <%= form.text_field :accident_and_health_disability_claim_accident_place, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+
+          <%# SAPS and OAR Case number %>
+          <div class="form-group">
+            <%= form.label "SAPS and OAR Case number" %>
+            <%= form.text_field :accident_and_health_disability_claim_saps_and_oar_case_no, class: "form-control" %>
+          </div>
+
+          <%# Description of how accident occurred %>
+          <div class="form-group">
+            <%= form.label "Describe how accident occurred in detail", class: "required" %>
+            <%= form.text_area :accident_and_health_disability_claim_description_of_accident, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+          </div>
+
+          <%# Doctors Details %>
+          <div class="flex xl:flex-row lg:flex-row flex-col">
+            <%# Attending doctor's first name %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Attending doctor's first name" %>
+                <%= form.text_field :accident_and_health_claim_attending_doctor_first_name, class: "form-control" %>
+              </div>
+            </div>
+
+            <%# Attending doctor's last name %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Attending doctor's last name" %>
+                <%= form.text_field :accident_and_health_claim_attending_doctor_first_name, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex xl:flex-row lg:flex-row flex-col">
+            <%# Attending doctor's practice number %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Attending doctor's practice number", class: "required" %>
+                <%= form.text_field :accident_and_health_claim_attending_doctor_practice_number, class: "form-control" %>
+              </div>
+            </div>
+
+            <%# Attending doctor's contact number %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Attending doctor's contact number" %>
+                <%= form.text_field :accident_and_health_claim_attending_doctor_contact_number, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+
+          <%# Attending doctor's address %>
+          <div class="form-group">
+            <%= form.label "Attending doctor's address", class: "required" %>
+            <%= form.text_area :accident_and_health_claim_attending_doctor_address, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+          </div>
+
+          <div class="flex xl:flex-row lg:flex-row flex-col">
+            <%# Has the person been permanently disabled? %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Has the person been permanently disabled?", class: "required" %>
+                <div class="flex items-center space-x-4">
+                  <%= form.collection_radio_buttons :accident_and_health_disability_claim_is_permanently_disabled, [[true, 'Yes'], [false, 'No']], :first, :last, class: "form-control inline" %>
+                </div>
+              </div>
+            </div>
+
+            <%# Was the person on duty when the accident? %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Was the person on duty when the accident?", class: "required" %>
+                <div class="flex items-center space-x-4">
+                  <%= form.collection_radio_buttons :accident_and_health_disability_claim_was_person_on_duty, [[true, 'Yes'], [false, 'No']], :first, :last, class: "form-control inline" %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <%# Upload documents %>
+          <div class="mb-4">
+            <%= form.label "Upload supporting documents" %>
+            <div class="container mx-auto p-4">
+              <div class="mb-6">
+                <h2 class="text-xl font-semibold">If Claiming for Medical Expenses</h2>
+                <div class="mt-2">
+                  <p class="text-gray-700">a. Original medical aid statement showing admission dates and discharge dates from hospital</p>
+                  <p class="text-gray-700">b. Receipts of all accounts settled by claimant</p>
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <h2 class="text-xl font-semibold">If Claiming for Temporary Income Replacement (TTD)</h2>
+                <div class="mt-2">
+                  <p class="text-gray-700">a. Full details of sustained injuries</p>
+                  <p class="text-gray-700">b. Name of attending doctor</p>
+                  <p class="text-gray-700">c. Practice number</p>
+                  <p class="text-gray-700">d. Tel no</p>
+                  <p class="text-gray-700">e. Address</p>
+                  <p class="text-gray-700">f. Supporting Documents Upload</p>
+                  <div class="ml-4">
+                    <p class="text-gray-700">i. Confirmation of earnings</p>
+                    <p class="text-gray-700">ii. Medical report</p>
+                    <p class="text-gray-700">iii. If injured in motor accident, provide Accident Report</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <h2 class="text-xl font-semibold">If Claiming for Hospitalization Benefit</h2>
+                <div class="mt-2">
+                  <p class="text-gray-700">a. Supporting Documents Upload</p>
+                  <div class="ml-4">
+                    <p class="text-gray-700">i. Original medical accounts admission into hospital and discharge dates</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <h2 class="text-xl font-semibold">Compulsory Supporting Documents</h2>
+                <div class="mt-2">
+                  <p class="text-gray-700">1. Employers Certificate</p>
+                  <p class="text-gray-700">2. Medical Certificate</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        <% end %>
+
+        <%# Medical Claims %>
+        <% if claim.medical? %>
+          <h4 class="border-0 border-gray-400 pb-2 mb-6 mt-6">Medical Claim</h4>
+
+          <%# Upload documents %>
+          <div class="mb-4">
+            <%= form.label "Upload supporting documents" %>
+            <p class="text-md font-medium text-gray-800 dark:text-gray-100">1. An original Medical Aid account proving admission into hospital and discharge dates is required when claiming under this section. <br>2. Receipts for accounts which the claimant has already settled</p>
+          </div>
+        <% end %>
+
+        <%# TRR Claims %>
+        <% if claim.ttr? %>
+          <h4 class="border-0 border-gray-400 pb-2 mb-6 mt-6">Temporary Income Replacement (TRR) Claim</h4>
+
+          <%# Details of sustained injuries %>
+          <div class="form-group">
+            <%= form.label "Give full details of the injuries sustained by the claimant" %>
+            <%= form.text_area :accident_and_health_death_claim_about_claimant_occupation, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+          </div>
+
+          <%# Doctors Details %>
+          <div class="flex xl:flex-row lg:flex-row flex-col">
+            <%# Attending doctor's first name %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Attending doctor's first name" %>
+                <%= form.text_field :accident_and_health_claim_attending_doctor_first_name, class: "form-control" %>
+              </div>
+            </div>
+
+            <%# Attending doctor's last name %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Attending doctor's last name" %>
+                <%= form.text_field :accident_and_health_claim_attending_doctor_first_name, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex xl:flex-row lg:flex-row flex-col">
+            <%# Attending doctor's practice number %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Attending doctor's practice number" %>
+                <%= form.text_field :accident_and_health_claim_attending_doctor_practice_number, class: "form-control" %>
+              </div>
+            </div>
+
+            <%# Attending doctor's contact number %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Attending doctor's contact number" %>
+                <%= form.text_field :accident_and_health_claim_attending_doctor_contact_number, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+
+          <%# Attending doctor's address %>
+          <div class="form-group">
+            <%= form.label "Attending doctor's address" %>
+            <%= form.text_area :accident_and_health_claim_attending_doctor_address, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+          </div>
+
+          <%# Upload documents %>
+          <div class="mb-4">
+            <%= form.label "Upload supporting documents" %>
+            <p class="text-md font-medium text-gray-800 dark:text-gray-100">1. Confirmation of earnings <br>2. Medical report <br>3. If involved in a motor accident, a police/ accident report</p>
+          </div>
+        <% end %>
+
+        <%# Hospitalization Benefit %>
+        <% if claim.hospitalization? %>
+          <h4 class="border-0 border-gray-400 pb-2 mb-6 mt-6">Hospitalization Benefit</h4>
+
+          <%# Upload documents %>
+          <div class="mb-4">
+            <%= form.label "Upload supporting documents" %>
+            <p class="text-md font-medium text-gray-800 dark:text-gray-100">Original medical accounts proving admission into hospital and discharge dates</p>
+          </div>
+        <% end %>
+
+        <%# Image and documents upload here %>
+        <div class="form-group">
+          <%= form.file_field :health_and_accident_documents, multiple: true %>
+
+          <% if claim.health_and_accident_documents.attached? %>
+            <% post.health_and_accident_documents.each do |image| %>
+              <%= form.hidden_field :health_and_accident_documents, multiple: true, value: image.signed_id %>
+              <%= image_tag(image, height: 100) %>
+              <%#= link_to "Remove", delete_property_claim_photos_claim_path(image), data: { turbo_method: :delete } %>
+              <br />
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
 
     <%########## Vehicle Claim #########%>

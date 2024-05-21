@@ -8,6 +8,7 @@ class Claim < ApplicationRecord
   has_many_attached :property_claim_photos
   has_many_attached :liability_claim_photos
   has_many_attached :liability_motor_claim_photos
+  has_many_attached :health_and_accident_documents
 
   enum claim_type: {
     property: 'Property',
@@ -25,6 +26,16 @@ class Claim < ApplicationRecord
     property_damage: 'Property Damage',
     personal_injury: 'Personal Injury'
   }
+
+  enum accident_and_health_claim_type: {
+    death: 'Death Claim',
+    disability: 'Disability Claim',
+    medical: 'Medical Claim',
+    ttr: 'Total and Temporary Income Replacement (TTR) Claim',
+    hospitalization: 'Hospitalization Benefit Claim',
+  }
+
+  # Custom regex
 
   # Validation
   # TODO: Audit trail to figure out how added this claim
@@ -45,7 +56,7 @@ class Claim < ApplicationRecord
   validates :was_property_occupied_during_damage, inclusion: { in: [true, false] }, if: :property?
   validates :description_of_incident, presence: true, if: :property?
   validates :incident_location, presence: true, if: :property?
-  validates :property_claim_photos, attached: true, content_type: %w[image/png image/jpeg image/jpg], if: :property?
+  validates :property_claim_photos, attached: true, content_type: %w[image/png image/jpeg image/jpg], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, if: :property?
 
   ### Validation for Liability Claims
   validates :public_liability_type, presence: true, if: :liability?
@@ -56,7 +67,6 @@ class Claim < ApplicationRecord
   validates :liability_is_claim_against_municipality, inclusion: { in: [true, false] }, if: :public_liability?
   validates :liability_personal_injury_place_of_occurrence, presence: true, if: :public_liability?
   validates :liability_personal_injury_date_of_occurrence, presence: true, if: :public_liability?
-
 
   ### Validation for Motor Liability Claims
   # Driver's details
@@ -100,7 +110,37 @@ class Claim < ApplicationRecord
   validates :liability_vehicle_towed, presence: true, inclusion: [true, false], if: :motor_liability?
   validates :liability_vehicle_inspection_address, presence: true, if: :motor_liability?
   # Imagery
-  validates :liability_motor_claim_photos, attached: true, content_type: %w[image/png image/jpeg image/jpg], if: :motor_liability?
+  validates :liability_motor_claim_photos, attached: true, content_type: %w[image/png image/jpeg image/jpg], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, if: :motor_liability?
+
+  ### Validation for Accident and Health Claims
+  validates :accident_and_health_claim_type, presence: true, if: :accident_and_health?
+  validates :accident_and_health_claimant_first_name, presence: true, if: :accident_and_health?
+  validates :accident_and_health_claimant_last_name, presence: true, if: :accident_and_health?
+  validates :accident_and_health_claimant_occupation, presence: true, if: :accident_and_health?
+  validates :accident_and_health_claimant_id_number, presence: true, numericality: { only_integer: true }, length: { maximum: 13 }, if: :accident_and_health?
+  validates :health_and_accident_documents, attached: true, content_type: %w[image/png image/jpeg image/jpg application/pdf], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, presence: false
+
+  # Death Claim validations
+  # validates :accident_and_health_death_claim_claimant_first_name, presence: true, if: :death?
+  # validates :accident_and_health_death_claim_claimant_last_name, presence: true, if: :death?
+  validates :accident_and_health_death_claim_claimant_employee_status, presence: true, if: :death?
+  validates :accident_and_health_death_claim_about_claimant_occupation, presence: true, if: :death?
+  validates :accident_and_health_death_claim_date_of_death, presence: true, if: :death?
+  validates :accident_and_health_death_claim_place_of_death, presence: true, if: :death?
+  validates :accident_and_health_death_claim_death_cause, presence: true, if: :death?
+  validates :accident_and_health_death_claim_any_factors_to_death_cause, presence: true, if: :death?
+
+  # Disability claim validations
+  validates :accident_and_health_disability_claim_accident_date, presence: true, if: :disability?
+  validates :accident_and_health_disability_claim_accident_place, presence: true, if: :disability?
+  validates :accident_and_health_disability_claim_description_of_accident, presence: true, if: :disability?
+  validates :accident_and_health_claim_attending_doctor_practice_number, presence: true, if: :disability?
+  validates :accident_and_health_claim_attending_doctor_address, presence: true, if: :disability?
+  validates :accident_and_health_disability_claim_is_permanently_disabled, inclusion: [true, false], presence: true, if: :disability?
+  validates :accident_and_health_disability_claim_was_person_on_duty, inclusion: [true, false], presence: true, if: :disability?
+
+  # Medical claim validations
+  validates :health_and_accident_documents, attached: true, content_type: %w[image/png image/jpeg image/jpg application/pdf], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, presence: false, if: :medical?
 
   # Auto generate claim number on create
   before_create :generate_claim_number
@@ -132,6 +172,9 @@ class Claim < ApplicationRecord
   LIABILITY_DRIVERS_LICENSE_STATUS =%w[Learner Full].freeze
   LIABILITY_VEHICLE_TRANSMISSION_TYPE = %w[Manual Automatic].freeze
   LIABILITY_VEHICLE_DRIVABLE = %w[Yes No].freeze
+  DEATH_CLAIMANT_EMPLOYEE_STATUS = %w[Yes No].freeze
+  DEATH_CLAIM_CONFIRMATION_OF_FORM_ACCURACY = %w[Yes No].freeze
+  DEATH_CLAIM_ADDITIONAL_FACTORS_TO_DEATH_CAUSE = %w[Yes No].freeze
 
   private
 
@@ -147,14 +190,11 @@ class Claim < ApplicationRecord
     public_liability_types.keys.map { |key| [humanized_options(key), key] }
   end
 
+  def self.accident_and_health_claim_type_options
+    accident_and_health_claim_types.keys.map { |key| [humanized_options(key), key] }
+  end
+
   def self.humanized_options(key)
     key.split('_').map(&:capitalize).join(' ')
   end
-
-  # def is_property_insured_elsewhere_valid
-  #   return if is_property_insured_elsewhere.present? || [true, false].include?(is_property_insured_elsewhere)
-  #
-  #   errors.add(:is_property_insured_elsewhere, 'must be present and true or false')
-  #
-  # end
 end

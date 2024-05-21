@@ -105,7 +105,27 @@ class ClaimsController < ApplicationController
                                     :liability_personal_injury_details,
                                     :liability_personal_injury_address_of_injured_person,
                                     :liability_personal_injury_place_of_occurrence,
-                                    :liability_personal_injury_date_of_occurrence,  :liability_claim_type, :liability_owner_first_name, :liability_owner_last_name, :liability_owner_email_address, :liability_owner_contact_number, :liability_description_of_loss, :public_liability_type, :liability_vehicle_km_completed, :vehicle_value, :liability_vehicle_drivable, :liability_vehicle_towed, :liability_drivers_first_name, :liability_drivers_last_name, :liability_drivers_contact_number, :liability_drivers_email, :liability_drivers_physical_address, :liability_drivers_license_no, :liability_drivers_license_date, :liability_drivers_license_status, :liability_contact_person_first_name, :liability_contact_person_last_name, :liability_contact_person_contact_number, :liability_contact_person_email, :liability_contact_person_physical_address, :liability_vehicle_make, :liability_vehicle_model, :liability_vehicle_year, :liability_vehicle_registration_number, :liability_vehicle_transmission_type, :liability_vehicle_gross_vehicle_mass, :liability_vehicle_inspection_address, :liability_motor_claim_photos )
+                                    :liability_personal_injury_date_of_occurrence,  :liability_claim_type, :liability_owner_first_name, :liability_owner_last_name, :liability_owner_email_address, :liability_owner_contact_number, :liability_description_of_loss, :public_liability_type, :liability_vehicle_km_completed, :vehicle_value, :liability_vehicle_drivable, :liability_vehicle_towed, :liability_drivers_first_name, :liability_drivers_last_name, :liability_drivers_contact_number, :liability_drivers_email, :liability_drivers_physical_address, :liability_drivers_license_no, :liability_drivers_license_date, :liability_drivers_license_status, :liability_contact_person_first_name, :liability_contact_person_last_name, :liability_contact_person_contact_number, :liability_contact_person_email, :liability_contact_person_physical_address, :liability_vehicle_make, :liability_vehicle_model, :liability_vehicle_year, :liability_vehicle_registration_number, :liability_vehicle_transmission_type, :liability_vehicle_gross_vehicle_mass, :liability_vehicle_inspection_address, :liability_motor_claim_photos, :accident_and_health_claim_type, :accident_and_health_claimant_first_name, :accident_and_health_claimant_last_name, :accident_and_health_claimant_id_number, :accident_and_health_claimant_occupation, :health_and_accident_documents, :accident_and_health_death_claim_claimant_first_name,
+                                    :accident_and_health_death_claim_claimant_last_name,
+                                    :accident_and_health_death_claim_claimant_employee_status,
+                                    :accident_and_health_death_claim_confirmation_of_form_accuracy,
+                                    :accident_and_health_death_claim_about_claimant_occupation,
+                                    :accident_and_health_death_claim_date_of_death,
+                                    :accident_and_health_death_claim_place_of_death,
+                                    :accident_and_health_death_claim_any_factors_to_death_cause,
+                                    :accident_and_health_disability_claim_accident_date,
+                                    :accident_and_health_disability_claim_accident_place,
+                                    :accident_and_health_disability_claim_saps_and_oar_case_no,
+                                    :accident_and_health_disability_claim_description_of_accident,
+                                    :accident_and_health_disability_claim_is_permanently_disabled,
+                                    :accident_and_health_disability_claim_was_person_on_duty,
+                                    :accident_and_health_claim_attending_doctor_first_name,
+                                    :accident_and_health_claim_attending_doctor_last_name,
+                                    :accident_and_health_claim_attending_doctor_practice_number,
+                                    :accident_and_health_claim_attending_doctor_contact_number,
+                                    :accident_and_health_claim_attending_doctor_address,
+                                    :accident_and_health_ttd_claim_description_of_injuries,
+                                    :accident_and_health_death_claim_death_cause)
 
     # Uncomment to use Pundit permitted attributes
     # params.require(:claim).permit(policy(@claim).permitted_attributes)

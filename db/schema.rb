@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_21_110523) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_21_144215) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -240,6 +240,32 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_21_110523) do
     t.string "liability_motor_claim_registered_owner_email"
     t.string "liability_motor_claim_registered_owner_telephone_number"
     t.string "liability_motor_claim_registered_owner_physical_address"
+    t.string "accident_and_health_claim_type"
+    t.string "accident_and_health_claimant_first_name"
+    t.string "accident_and_health_claimant_last_name"
+    t.string "accident_and_health_claimant_id_number"
+    t.string "accident_and_health_claimant_occupation"
+    t.string "accident_and_health_death_claim_claimant_first_name"
+    t.string "accident_and_health_death_claim_claimant_last_name"
+    t.string "accident_and_health_death_claim_claimant_employee_status"
+    t.string "accident_and_health_death_claim_confirmation_of_form_accuracy"
+    t.text "accident_and_health_death_claim_about_claimant_occupation"
+    t.date "accident_and_health_death_claim_date_of_death"
+    t.string "accident_and_health_death_claim_place_of_death"
+    t.string "accident_and_health_death_claim_any_factors_to_death_cause"
+    t.date "accident_and_health_disability_claim_accident_date"
+    t.string "accident_and_health_disability_claim_accident_place"
+    t.string "accident_and_health_disability_claim_saps_and_oar_case_no"
+    t.text "accident_and_health_disability_claim_description_of_accident"
+    t.boolean "accident_and_health_disability_claim_is_permanently_disabled"
+    t.boolean "accident_and_health_disability_claim_was_person_on_duty"
+    t.string "accident_and_health_claim_attending_doctor_first_name"
+    t.string "accident_and_health_claim_attending_doctor_last_name"
+    t.string "accident_and_health_claim_attending_doctor_practice_number"
+    t.string "accident_and_health_claim_attending_doctor_contact_number"
+    t.string "accident_and_health_claim_attending_doctor_address"
+    t.text "accident_and_health_ttd_claim_description_of_injuries"
+    t.string "accident_and_health_death_claim_death_cause"
     t.index ["municipality_id"], name: "index_claims_on_municipality_id"
   end
 

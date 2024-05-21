@@ -29,6 +29,9 @@ application.register('conditional-form-element-liability', ConditionalFormElemen
 import ConditionalFormElementPublicLiability from './conditional_form_element_public_liability_controller'
 application.register('conditional-form-element-public-liability', ConditionalFormElementPublicLiability)
 
+import ConditionalFormElementHealthClaims from './conditional_form_element_health_claims_controller'
+application.register('conditional-form-element-health-claims', ConditionalFormElementHealthClaims)
+
 import DarkToggle from './dark_toggle_controller'
 application.register('dark-toggle', DarkToggle)
 

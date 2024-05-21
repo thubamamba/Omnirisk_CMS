@@ -7,7 +7,7 @@ export default class extends Controller {
     this.submitBtnTarget.hidden = true;
   }
 
-  remoteSubmit() {
+  remoteSubmitHealthClaim() {
     this.submitBtnTarget.click()
   }
 }
