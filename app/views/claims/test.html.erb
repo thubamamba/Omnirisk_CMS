@@ -1,0 +1,97 @@
+<%= form_with(model: claim, data: { controller: "signature-pad", action: "submit->signature-pad-target#beforeSubmit" } ) do |form| %>
+  <%= render "error_messages", resource: form.object %>
+
+  <div class="form-group">
+    <%= form.label :municipality_id %>
+    <%= form.select :municipality_id, options_from_collection_for_select(Municipality.order(:name), :id, :name), { prompt: 'Select Municipality' }, class: "form-control mr-4" %>
+  </div>
+
+  <div data-controller="conditional-form-element">
+    <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :claim_type_requirements, conditional_form_element_target: "submitBtn" } %>
+
+    <div class="form-group">
+      <%= form.label :claim_type %>
+      <%= form.select :claim_type, options_for_select(Claim.claim_type_options, @claim.claim_type), { include_blank: "Select your claim" }, { data: { action: "change->conditional-form-element#remoteSubmit"}} %>
+    </div>
+  </div>
+
+  <%= turbo_frame_tag :claim_type_requirements do %>
+    <%########## Property Claim #############%>
+    <% if claim.property? %>
+      <h4 class="border-b border-gray-400 pb-2 mb-6 mt-6">Property Claim</h4>
+
+    <% end %>
+    <%######## End Property Claim %>
+
+    <%########## Liability Claim #########%>
+    <% if claim.liability? %>
+      <h4 class="border-b border-gray-400 pb-2 mb-6 mt-6">Liability Claim</h4>
+      <%# Kind of liability claim %>
+      <div data-controller="conditional-form-element">
+        <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :liability_sub_type_requirements, conditional_form_element_target: "liabilitySubmitBtn" } %>
+        <div class="form-group">
+          <%= form.label "What kind of liability claim is it?", class: "required" %>
+          <%= form.select :liability_claim_type, options_for_select(Claim.liability_claim_type_options, @claim.liability_claim_type), { include_blank: "Select your liability claim type" }, { data: { action: "change->conditional-form-element#remoteSubmitLiability"}} %>
+        </div>
+      </div>
+
+
+      <%= turbo_frame_tag :liability_sub_type_requirements do %>
+        <%#### Public Liability Claim %>
+        <% if claim.public_liability? %>
+          <%# Choose type of public liability %>
+          <div data-controller="conditional-form-element">
+            <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :public_liability_type_turbo_display, conditional_form_element_target: "publicLiabilityTypeSubmitBtn" } %>
+            <div class="form-group">
+              <%= form.label "What kind of public liability claim is it?", class: "required" %>
+              <%= form.select :public_liability_type, options_for_select(Claim.public_liability_type_options, @claim.public_liability_type), { include_blank: "Select your public liability claim type" }, { data: { action: "change->conditional-form-element#remoteSubmitPublicLiabilityType"}} %>
+            </div>
+          </div>
+
+          <%# Public Liability Property Damage %>
+          <%= turbo_frame_tag :public_liability_type_turbo_display do %>
+            <% if claim.property_damage? %>
+              <p>This is a property damage claim</p>
+            <% end %>
+
+            <%# Personal Injury %>
+            <% if claim.personal_injury? %>
+              <p>This is a personal injury claim</p>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%#### Motor Liability Claim %>
+        <% if claim.motor_liability? %>
+          <h4 class="border-b border-gray-400 pb-2 mb-6 mt-6">Motor (MTPL) Liability Claim</h4>
+
+        <% end %>
+      <% end %>
+    <% end %>
+    <%########## End Liability Claim #########%>
+
+    <%###### Accident and Health ###########%>
+    <% if claim.accident_and_health? %>
+      <p>This is accident and health</p>
+    <% end %>
+
+    <%########## Vehicle Claim #########%>
+    <% if claim.vehicle? %>
+      <p>This is vehicle</p>
+    <% end %>
+    <%########## End Vehicle Claim #########%>
+  <% end %>
+
+  <%# Acceptance %>
+
+  <%# CTA %>
+  <div>
+    <%= form.button button_text(form.send(:submit_default_value)), class: "btn btn-primary" %>
+
+    <% if form.object.new_record? %>
+      <%= link_to t("cancel"), claims_path, class: "btn btn-secondary" %>
+    <% else %>
+      <%= link_to t("cancel"), claim_path(@claim), class: "btn btn-secondary" %>
+    <% end %>
+  </div>
+<% end %>

@@ -20,22 +20,4 @@ export default class extends Controller {
   remoteSubmitPublicLiabilityType() {
     this.publicLiabilityTypeSubmitBtnTarget.click()
   }
-
-  // remoteSubmit() {
-  //   if (this.hasSubmitBtnTarget) {
-  //     this.submitBtnTarget.click();
-  //   }
-  // }
-  //
-  // remoteSubmitLiability() {
-  //   if (this.hasLiabilitySubmitBtnTarget) {
-  //     this.liabilitySubmitBtnTarget.click();
-  //   }
-  // }
-  //
-  // remoteSubmitPublicLiabilityType() {
-  //   if (this.hasPublicLiabilityTypeSubmitBtnTarget) {
-  //     this.publicLiabilityTypeSubmitBtnTarget.click();
-  //   }
-  // }
 }
