@@ -23,6 +23,12 @@ application.register('flatpickr', Flatpickr)
 import ConditionFormElement from './conditional_form_element_controller'
 application.register('condition-form-element', ConditionFormElement)
 
+import ConditionalFormElementLiability from './conditional_form_element_liability_controller'
+application.register('conditional-form-element-liability', ConditionalFormElementLiability)
+
+import ConditionalFormElementPublicLiability from './conditional_form_element_public_liability_controller'
+application.register('conditional-form-element-public-liability', ConditionalFormElementPublicLiability)
+
 import DarkToggle from './dark_toggle_controller'
 application.register('dark-toggle', DarkToggle)
 

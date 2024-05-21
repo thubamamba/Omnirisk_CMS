@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_20_162453) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_21_110523) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -195,11 +195,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_20_162453) do
     t.string "liability_drivers_contact_number"
     t.string "liability_drivers_email"
     t.string "liability_drivers_physical_address"
-    t.string "liability_registered_owner_first_name"
-    t.string "liability_registered_owner_last_name"
-    t.string "liability_registered_owner_address"
-    t.string "liability_registered_owner_contact_number"
-    t.string "liability_registered_owner_email"
     t.string "liability_contact_person_first_name"
     t.string "liability_contact_person_last_name"
     t.string "liability_contact_person_contact_number"
@@ -239,6 +234,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_20_162453) do
     t.string "vehicle_value"
     t.string "liability_vehicle_drivable"
     t.boolean "liability_vehicle_towed"
+    t.string "liability_registered_owner_physical_address"
+    t.string "liability_motor_claim_registered_owner_first_name"
+    t.string "liability_motor_claim_registered_owner_last_name"
+    t.string "liability_motor_claim_registered_owner_email"
+    t.string "liability_motor_claim_registered_owner_telephone_number"
+    t.string "liability_motor_claim_registered_owner_physical_address"
     t.index ["municipality_id"], name: "index_claims_on_municipality_id"
   end
 

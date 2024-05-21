@@ -7,6 +7,7 @@ class Claim < ApplicationRecord
   has_one_attached :signature
   has_many_attached :property_claim_photos
   has_many_attached :liability_claim_photos
+  has_many_attached :liability_motor_claim_photos
 
   enum claim_type: {
     property: 'Property',
@@ -51,12 +52,55 @@ class Claim < ApplicationRecord
   validates :liability_owner_email_address, presence: true, 'valid_email_2/email': true, if: :liability?
 
   ## Validation for Property Liability Claims
+  validates :public_liability_type, presence: true, if: :public_liability?
+  validates :liability_is_claim_against_municipality, inclusion: { in: [true, false] }, if: :public_liability?
+  validates :liability_personal_injury_place_of_occurrence, presence: true, if: :public_liability?
+  validates :liability_personal_injury_date_of_occurrence, presence: true, if: :public_liability?
 
 
   ### Validation for Motor Liability Claims
+  # Driver's details
+  validates :liability_drivers_first_name, presence: true, if: :motor_liability?
+  validates :liability_drivers_last_name, presence: true, if: :motor_liability?
+  validates :liability_drivers_license_no, presence: true, if: :motor_liability?
+  validates :liability_drivers_license_date, presence: true, if: :motor_liability?
+  validates :liability_drivers_license_place, presence: true, if: :motor_liability?
+  validates :liability_drivers_license_status, presence: true, if: :motor_liability?
   validates :liability_drivers_contact_number, presence: true, phone: {allow_blank: false, types: [:mobile, :fixed_line, :fixed_or_mobile]}, if: :motor_liability?
   validates :liability_drivers_email, presence: true, 'valid_email_2/email': true, if: :motor_liability?
-
+  validates :liability_drivers_physical_address, presence: true, if: :motor_liability?
+  # Registered owner details
+  validates :liability_motor_claim_registered_owner_first_name, presence: true, if: :motor_liability?
+  validates :liability_motor_claim_registered_owner_last_name, presence: true, if: :motor_liability?
+  validates :liability_motor_claim_registered_owner_telephone_number, presence: true, phone: {allow_blank: false, types: [:mobile, :fixed_line, :fixed_or_mobile]}, if: :motor_liability?
+  validates :liability_motor_claim_registered_owner_email, presence: true, 'valid_email_2/email': true, if: :motor_liability?
+  validates :liability_motor_claim_registered_owner_physical_address, presence: true, if: :motor_liability?
+  # Contact person details
+  validates :liability_contact_person_first_name, presence: true, if: :motor_liability?
+  validates :liability_contact_person_last_name, presence: true, if: :motor_liability?
+  validates :liability_contact_person_physical_address, presence: true, if: :motor_liability?
+  validates :liability_contact_person_contact_number, presence: true, phone: {allow_blank: false, types: [:mobile, :fixed_line, :fixed_or_mobile]}, if: :motor_liability?
+  validates :liability_contact_person_email, presence: true, 'valid_email_2/email': true, if: :motor_liability?
+  # Vehicle assessment
+  validates :liability_assessment_contact_person_first_name, presence: true, if: :motor_liability?
+  validates :liability_assessment_contact_person_last_name, presence: true, if: :motor_liability?
+  validates :liability_assessment_contact_person_address, presence: true, if: :motor_liability?
+  validates :liability_assessment_contact_person_telephone_number, presence: true, phone: {allow_blank: false, types: [:mobile, :fixed_line, :fixed_or_mobile]}, if: :motor_liability?
+  # Vehicle Details
+  validates :liability_vehicle_make, presence: true, if: :motor_liability?
+  validates :liability_vehicle_gross_vehicle_mass, presence: true, numericality: { only_integer: true }, if: :motor_liability?
+  validates :liability_vehicle_registration_number, presence: true, if: :motor_liability?
+  validates :liability_vehicle_value, presence: true, numericality: { only_integer: true }, if: :motor_liability?
+  # TODO: ensure this works fine
+  validates :liability_vehicle_model, presence: true, if: :motor_liability?
+  validates :liability_vehicle_year, presence: true, numericality: { only_integer: true }, if: :motor_liability?
+  validates :liability_vehicle_transmission_type, presence: true, if: :motor_liability?
+  validates :liability_vehicle_km_completed, presence: true, numericality: { only_integer: true }, if: :motor_liability?
+  validates :liability_vehicle_drivable, presence: true, if: :motor_liability?
+  validates :liability_vehicle_towed, presence: true, inclusion: [true, false], if: :motor_liability?
+  validates :liability_vehicle_inspection_address, presence: true, if: :motor_liability?
+  # Imagery
+  validates :liability_motor_claim_photos, attached: true, content_type: %w[image/png image/jpeg image/jpg], if: :motor_liability?
 
   # Auto generate claim number on create
   before_create :generate_claim_number

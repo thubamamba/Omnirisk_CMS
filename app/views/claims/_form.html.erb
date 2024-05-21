@@ -121,11 +121,11 @@
     <% if claim.liability? %>
       <h4 class="border-b border-gray-400 pb-2 mb-6 mt-6">Liability Claim</h4>
       <%# Kind of liability claim %>
-      <div data-controller="conditional-form-element">
-        <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :liability_sub_type_requirements, conditional_form_element_target: "liabilitySubmitBtn" } %>
+      <div data-controller="conditional-form-element-liability">
+        <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :liability_sub_type_requirements, conditional_form_element_liability_target: "liabilitySubmitBtn" } %>
         <div class="form-group">
           <%= form.label "What kind of liability claim is it?", class: "required" %>
-          <%= form.select :liability_claim_type, options_for_select(Claim.liability_claim_type_options, @claim.liability_claim_type), { include_blank: "Select your liability claim type" }, { data: { action: "change->conditional-form-element#remoteSubmitLiability"}} %>
+          <%= form.select :liability_claim_type, options_for_select(Claim.liability_claim_type_options, @claim.liability_claim_type), { include_blank: "Select your liability claim type" }, { data: { action: "change->conditional-form-element-liability#remoteSubmitLiability"}} %>
         </div>
       </div>
 
@@ -176,19 +176,20 @@
         <%#### Public Liability Claim %>
         <% if claim.public_liability? %>
           <%# Choose type of public liability %>
-          <div data-controller="conditional-form-element">
-            <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :public_liability_type_turbo_display, conditional_form_element_target: "publicLiabilityTypeSubmitBtn" } %>
+          <div data-controller="conditional-form-element-public-liability">
+            <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :public_liability_type_turbo_display, conditional_form_element_public_liability_target: "publicLiabilityTypeSubmitBtn" } %>
             <div class="form-group">
               <%= form.label "What kind of public liability claim is it?", class: "required" %>
-              <%= form.select :public_liability_type, options_for_select(Claim.public_liability_type_options, @claim.public_liability_type), { include_blank: "Select your public liability claim type" }, { data: { action: "change->conditional-form-element#remoteSubmitPublicLiabilityType"}} %>
+              <%= form.select :public_liability_type, options_for_select(Claim.public_liability_type_options, @claim.public_liability_type), { include_blank: "Select your public liability claim type" }, { data: { action: "change->conditional-form-element-public-liability#remoteSubmitPublicLiabilityType"}} %>
             </div>
           </div>
 
           <%# Public Liability Property Damage %>
           <%= turbo_frame_tag :public_liability_type_turbo_display do %>
             <% if claim.property_damage? %>
-              <h4 class="border-b border-gray-400 pb-2 mb-6 mt-6">Public Liability - Property Damage Claim</h4>
+              <h4 class="border-0 border-gray-400 pb-2 mb-6 mt-6">Public Liability - Property Damage Claim</h4>
               <%# Witness %>
+              <h5 class="border-b border-gray-400 pb-2 mb-6 mt-6">Witness details</h5>
               <div class="flex xl:flex-row lg:flex-row flex-col">
                 <%# First name %>
                 <div class="w-full p-0.5">
@@ -359,6 +360,7 @@
         <%#### Motor Liability Claim %>
         <% if claim.motor_liability? %>
           <h4 class="border-b border-gray-400 pb-2 mb-6 mt-6">Motor (MTPL) Liability Claim</h4>
+          <h5 class="border-b border-gray-400 pb-2 mb-6 mt-6">Driver details</h5>
           <div class="flex xl:flex-row lg:flex-row flex-col">
             <%# Driver's first name %>
             <div class="w-full p-0.5">
@@ -390,7 +392,7 @@
             <div class="w-full p-0.5">
               <div class="form-group">
                 <%= form.label "Driver's email address", class: "required" %>
-                <%= form.date_field :liability_drivers_email, class: "form-control" %>
+                <%= form.text_field :liability_drivers_email, class: "form-control" %>
               </div>
             </div>
           </div>
@@ -439,21 +441,14 @@
             </div>
           </div>
 
-          <%# Registered owner of the vehicle %>
-          <%# TODO: We need a yes/o boolean where if the user selects no, we can prepopulate the details and if yes, we auto fill the details with the same details as the driver %>
-<!--          <div class="form-group">-->
-            <%#= form.label "Is the driver the registered owner of the vehicle?", class: "required" %>
-<!--            <div class="flex items-center space-x-4">-->
-              <%#= form.collection_radio_buttons :liability_driver_is_registered_owner, [[true, 'Yes'], [false, 'No']], :first, :last, class: "form-control inline" %>
-<!--            </div>-->
-<!--          </div>-->
 
           <%### Contact Person %>
+          <h5 class="border-b border-gray-400 pb-2 mb-6 mt-6">Contact/liaison for the purposes of this claim</h5>
           <div class="flex xl:flex-row lg:flex-row flex-col">
             <%# Contact person's first name %>
             <div class="w-full p-0.5">
               <div class="form-group">
-                <%= form.label "Contact persons first name", class: "required" %>
+                <%= form.label "Contact person's first name", class: "required" %>
                 <%= form.text_field :liability_contact_person_first_name, class: "form-control" %>
               </div>
             </div>
@@ -480,7 +475,7 @@
             <div class="w-full p-0.5">
               <div class="form-group">
                 <%= form.label "Contact person's email address", class: "required" %>
-                <%= form.date_field :liability_contact_person_email, class: "form-control" %>
+                <%= form.text_field :liability_contact_person_email, class: "form-control" %>
               </div>
             </div>
           </div>
@@ -491,14 +486,90 @@
             <%= form.text_area :liability_contact_person_physical_address, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
           </div>
 
-          <%##### Vehicle assessment contact person %>
-          <h4 class="border-b border-gray-400 pb-2 mb-6 mt-6">Vehicle Details</h4>
+          <%# Assessment Contact Person %>
+          <h5 class="border-b border-gray-400 pb-2 mb-6 mt-6">Assessment of the vehicle: Contact Person</h5>
+          <div class="flex xl:flex-row lg:flex-row flex-col">
+            <%# Vehicle assessment - Contact person's first name %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Vehicle assessment - Contact person's first name", class: "required" %>
+                <%= form.text_field :liability_assessment_contact_person_first_name, class: "form-control" %>
+              </div>
+            </div>
+
+            <%# Vehicle assessment - Contact person's last name %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Vehicle assessment - Contact person's last name", class: "required" %>
+                <%= form.text_field :liability_assessment_contact_person_last_name, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+
+          <%# Vehicle assessment - Contact person's contact number %>
+          <div class="form-group">
+            <%= form.label "Vehicle assessment - Contact person's contact number", class: "required" %>
+            <%= form.text_field :liability_assessment_contact_person_telephone_number, class: "form-control" %>
+          </div>
+
+          <%# Vehicle assessment - Contact person's physical address %>
+          <div class="form-group">
+            <%= form.label "Vehicle assessment - Contact person's physical address", class: "required" %>
+            <%= form.text_area :liability_assessment_contact_person_address, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+          </div>
+
+          <%### Registered owner details %>
+          <h5 class="border-b border-gray-400 pb-2 mb-6 mt-6">Registered owner of vehicle</h5>
+          <div class="flex xl:flex-row lg:flex-row flex-col">
+            <%# Registered owner's first name %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Registered owner's first name", class: "required" %>
+                <%= form.text_field :liability_motor_claim_registered_owner_first_name, class: "form-control" %>
+              </div>
+            </div>
+
+            <%# Registered owner's last name %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Registered owner's last name", class: "required" %>
+                <%= form.text_field :liability_motor_claim_registered_owner_last_name, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex xl:flex-row lg:flex-row flex-col">
+            <%# Registered owner's contact number %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Registered owner's contact number", class: "required" %>
+                <%= form.text_field :liability_motor_claim_registered_owner_telephone_number, class: "form-control" %>
+              </div>
+            </div>
+
+            <%# Registered owner's email address %>
+            <div class="w-full p-0.5">
+              <div class="form-group">
+                <%= form.label "Registered owner's email address", class: "required" %>
+                <%= form.text_field :liability_motor_claim_registered_owner_email, class: "form-control" %>
+              </div>
+            </div>
+          </div>
+
+          <%# Registered owner's physical address %>
+          <div class="form-group">
+            <%= form.label "Registered owner's physical address", class: "required" %>
+            <%= form.text_area :liability_motor_claim_registered_owner_physical_address, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+          </div>
+
+          <%##### Vehicle details %>
+          <h5 class="border-b border-gray-400 pb-2 mb-6 mt-6 text-lg">Vehicle Details</h5>
           <div class="flex xl:flex-row lg:flex-row flex-col">
             <%# Vehicle Make %>
             <div class="w-full p-0.5">
               <div class="form-group">
                 <%= form.label "Vehicle make", class: "required" %>
-                <%= form.text_field :liability_vehicle_make, class: "form-control" %>
+                <%= form.text_field :liability_vehicle_make, class: "form-control", placeholder: "Toyota" %>
               </div>
             </div>
 
@@ -506,7 +577,7 @@
             <div class="w-full p-0.5">
               <div class="form-group">
                 <%= form.label "Vehicle model", class: "required" %>
-                <%= form.text_field :liability_vehicle_model, class: "form-control" %>
+                <%= form.text_field :liability_vehicle_model, class: "form-control", placeholder: "Corolla" %>
               </div>
             </div>
           </div>
@@ -524,7 +595,7 @@
             <div class="w-full p-0.5">
               <div class="form-group">
                 <%= form.label "Vehicle registration number", class: "required" %>
-                <%= form.text_field :liability_vehicle_registration_number, class: "form-control" %>
+                <%= form.text_field :liability_vehicle_registration_number, class: "form-control", placeholder: "SNH456GP" %>
               </div>
             </div>
           </div>
@@ -534,7 +605,7 @@
             <div class="w-full p-0.5">
               <div class="form-group">
                 <%= form.label "Vehicle Kilometers completed", class: "required" %>
-                <%= form.text_field :liability_vehicle_km_completed, class: "form-control" %>
+                <%= form.text_field :liability_vehicle_km_completed, class: "form-control", placeholder: "123 550 KM" %>
               </div>
             </div>
 
@@ -542,7 +613,7 @@
             <div class="w-full p-0.5">
               <div class="form-group">
                 <%= form.label "Vehicle value", class: "required" %>
-                <%= form.text_field :liability_vehicle_km_completed, class: "form-control", placeholder: "R150 000" %>
+                <%= form.text_field :liability_vehicle_value, class: "form-control", placeholder: "R150 000" %>
               </div>
             </div>
           </div>
@@ -562,8 +633,16 @@
             <div class="w-full p-0.5">
               <div class="form-group">
                 <%= form.label "Gross vehicle mass", class: "required" %>
-                <%= form.text_field :liability_vehicle_gross_vehicle_mass, class: "form-control" %>
+                <%= form.text_field :liability_vehicle_gross_vehicle_mass, class: "form-control", placeholder: "1000 KG" %>
               </div>
+            </div>
+          </div>
+
+          <%# Vehicle inspection address %>
+          <div class="w-full p-0.5">
+            <div class="form-group">
+              <%= form.label "Vehicle inspection address", class: "required" %>
+              <%= form.text_area :liability_vehicle_inspection_address, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
             </div>
           </div>
 
@@ -587,6 +666,21 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <%# Motor liability claim photos %>
+          <div class="form-group">
+            <%= form.label :liability_motor_claim_photos, "Please upload copies of drivers licence and page 1 of drivers identity document or the front and back of your card ID", class: "required" %>
+            <%= form.file_field :liability_motor_claim_photos, multiple: true %>
+
+            <% if claim.liability_motor_claim_photos.attached? %>
+              <% post.liability_motor_claim_photos.each do |image| %>
+                <%= form.hidden_field :liability_motor_claim_photos, multiple: true, value: image.signed_id %>
+                <%= image_tag(image, height: 100) %>
+                <%#= link_to "Remove", delete_property_claim_photos_claim_path(image), data: { turbo_method: :delete } %>
+                <br />
+              <% end %>
+            <% end %>
           </div>
         <% end %>
       <% end %>
