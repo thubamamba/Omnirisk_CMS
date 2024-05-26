@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_21_144215) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_26_174224) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -266,6 +266,31 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_21_144215) do
     t.string "accident_and_health_claim_attending_doctor_address"
     t.text "accident_and_health_ttd_claim_description_of_injuries"
     t.string "accident_and_health_death_claim_death_cause"
+    t.string "vehicle_claim_type"
+    t.string "vehicle_claim_police_no"
+    t.string "vehicle_claim_accident_address"
+    t.string "vehicle_claim_date_of_loss"
+    t.string "vehicle_claim_vehicle_model"
+    t.string "vehicle_claim_vehicle_manufacturer"
+    t.string "vehicle_claim_vehicle_km_completed"
+    t.string "vehicle_claim_vehicle_registration"
+    t.string "vehicle_claim_vehicle_drivers_first_name"
+    t.string "vehicle_claim_vehicle_drivers_last_name"
+    t.string "vehicle_claim_vehicle_drivers_id_number"
+    t.string "vehicle_claim_vehicle_drivers_occupation"
+    t.string "vehicle_claim_vehicle_drivers_license_code"
+    t.string "vehicle_claim_were_there_passengers"
+    t.string "vehicle_claim_were_there_witnesses"
+    t.text "vehicle_claim_accident_description"
+    t.string "vehicle_claim_is_municipal_vehicle_damaged"
+    t.string "vehicle_claim_was_driver_authorized"
+    t.string "vehicle_claim_is_driver_your_employee"
+    t.string "vehicle_claim_has_drivers_license_been_suspended"
+    t.string "vehicle_claim_driver_physical_defects_status"
+    t.string "vehicle_claim_vehicle_purposes"
+    t.string "vehicle_claim_any_other_vehicle_damaged"
+    t.string "vehicle_claim_was_vehicle_stolen_hijacked"
+    t.string "vehicle_claim_leaser_of_financier"
     t.index ["municipality_id"], name: "index_claims_on_municipality_id"
   end
 

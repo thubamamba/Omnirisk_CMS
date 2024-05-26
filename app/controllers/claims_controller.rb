@@ -1,5 +1,6 @@
 class ClaimsController < ApplicationController
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
+  # before_action :process_signature_data, only: :create
 
   # GET /claims
   def index
@@ -38,9 +39,9 @@ class ClaimsController < ApplicationController
         # if params[:claim][:signature_data].present?
         #   @claim.signature.attach(data_uri_to_image(params[:claim][:signature_data]))
         # end
-        if params[:claim][:signature_data].present?
-          attach_signature(@claim, params[:claim][:signature_data])
-        end
+        # if params[:claim][:signature_data].present?
+        #   attach_signature(@claim, params[:claim][:signature_data])
+        # end
         format.html { redirect_to @claim, notice: 'Claim was successfully created.' }
         format.json { render :show, status: :created, location: @claim }
       else
@@ -61,6 +62,27 @@ class ClaimsController < ApplicationController
         format.json { render json: @claim.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def process_signature_data
+    if params[:claim][:signature].present?
+      attach_signature(@claim, params[:claim][:signature])
+    end
+  end
+
+  def attach_signature(claim, signature)
+    decoded_data = Base64.decode64(signature.split(",")[1])
+    io = StringIO.new(decoded_data)
+    io.content_type = "image/png"
+    io.original_filename = generate_filename(claim)
+    claim.signature.attach(io)
+  end
+
+  def generate_filename(claim)
+    municipality = claim.municipality.parameterize
+    date = Time.now.strftime("%Y%m%d")
+    first_name = current_user.first_name.parameterize
+    "signature_#{municipality}_#{date}_#{first_name}.png"
   end
 
   # DELETE /claims/1 or /claims/1.json
@@ -125,33 +147,9 @@ class ClaimsController < ApplicationController
                                     :accident_and_health_claim_attending_doctor_contact_number,
                                     :accident_and_health_claim_attending_doctor_address,
                                     :accident_and_health_ttd_claim_description_of_injuries,
-                                    :accident_and_health_death_claim_death_cause)
+                                    :accident_and_health_death_claim_death_cause, :vehicle_claim_type, :vehicle_claim_police_no, :vehicle_claim_accident_address, :vehicle_claim_vehicle_manufacturer, :vehicle_claim_vehicle_model, :vehicle_claim_vehicle_km_completed, :vehicle_claim_vehicle_registration, :vehicle_claim_vehicle_drivers_first_name, :vehicle_claim_vehicle_drivers_last_name, :vehicle_claim_vehicle_drivers_id_number, :vehicle_claim_vehicle_drivers_occupation, :vehicle_claim_vehicle_drivers_license_code, :vehicle_claim_were_there_passengers, :vehicle_claim_were_there_witnesses, :vehicle_claim_accident_description, :vehicle_claim_is_municipal_vehicle_damaged, :vehicle_claim_was_driver_authorized, :vehicle_claim_is_driver_your_employee, :vehicle_claim_has_drivers_license_been_suspended, :vehicle_claim_driver_physical_defects_status, :vehicle_claim_any_other_vehicle_damaged, :vehicle_claim_vehicle_purposes, :vehicle_claim_supporting_docs)
 
     # Uncomment to use Pundit permitted attributes
     # params.require(:claim).permit(policy(@claim).permitted_attributes)
-  end
-
-  def attach_signature(claim, signature_data)
-    decoded_data = Base64.decode64(signature_data.split(",")[1])
-    io = StringIO.new(decoded_data)
-    io.content_type = "image/png"
-    io.original_filename = generate_filename(claim)
-    claim.signature.attach(io)
-  end
-
-  def data_uri_to_image(data_uri, claim)
-    decoded_data = Base64.decode64(data_uri.split(',')[1])
-    io = StringIO.new(decoded_data)
-    io.content_type = 'image/png'
-    io.original_filename = generate_filename(claim)
-    # io.original_filename = "signature.png"
-    io
-  end
-
-  def generate_filename(claim)
-    municipality = claim.municipality.parameterize
-    date = claim.created_at.strftime('%Y%m%d')
-    first_name = claim.user.first_name.parameterize
-    "signature_#{municipality}_#{date}_#{first_name}.png"
   end
 end

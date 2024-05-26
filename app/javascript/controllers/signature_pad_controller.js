@@ -1,37 +1,37 @@
-import { Controller } from "@hotwired/stimulus"
-import SignaturePad from 'signature_pad'
+import { Controller } from "@hotwired/stimulus";
+import SignaturePad from "signature_pad";
 
 export default class extends Controller {
-  static targets = ["canvas", "input"]
+  static targets = ["canvas", "input", "clearButton", "saveButton"];
+
   connect() {
-    this.signaturePad = new SignaturePad(this.canvasTarget)
-    this.signaturePad.addEventListener("endStroke", this.endStroke)
-    this.resizeCanvas()
-    if (this.inputTarget.value) {
-      this.signaturePad.fromDataURL(this.inputTarget.value)
-    }
+    this.signaturePad = new SignaturePad(this.canvasTarget);
+    this.resizeCanvas();
+
+    window.addEventListener("resize", this.resizeCanvas.bind(this));
+
+    this.clearButtonTarget.addEventListener("click", () => {
+      this.signaturePad.clear();
+    });
+
+    this.saveButtonTarget.addEventListener("click", (event) => {
+      if (this.signaturePad.isEmpty()) {
+        alert('You must sign to accept the Terms and Conditions');
+        event.preventDefault();
+      } else {
+        this.inputTarget.value = this.signaturePad.toDataURL();
+      }
+    });
   }
 
   disconnect() {
-    this.signaturePad.off()
-  }
-
-  clear() {
-    this.signaturePad.clear()
-    this.inputTarget.value = ""
-  }
-
-  endStroke = (_) => {
-    this.inputTarget.value = this.signaturePad.toDataURL("image/svg+xml")
+    window.removeEventListener("resize", this.resizeCanvas.bind(this));
   }
 
   resizeCanvas() {
-    // When zoomed out to less than 100%, for some very strange reason,
-    // some browsers report devicePixelRatio as less than 1
-    // and only part of the canvas is cleared then.
     const ratio = Math.max(window.devicePixelRatio || 1, 1);
-    this.canvasTarget.width = this.canvasTarget.offsetWidth * ratio
-    this.canvasTarget.height = this.canvasTarget.offsetHeight * ratio
-    this.canvasTarget.getContext("2d").scale(ratio, ratio)
+    this.canvasTarget.width = this.canvasTarget.offsetWidth * ratio;
+    this.canvasTarget.height = this.canvasTarget.offsetHeight * ratio;
+    this.canvasTarget.getContext("2d").scale(ratio, ratio);
   }
 }

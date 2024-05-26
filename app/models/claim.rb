@@ -9,6 +9,8 @@ class Claim < ApplicationRecord
   has_many_attached :liability_claim_photos
   has_many_attached :liability_motor_claim_photos
   has_many_attached :health_and_accident_documents
+  has_one_attached :vehicle_claim_accident_sketch
+  has_many_attached :vehicle_claim_supporting_docs
 
   enum claim_type: {
     property: 'Property',
@@ -35,13 +37,20 @@ class Claim < ApplicationRecord
     hospitalization: 'Hospitalization Benefit Claim',
   }
 
+  enum vehicle_claim_type: {
+    owned_vehicle: 'Owned Vehicle',
+    leased_vehicle: 'Leased Vehicle',
+    financed_vehicle: 'Financed Vehicle',
+  }
+
   # Custom regex
 
   # Validation
   # TODO: Audit trail to figure out how added this claim
   validates :municipality, presence: true
   # validates :claim_type, presence: true
-  validates :signature, attached: true, content_type: %w[image/png image/jpeg image/jpg], on: [:create]
+  # TODO: Fix signature issue
+  # validates :signature, attached: true, content_type: %w[image/png image/jpeg image/jpg], on: [:create]
   after_validation :accept_declaration, on: [:create]
   after_validation :accept_information_sharing, on: [:create]
 
@@ -142,6 +151,38 @@ class Claim < ApplicationRecord
   # Medical claim validations
   validates :health_and_accident_documents, attached: true, content_type: %w[image/png image/jpeg image/jpg application/pdf], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, presence: false, if: :medical?
 
+  #### Validation for Vehicle Claims
+  validates :vehicle_claim_type, presence: true, if: :vehicle?
+  validates :vehicle_claim_police_no, presence: true, if: :vehicle?
+  validates :vehicle_claim_accident_address, presence: true, if: :vehicle?
+  validates :vehicle_claim_leaser_of_financier, presence: true, if: :vehicle?
+  validates :vehicle_claim_date_of_loss, presence: true, if: :vehicle?
+  validates :vehicle_claim_vehicle_model, presence: true, if: :vehicle?
+  validates :vehicle_claim_vehicle_manufacturer, presence: true, if: :vehicle?
+  validates :vehicle_claim_vehicle_km_completed, presence: true, if: :vehicle?
+  validates :vehicle_claim_vehicle_registration, presence: true, if: :vehicle?
+  validates :vehicle_claim_vehicle_drivers_first_name, presence: true, if: :vehicle?
+  validates :vehicle_claim_vehicle_drivers_last_name, presence: true, if: :vehicle?
+  validates :vehicle_claim_vehicle_drivers_id_number, presence: true, if: :vehicle?
+  validates :vehicle_claim_vehicle_drivers_occupation, presence: true, if: :vehicle?
+  validates :vehicle_claim_vehicle_drivers_license_code, presence: true, if: :vehicle?
+  validates :vehicle_claim_were_there_passengers, presence: true, if: :vehicle?
+  validates :vehicle_claim_were_there_witnesses, presence: true, if: :vehicle?
+  validates :vehicle_claim_accident_description, presence: true, if: :vehicle?
+  validates :vehicle_claim_is_municipal_vehicle_damaged, presence: true, if: :vehicle?
+  validates :vehicle_claim_was_driver_authorized, presence: true, if: :vehicle?
+  validates :vehicle_claim_is_driver_your_employee, presence: true, if: :vehicle?
+  validates :vehicle_claim_is_driver_your_employee, presence: true, if: :vehicle?
+  validates :vehicle_claim_has_drivers_license_been_suspended, presence: true, if: :vehicle?
+  validates :vehicle_claim_driver_physical_defects_status, presence: true, if: :vehicle?
+  validates :vehicle_claim_vehicle_purposes, presence: true, if: :vehicle?
+  validates :vehicle_claim_any_other_vehicle_damaged, presence: true, if: :vehicle?
+  validates :vehicle_claim_was_vehicle_stolen_hijacked, presence: true, if: :vehicle?
+
+  # Imagery
+  validates :vehicle_claim_accident_sketch, attached: true, content_type: %w[image/png image/jpeg image/jpg], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, if: :vehicle?
+  validates :vehicle_claim_supporting_docs, attached: true, content_type: %w[image/png image/jpeg image/jpg application/pdf], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, if: :vehicle?
+
   # Auto generate claim number on create
   before_create :generate_claim_number
   # Auto assign claim status on create
@@ -192,6 +233,10 @@ class Claim < ApplicationRecord
 
   def self.accident_and_health_claim_type_options
     accident_and_health_claim_types.keys.map { |key| [humanized_options(key), key] }
+  end
+
+  def self.vehicle_claim_type_options
+    vehicle_claim_types.keys.map { |key| [humanized_options(key), key] }
   end
 
   def self.humanized_options(key)
