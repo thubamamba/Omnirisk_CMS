@@ -8,6 +8,7 @@ class Claim < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :witnesses, dependent: :destroy
   has_many :damaged_items, dependent: :destroy
+  accepts_nested_attributes_for :damaged_items, reject_if: :all_blank, allow_destroy: true
   belongs_to :municipality
   belongs_to :user
   has_one_attached :signature
@@ -26,10 +27,10 @@ class Claim < ApplicationRecord
   }
 
   enum type_of_property_loss: {
-    'all_risk': 'All Risk',
-    'electronic_equipment': 'Electronic Equipment',
-    'office_contents': 'Office Contents',
-    'building': 'Building',
+    all_risk: 'All Risk',
+    electronic_equipment: 'Electronic Equipment',
+    office_contents: 'Office Contents',
+    building: 'Building',
   }
 
   enum liability_claim_type: {
@@ -75,11 +76,10 @@ class Claim < ApplicationRecord
   validates :has_other_party_interest, inclusion: { in: [true, false] }, if: :property?
   validates :date_of_loss, presence: true, if: :property?
   validates :insured_property_ownership, presence: true, if: :property?
-  validates :was_property_occupied_during_damage, inclusion: { in: [true, false] }, if: :property?
+  validates :was_property_occupied_during_damage, inclusion: { in: [true, false] }, if: :building?
   validates :description_of_incident, presence: true, if: :property?
   validates :incident_location, presence: true, if: :property?
-  # TODO: Fix issue with property claim photos upload
-  # validates :property_claim_photos, attached: true, content_type: %w[image/png image/jpeg image/jpg], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, if: :property?
+  validates :property_claim_photos_docs, attached: true, content_type: %w[image/png image/jpeg image/jpg], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, if: :property?
 
   ### Validation for Liability Claims
   validates :public_liability_type, presence: true, if: :liability?
@@ -252,6 +252,8 @@ class Claim < ApplicationRecord
     type_of_property_losses.keys.map { |key| [humanized_options(key), key] }
   end
 
+
+
   def self.liability_claim_type_options
     liability_claim_types.keys.map { |key| [humanized_options(key), key] }
   end
@@ -270,5 +272,9 @@ class Claim < ApplicationRecord
 
   def self.humanized_options(key)
     key.split('_').map(&:capitalize).join(' ')
+  end
+
+  def humanized_type_of_property_loss
+    self.class.humanized_options(type_of_property_loss)
   end
 end

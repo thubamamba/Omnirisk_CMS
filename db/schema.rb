@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_30_163113) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_30_193805) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -296,6 +296,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_163113) do
     t.string "bank_details_account_holder_name"
     t.string "bank_details_account_number"
     t.bigint "user_id", null: false
+    t.string "guard_risk_claim_number"
     t.index ["municipality_id"], name: "index_claims_on_municipality_id"
     t.index ["user_id"], name: "index_claims_on_user_id"
   end

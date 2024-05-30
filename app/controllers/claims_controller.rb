@@ -10,13 +10,14 @@ class ClaimsController < ApplicationController
 
     @pagy, @claims = pagy(Claim.sort_by_params(params[:sort], sort_direction))
 
-    # Uncomment to authorize with Pundit
+    # Only users who belong to an account that owns a municipality can view claims belonging to that municipality
     # authorize @claims
   end
 
   # GET /claims/1 or /claims/1.json
   def show
     @pagy, @claim_comments = pagy(@claim.comments.order(created_at: :desc), items: 20)
+    @pagy, @claim_property_electronic_damaged_items = pagy(@claim.damaged_items.order(created_at: :desc), items: 20)
   end
 
   # GET /claims/new
@@ -29,6 +30,7 @@ class ClaimsController < ApplicationController
 
   # GET /claims/1/edit
   def edit
+    authorize @claim
   end
 
   # POST /claims or /claims.json
@@ -145,7 +147,7 @@ class ClaimsController < ApplicationController
     #                                     :accident_and_health_ttd_claim_description_of_injuries,
     #                                     :accident_and_health_death_claim_death_cause, :vehicle_claim_type, :vehicle_claim_police_no, :vehicle_claim_accident_address, :vehicle_claim_vehicle_manufacturer, :vehicle_claim_vehicle_model, :vehicle_claim_vehicle_km_completed, :vehicle_claim_vehicle_registration, :vehicle_claim_vehicle_drivers_first_name, :vehicle_claim_vehicle_drivers_last_name, :vehicle_claim_vehicle_drivers_id_number, :vehicle_claim_vehicle_drivers_occupation, :vehicle_claim_vehicle_drivers_license_code, :vehicle_claim_were_there_passengers, :vehicle_claim_were_there_witnesses, :vehicle_claim_accident_description, :vehicle_claim_is_municipal_vehicle_damaged, :vehicle_claim_was_driver_authorized, :vehicle_claim_is_driver_your_employee, :vehicle_claim_has_drivers_license_been_suspended, :vehicle_claim_driver_physical_defects_status, :vehicle_claim_any_other_vehicle_damaged, :vehicle_claim_vehicle_purposes, :accept_declaration, :accept_information_sharing, property_claim_photos_docs: [], health_and_accident_documents: [], vehicle_claim_supporting_docs: [], liability_motor_claim_photos: [])
 
-    params.fetch(:claim, {}).permit(:municipality_id, :user_id, :status, :claim_number, :signature, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at, :liability_property_witness_first_name, :bank_details_branch_code, :bank_details_account_holder_name, :bank_details_account_number, :bank_details_bank_name,
+    params.fetch(:claim, {}).permit(:municipality_id, :user_id, :status, :claim_number, :signature, :claim_type, :type_of_property_loss, :date_of_loss, :police_ref_number, :police_station_incident_reported_to, :nature_of_incident, :insured_property_ownership, :description_of_incident, :incident_location, :is_property_insured_elsewhere, :have_you_suffered_previous_loss, :has_other_party_interest, :was_property_occupied_during_damage, :declaration_accepted_at, :information_sharing_accepted_at, :created_at, :updated_at, :guard_risk_claim_number, :liability_property_witness_first_name, :bank_details_branch_code, :bank_details_account_holder_name, :bank_details_account_number, :bank_details_bank_name,
                                     :liability_property_witness_last_name,
                                     :liability_property_witness_contact_number,
                                     :liability_property_police_ref_number,
@@ -182,7 +184,7 @@ class ClaimsController < ApplicationController
                                     :accident_and_health_claim_attending_doctor_contact_number,
                                     :accident_and_health_claim_attending_doctor_address,
                                     :accident_and_health_ttd_claim_description_of_injuries,
-                                    :accident_and_health_death_claim_death_cause, :vehicle_claim_type, :vehicle_claim_police_no, :vehicle_claim_accident_address, :vehicle_claim_vehicle_manufacturer, :vehicle_claim_vehicle_model, :vehicle_claim_vehicle_km_completed, :vehicle_claim_vehicle_registration, :vehicle_claim_vehicle_drivers_first_name, :vehicle_claim_vehicle_drivers_last_name, :vehicle_claim_vehicle_drivers_id_number, :vehicle_claim_vehicle_drivers_occupation, :vehicle_claim_vehicle_drivers_license_code, :vehicle_claim_were_there_passengers, :vehicle_claim_were_there_witnesses, :vehicle_claim_accident_description, :vehicle_claim_is_municipal_vehicle_damaged, :vehicle_claim_was_driver_authorized, :vehicle_claim_is_driver_your_employee, :vehicle_claim_has_drivers_license_been_suspended, :vehicle_claim_driver_physical_defects_status, :vehicle_claim_any_other_vehicle_damaged, :vehicle_claim_vehicle_purposes, :accept_declaration, :accept_information_sharing, property_claim_photos_docs: [], health_and_accident_documents: [], vehicle_claim_supporting_docs: [], liability_motor_claim_photos: [],)
+                                    :accident_and_health_death_claim_death_cause, :vehicle_claim_type, :vehicle_claim_police_no, :vehicle_claim_accident_address, :vehicle_claim_vehicle_manufacturer, :vehicle_claim_vehicle_model, :vehicle_claim_vehicle_km_completed, :vehicle_claim_vehicle_registration, :vehicle_claim_vehicle_drivers_first_name, :vehicle_claim_vehicle_drivers_last_name, :vehicle_claim_vehicle_drivers_id_number, :vehicle_claim_vehicle_drivers_occupation, :vehicle_claim_vehicle_drivers_license_code, :vehicle_claim_were_there_passengers, :vehicle_claim_were_there_witnesses, :vehicle_claim_accident_description, :vehicle_claim_is_municipal_vehicle_damaged, :vehicle_claim_was_driver_authorized, :vehicle_claim_is_driver_your_employee, :vehicle_claim_has_drivers_license_been_suspended, :vehicle_claim_driver_physical_defects_status, :vehicle_claim_any_other_vehicle_damaged, :vehicle_claim_vehicle_purposes, :accept_declaration, :accept_information_sharing, property_claim_photos_docs: [], health_and_accident_documents: [], vehicle_claim_supporting_docs: [], liability_motor_claim_photos: [], damaged_items_attributes: %i[id item_name serial_number estimated_value _destroy])
 
     # Uncomment to use Pundit permitted attributes
     # params.require(:claim).permit(policy(@claim).permitted_attributes)

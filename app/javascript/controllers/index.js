@@ -17,8 +17,14 @@ application.register('popover', Popover)
 application.register('toggle', Toggle)
 application.register('slideover', Slideover)
 
+import Lightbox from '@stimulus-components/lightbox'
+application.register('lightbox', Lightbox)
+
 import Flatpickr from 'stimulus-flatpickr'
 application.register('flatpickr', Flatpickr)
+
+import RailsNestedForm from '@stimulus-components/rails-nested-form'
+application.register('nested-form', RailsNestedForm)
 
 import ConditionFormElement from './conditional_form_element_controller'
 application.register('condition-form-element', ConditionFormElement)

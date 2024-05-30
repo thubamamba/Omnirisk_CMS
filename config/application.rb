@@ -22,7 +22,8 @@ module JumpstartApp
     config.to_prepare do
       Users::SessionsController.layout "auth"
       Users::RegistrationsController.layout proc { |_controller| user_signed_in? ? "application" : "auth" }
-      Users::PasswordsController.layout proc { |_controller| user_signed_in? ? "application" : "auth" }
+      # Users::PasswordsController.layout proc { |_controller| user_signed_in? ? "application" : "auth" }
+      Users::PasswordsController.layout "auth" 
     end
 
     # Configuration for the application, engines, and railties goes here.

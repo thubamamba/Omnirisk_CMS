@@ -1,6 +1,10 @@
 <%#= form_with(model: claim, data: { controller: "signature-pad"} ) do |form| %>
 <%#= form_with model: claim, local: true, data: { controller: "signature-pad", action: "submit->signature-pad#beforeSubmit" } do |form| %>
-<%= form_with model: claim, local: true do |form| %>
+<%#= form_with model: claim, local: true do |form| %>
+<%= form_with(model: claim, data: {
+  controller: "nested-form",
+  nested_form_wrapper_selector_value: '.nested-form-wrapper'
+}) do |form| %>
   <%= render "error_messages", resource: form.object %>
 
   <%= form.hidden_field :user_id, value: current_user.id %>
@@ -35,14 +39,45 @@
 
         <%# Type of property loss %>
         <div class="w-full p-0.5">
-          <div class="form-group">
-            <%= form.label :type_of_property_loss, class: "required" %>
-            <%= form.select :type_of_property_loss, options_for_select(Claim.type_of_property_loss_options, @claim.type_of_property_loss), { include_blank: "Select your type" }, { data: { action: "change->conditional-form-element#remoteSubmit"}} %>
+          <div data-controller="conditional-form-element-property-claims">
+            <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :property_damage_loss_types, conditional_form_element_property_claims_target: "propertyClaimSubmitBtn" } %>
 
-            <%#= form.select :type_of_property_loss, options_for_select([["All Risk (Portables)", "All Risk (Portables)"], ["Electronic Equipment", "Electronic Equipment"], ["Office Content", "Office Content"], %w[Building Building]]), {include_blank: "Select your option"}, class: "form-control" %>
+            <div class="form-group">
+              <%= form.label :type_of_property_loss, class: "required" %>
+              <%= form.select :type_of_property_loss, options_for_select(Claim.type_of_property_loss_options, @claim.type_of_property_loss), { include_blank: "Select your type" }, { data: { action: "change->conditional-form-element-property-claims#remoteSubmitPropertyClaimType"}} %>
+
+              <%#= form.select :type_of_property_loss, options_for_select([["All Risk (Portables)", "All Risk (Portables)"], ["Electronic Equipment", "Electronic Equipment"], ["Office Content", "Office Content"], %w[Building Building]]), {include_blank: "Select your option"}, class: "form-control" %>
+            </div>
           </div>
         </div>
       </div>
+
+      <%= turbo_frame_tag :property_damage_loss_types do %>
+        <%# Electronic Equipment %>
+        <% if claim.electronic_equipment? %>
+          <%# Start Custom Logic Here %>
+          <template data-nested-form-target="template">
+            <%= form.fields_for :damaged_items, DamagedItem.new, child_index: "NEW_RECORD" do |damaged_item_fields| %>
+              <%= render "claims/claim_property_electronic_damaged_items", f: damaged_item_fields %>
+            <% end %>
+          </template>
+          <%= form.fields_for :damaged_items do |damaged_item_fields| %>
+            <%= render "claims/claim_property_electronic_damaged_items", f: damaged_item_fields %>
+          <% end %>
+          <!-- Inserted elements will be injected before that target. -->
+          <div data-nested-form-target="target"></div>
+          <button type="button" class="text-md font-bold text-white bg-black dark:text-black dark:bg-white px-2 py-2 mb-4" data-action="nested-form#add">Add Electronic Item</button>
+        <% end %>
+
+        <%# Building %>
+        <% if claim.building? %>
+          <%# Was the property occupied during the damage? %>
+          <div class="form-group">
+            <%= form.label "Was the property occupied during the damage?", class: "required" %>
+            <%= form.select :was_property_occupied_during_damage, options_for_select([%w[Yes Yes], %w[No No]]), { include_blank: "Select your option"}, class: "form-control" %>
+          </div>
+        <% end %>
+      <% end %>
 
       <div class="flex xl:flex-row lg:flex-row flex-col">
         <%# Has property suffered previous loss %>
@@ -104,10 +139,10 @@
       </div>
 
       <%# Was the property occupied during the damage? %>
-      <div class="form-group">
-        <%= form.label "Was the property occupied during the damage?", class: "required" %>
-        <%= form.select :was_property_occupied_during_damage, options_for_select([%w[Yes Yes], %w[No No]]), { include_blank: "Select your option"}, class: "form-control" %>
-      </div>
+<!--      <div class="form-group">-->
+        <%#= form.label "Was the property occupied during the damage?", class: "required" %>
+        <%#= form.select :was_property_occupied_during_damage, options_for_select([%w[Yes Yes], %w[No No]]), { include_blank: "Select your option"}, class: "form-control" %>
+<!--      </div>-->
 
       <%# Describe the incident %>
       <div class="form-group">
@@ -121,19 +156,13 @@
         <%= form.text_field :incident_location, class: "form-control" %>
       </div>
 
-      <%# Date of the incident %>
-      <div class="form-group">
-        <%= form.label "Date of incident", class: "required" %>
-        <%= form.date_field :liability_personal_injury_date_of_occurrence, class: "form-control", max: Date.today %>
-      </div>
-
       <div class="form-group">
         <%= form.label "Upload Additional images (forcible entry or damaged device)", class: "required" %>
-        <%= form.file_field :property_claim_photos_docs, multiple: true %>
+        <%= form.file_field :property_claim_photos_docs, multiple: true, direct_upload: true %>
 
-        <%# if claim.property_claim_photos.attached? %>
+        <%# if claim.property_claim_photos_docs.attached? %>
           <%# claim.property_claim_photos_docs.each do |image| %>
-            <%#= form.hidden_field :property_claim_photos_docs, multiple: true, value: image.signed_id %>
+            <%#= form.hidden_field :property_claim_photos_docs, multiple: true, direct_upload: true, value: image.signed_id %>
             <%#= image_tag(image, height: 100) %>
             <%#= link_to "Remove", delete_property_claim_photos_docs_claim_path(image), data: { turbo_method: :delete } %>
 <!--            <br />-->
@@ -297,6 +326,12 @@
               <div class="form-group">
                 <%= form.label "Detailed description of the incident", class: "required" %>
                 <%= form.text_area :liability_description_of_incident, data: { controller: "textarea-autogrow", textarea_autogrow_resize_debounce_delay_value: 500 }, class: "form-control" %>
+              </div>
+
+              <%# Date of the incident %>
+              <div class="form-group">
+                <%= form.label "Date of incident", class: "required" %>
+                <%= form.date_field :liability_personal_injury_date_of_occurrence, class: "form-control", max: Date.today %>
               </div>
 
               <%# Claim details %>
@@ -697,11 +732,11 @@
           <%# Motor liability claim photos %>
           <div class="form-group">
             <%= form.label :liability_motor_claim_photos, "Please upload copies of drivers licence and page 1 of drivers identity document or the front and back of your card ID", class: "required" %>
-            <%= form.file_field :liability_motor_claim_photos, multiple: true %>
+            <%= form.file_field :liability_motor_claim_photos, multiple: true, direct_upload: true %>
 
             <%# if claim.liability_motor_claim_photos.attached? %>
               <%# claim.liability_motor_claim_photos.each do |image| %>
-                <%#= form.hidden_field :liability_motor_claim_photos, multiple: true, value: image.signed_id %>
+                <%#= form.hidden_field :liability_motor_claim_photos, multiple: true, direct_upload: true, value: image.signed_id %>
                 <%#= image_tag(image, height: 100) %>
                 <%#= link_to "Remove", delete_property_claim_photos_claim_path(image), data: { turbo_method: :delete } %>
 <!--                <br />-->
@@ -1055,11 +1090,11 @@
 
         <%# Image and documents upload here %>
         <div class="form-group">
-          <%= form.file_field :health_and_accident_documents, multiple: true %>
+          <%= form.file_field :health_and_accident_documents, multiple: true, direct_upload: true %>
 
           <%# if claim.health_and_accident_documents.attached? %>
             <%# claim.health_and_accident_documents.each do |image| %>
-              <%#= form.hidden_field :health_and_accident_documents, multiple: true, value: image.signed_id %>
+              <%#= form.hidden_field :health_and_accident_documents, multiple: true, direct_upload: true, value: image.signed_id %>
               <%#= image_tag(image, height: 100) %>
               <%#= link_to "Remove", delete_property_claim_photos_claim_path(image), data: { turbo_method: :delete } %>
 <!--              <br />-->
@@ -1283,11 +1318,11 @@
         <%= form.label "Upload supporting documents" %>
         <p class="text-md font-medium text-gray-800 dark:text-gray-100">Letter of Demand on MTPL (not compulsory) AR Report, Municipal Incident Report, Drivers Licence, Sworn Affidavit</p>
 
-        <%= form.file_field :vehicle_claim_supporting_docs, multiple: true %>
+        <%= form.file_field :vehicle_claim_supporting_docs, multiple: true, direct_upload: true %>
 
         <%# if claim.vehicle_claim_supporting_docs.attached? %>
           <%# claim.vehicle_claim_supporting_docs.each do |image| %>
-            <%#= form.hidden_field :vehicle_claim_supporting_docs, multiple: true, value: image.signed_id %>
+            <%#= form.hidden_field :vehicle_claim_supporting_docs, multiple: true, direct_upload: true, value: image.signed_id %>
             <%#= image_tag(image, height: 100) %>
             <%#= link_to "Remove", delete_property_claim_photos_claim_path(image), data: { turbo_method: :delete } %>
 <!--            <br />-->

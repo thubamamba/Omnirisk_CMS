@@ -2,7 +2,7 @@ devise_for :users,
   controllers: {
     omniauth_callbacks: ("users/omniauth_callbacks" if defined? OmniAuth),
     registrations: "users/registrations",
-    sessions: "users/sessions"
+    sessions: "users/sessions",
   }.compact
 
 devise_scope :user do

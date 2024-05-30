@@ -26,10 +26,28 @@
         <p class="text-black dark:text-white text-lg font-normal leading-tight tracking-tight capitalize"><%= @claim.claim_type %></p>
       </div>
 
+      <%# Guardrisk Number %>
+      <div class="flex flex-col">
+        <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Guard Risk Number</p>
+        <p class="text-black dark:text-white text-lg font-normal leading-tight tracking-tight uppercase">
+          <% if @claim.guard_risk_claim_number.present? %>
+            <%= @claim.guard_risk_claim_number %>
+          <% else %>
+            N/A
+          <% end %>
+        </p>
+      </div>
+
       <%# Claim Status %>
       <div class="flex flex-col">
         <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Claim Status</p>
         <p class="text-black dark:text-white text-lg font-normal leading-tight tracking-tight capitalize"><%= @claim.status %></p>
+      </div>
+
+      <%# Claim added by %>
+      <div class="flex flex-col">
+        <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Created By</p>
+        <p class="text-black dark:text-white text-lg font-normal leading-tight tracking-tight capitalize"><%= @claim.user.name %></p>
       </div>
 
       <%# Date Created %>

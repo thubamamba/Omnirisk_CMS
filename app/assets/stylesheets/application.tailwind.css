@@ -2,6 +2,7 @@
 @import "tailwindcss/components";
 @import "base.css";
 @import "hover.css";
+@import 'lightgallery/css/lightgallery.css';
 
 /*
  * Jumpstart Pro default styles

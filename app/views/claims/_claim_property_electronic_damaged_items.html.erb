@@ -1,0 +1,31 @@
+<div class="nested-form-wrapper" data-new-record="<%= f.object.new_record? %>">
+  <div class="flex xl:flex-row lg:flex-row flex-col">
+    <%# Item Name %>
+    <div class="w-full p-0.5">
+      <div class="form-group">
+        <%= f.label "Item Name", class: "required" %>
+        <%= f.text_field :item_name, class: 'form-control' %>
+      </div>
+    </div>
+
+    <%# Serial Number %>
+    <div class="w-full p-0.5">
+      <div class="form-group">
+        <%= f.label "Serial Number", class: "required" %>
+        <%= f.text_field :serial_number, class: 'form-control' %>
+      </div>
+    </div>
+
+    <%# Estimated Value %>
+    <div class="w-full p-0.5">
+      <div class="form-group">
+        <%= f.label "Estimated Value", class: "required" %>
+        <%= f.text_field :estimated_value, class: 'form-control' %>
+      </div>
+    </div>
+  </div>
+  <div class="">
+    <button type="button" data-action="nested-form#remove" class="btn btn-primary mb-2">Remove Item</button>
+  </div>
+  <%= f.hidden_field :_destroy %>
+</div>
