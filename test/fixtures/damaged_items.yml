@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  item_name: MyString
+  serial_number: MyString
+  estimated_value: MyString
+  claim: one
+
+two:
+  item_name: MyString
+  serial_number: MyString
+  estimated_value: MyString
+  claim: two

@@ -33,6 +33,11 @@ module JumpstartApp
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    config.time_zone = "Pretoria"
+    config.active_record.default_timezone = :utc
+
+    config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone, ActiveSupport::HashWithIndifferentAccess, BigDecimal]
+
     # Use ErrorsController for handling 404s and 500s.
     config.exceptions_app = routes
 

@@ -1,53 +1,82 @@
-<div id="<%= dom_id claim %>">
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Municipality</p>
-    <%= claim.municipality_id %>
+<div class="flex flex-col justify-center items-center overflow-x-auto mt-12">
+  <div class="overflow-x-auto w-full">
+    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="shadow border-b border-gray-200 sm:rounded-lg overflow-x-auto">
+        <table class="min-w-full table-auto overflow-y-auto divide-y divide-gray-200">
+          <thead class="bg-gray-50 dark:bg-gray-800">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+              Municipality
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+              <%= sortable @claims, :claim_number, "Claim number", class: "" %>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+              <%= sortable @claims, :claim_type, "Claim type", class: "" %>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+              <%= sortable @claims, :status, "Status", class: "" %>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+              <%= sortable @claims, :created_at, "Date Created", class: "" %>
+            </th>
+
+            <th scope="col" class="relative ">
+
+            </th>
+          </tr>
+          </thead>
+          <% @claims.each do |claim| %>
+            <tbody class="bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-800">
+            <tr>
+              <%# Municipality %>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-base font-medium text-gray-900 dark:text-white text-center capitalize">
+                  <%= claim.municipality.name %>
+                </div>
+              </td>
+
+              <%# Claim Number %>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-base font-medium text-gray-900 dark:text-white uppercase text-center">
+                  <%= claim.claim_number %>
+                </div>
+              </td>
+
+              <%# Claim Type %>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-base font-medium text-gray-900 dark:text-white capitalize text-center">
+                  <%= claim.claim_type %>
+                </div>
+              </td>
+
+              <%# Claim Status %>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-base font-medium text-gray-900 dark:text-white capitalize text-center">
+                  <%= claim.status %>
+                </div>
+              </td>
+
+              <%# Created at %>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-base font-medium text-gray-900 dark:text-white text-center">
+                  <%= claim.created_at.strftime("%b %d, %Y") %>
+                </div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-center text-base font-bold hvr-grow">
+                <%# Link to see claim %>
+                <%= link_to "View claim", claim_path(claim), class: "hover:text-omni-secondary text-omni-primary no-underline capitalize" %>
+              </td>
+            </tr>
+            </tbody>
+          <% end %>
+        </table>
+      </div>
+    </div>
   </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Status</p>
-    <%= claim.status %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Claim number</p>
-    <%= claim.claim_number %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Claim type</p>
-    <%= claim.claim_type %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Type of property loss</p>
-    <%= claim.type_of_property_loss %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Date of loss</p>
-    <%= claim.date_of_loss %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Police ref number</p>
-    <%= claim.police_ref_number %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Police station incident reported to</p>
-    <%= claim.police_station_incident_reported_to %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Nature of incident</p>
-    <%= claim.nature_of_incident %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Insured property ownership</p>
-    <%= claim.insured_property_ownership %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Description of incident</p>
-    <%= claim.description_of_incident %>
-  </div>
-  <div class="mb-4">
-    <p class="text-sm font-medium text-gray-500">Incident location</p>
-    <%= claim.incident_location %>
-  </div>
-  <% if action_name != "show" %>
-    <%= link_to "View this claim", claim, class: "btn btn-secondary" %>
-  <% end %>
 </div>

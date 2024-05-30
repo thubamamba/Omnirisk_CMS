@@ -1,38 +1,22 @@
-<%= form_with(model: comment) do |form| %>
+<%= form_with model: [@claim, @comment], local: true do |form| %>
   <%= render "error_messages", resource: form.object %>
 
-  <div class="form-group">
-    <%= form.label :claim_id %>
-    <%= form.text_field :claim_id, class: "form-control" %>
-  </div>
+  <%= form.hidden_field :claim_id, value: @claim.id %>
 
-  <div class="form-group">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id, class: "form-control" %>
-  </div>
+  <%= form.hidden_field :user_id, value: current_user.id %>
 
   <div class="form-group">
     <%= form.label :description %>
     <%= form.text_area :description, class: "form-control" %>
   </div>
 
-  <div class="form-group">
-    <%= form.label :is_verified %>
-    <%= form.check_box :is_verified, class: "form-checkbox" %>
-  </div>
-
-  <div class="form-group">
-    <%= form.label :is_active %>
-    <%= form.check_box :is_active, class: "form-checkbox" %>
-  </div>
-
   <div>
     <%= form.button button_text(form.send(:submit_default_value)), class: "btn btn-primary" %>
 
     <% if form.object.new_record? %>
-      <%= link_to t("cancel"), comments_path, class: "btn btn-secondary" %>
+      <%= link_to t("cancel"), claim_path(@claim), class: "btn btn-secondary" %>
     <% else %>
-      <%= link_to t("cancel"), comment_path(@comment), class: "btn btn-secondary" %>
+      <%= link_to t("cancel"), claim_path(@claim), class: "btn btn-secondary" %>
     <% end %>
   </div>
 <% end %>

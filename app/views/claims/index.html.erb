@@ -4,36 +4,32 @@
 <div class="container px-4 mx-auto my-8">
   <%# Show this if the user has logged in new claims %>
   <% unless @claims.empty? %>
-  <div class="flex items-center justify-between mb-4">
+  <h1 class="h3">Dashboard</h1>
+  <div class="flex xl:flex-row lg:flex-row md:flex-row flex-col items-center justify-between mb-4 mt-4 xl:space-y-0 lg:space-y-0 md:space-y-0 space-y-4">
+    <%# Form %>
     <div>
-      <h1 class="h3">Claims</h1>
+      <%= form_with url: claims_path, method: :get, local: true do %>
+        <div class="relative w-96">
+          <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </div>
+          <%= text_field_tag :search, params[:search], placeholder: "Search for claim...", class: "block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:border-omni-primary focus:border-omni-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-omni-primary dark:focus:border-omni-primary" %>
 
-<!--      <div class="text-sm font-medium">-->
-<!--        <span class="text-gray-500 dark:text-gray-300/75">Sort by:</span>-->
-        <%#= sortable @claims, :municipality_id, "Municipality", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :status, "Status", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :claim_number, "Claim number", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :claim_type, "Claim type", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :type_of_property_loss, "Type of property loss", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :date_of_loss, "Date of loss", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :police_ref_number, "Police ref number", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :police_station_incident_reported_to, "Police station incident reported to", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :nature_of_incident, "Nature of incident", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :insured_property_ownership, "Insured property ownership", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :description_of_incident, "Description of incident", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-        <%#= sortable @claims, :incident_location, "Incident location", class: "text-gray-700 dark:text-gray-300 mr-1" %>
-<!--      </div>-->
+        <%= submit_tag 'Search', class: "text-white absolute right-2.5 bottom-2.5 bg-omni-primary hover:bg-omni-secondary focus:ring-4 focus:outline-none focus:border-omni-primary font-medium rounded-lg text-sm px-4 py-2 dark:border-omni-primary dark:hover:border-omni-primary dark:focus:border-omni-secondary" %>
+        </div>
+      <% end %>
     </div>
 
+    <%# Button to create claim %>
     <%= link_to t("scaffold.new.title", model: "Claim"), new_claim_path, class: "btn btn-secondary" %>
   </div>
   <% end %>
 
-  <%= tag.div id: ("claims" if first_page?), class: "bg-white dark:bg-gray-900 dark:border dark:border-gray-700 rounded-md shadow p-6 space-y-8" do %>
+  <%= tag.div id: ("claims" if first_page?), class: "" do %>
     <%= render partial: "claims/claim", collection: @claims, as: :claim, cached: true %>
 
     <div class="hidden only:block text-center">
-      <p class="mb-4 h3">Create your first Claim</p>
+      <p class="mb-4 h3">Create your first Claim, <%= current_user.first_name %>!</p>
       <%= link_to t("scaffold.new.title", model: "Claim"), new_claim_path, class: "btn btn-primary" %>
     </div>
   <% end %>

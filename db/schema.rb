@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_26_174224) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_30_163113) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -291,7 +291,13 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_26_174224) do
     t.string "vehicle_claim_any_other_vehicle_damaged"
     t.string "vehicle_claim_was_vehicle_stolen_hijacked"
     t.string "vehicle_claim_leaser_of_financier"
+    t.string "bank_details_bank_name"
+    t.string "bank_details_branch_code"
+    t.string "bank_details_account_holder_name"
+    t.string "bank_details_account_number"
+    t.bigint "user_id", null: false
     t.index ["municipality_id"], name: "index_claims_on_municipality_id"
+    t.index ["user_id"], name: "index_claims_on_user_id"
   end
 
   create_table "comments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -319,6 +325,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_26_174224) do
     t.string "access_token_secret"
     t.string "owner_type"
     t.index ["owner_id", "owner_type"], name: "index_connected_accounts_on_owner_id_and_owner_type"
+  end
+
+  create_table "damaged_items", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "item_name"
+    t.string "serial_number"
+    t.string "estimated_value"
+    t.uuid "claim_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["claim_id"], name: "index_damaged_items_on_claim_id"
   end
 
   create_table "flipper_features", force: :cascade do |t|
@@ -589,8 +605,10 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_26_174224) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_tokens", "users"
   add_foreign_key "claims", "municipalities"
+  add_foreign_key "claims", "users"
   add_foreign_key "comments", "claims"
   add_foreign_key "comments", "users"
+  add_foreign_key "damaged_items", "claims"
   add_foreign_key "municipalities", "accounts"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"

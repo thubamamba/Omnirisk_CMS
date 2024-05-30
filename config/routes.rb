@@ -1,8 +1,10 @@
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
+  resources :damaged_items
   resources :witnesses
   resources :comments
   resources :claims do
+    resources :comments, only: [:new, :create]
     member do
       delete :delete_property_claim_photos
     end

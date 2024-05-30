@@ -23,6 +23,9 @@ application.register('flatpickr', Flatpickr)
 import ConditionFormElement from './conditional_form_element_controller'
 application.register('condition-form-element', ConditionFormElement)
 
+import ConditionalFormElementPropertyClaims from './conditional_form_element_property_claims_controller'
+application.register('conditional-form-element-property-claims', ConditionalFormElementPropertyClaims)
+
 import ConditionalFormElementLiability from './conditional_form_element_liability_controller'
 application.register('conditional-form-element-liability', ConditionalFormElementLiability)
 

@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
 class Claim < ApplicationRecord
+  extend ActiveSupport::Concern
+  attr_accessor :accept_declaration, :accept_information_sharing
   broadcasts_refreshes
   audited
+  has_many :comments, dependent: :destroy
+  has_many :witnesses, dependent: :destroy
+  has_many :damaged_items, dependent: :destroy
   belongs_to :municipality
+  belongs_to :user
   has_one_attached :signature
-  has_many_attached :property_claim_photos
+  has_many_attached :property_claim_photos_docs
   has_many_attached :liability_claim_photos
   has_many_attached :liability_motor_claim_photos
   has_many_attached :health_and_accident_documents
@@ -17,6 +23,13 @@ class Claim < ApplicationRecord
     liability: 'Liability',
     accident_and_health: 'Accident and Health',
     vehicle: 'Vehicle'
+  }
+
+  enum type_of_property_loss: {
+    'all_risk': 'All Risk',
+    'electronic_equipment': 'Electronic Equipment',
+    'office_contents': 'Office Contents',
+    'building': 'Building',
   }
 
   enum liability_claim_type: {
@@ -48,7 +61,7 @@ class Claim < ApplicationRecord
   # Validation
   # TODO: Audit trail to figure out how added this claim
   validates :municipality, presence: true
-  # validates :claim_type, presence: true
+  validates :claim_type, presence: true
   # TODO: Fix signature issue
   # validates :signature, attached: true, content_type: %w[image/png image/jpeg image/jpg], on: [:create]
   after_validation :accept_declaration, on: [:create]
@@ -65,7 +78,8 @@ class Claim < ApplicationRecord
   validates :was_property_occupied_during_damage, inclusion: { in: [true, false] }, if: :property?
   validates :description_of_incident, presence: true, if: :property?
   validates :incident_location, presence: true, if: :property?
-  validates :property_claim_photos, attached: true, content_type: %w[image/png image/jpeg image/jpg], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, if: :property?
+  # TODO: Fix issue with property claim photos upload
+  # validates :property_claim_photos, attached: true, content_type: %w[image/png image/jpeg image/jpg], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, if: :property?
 
   ### Validation for Liability Claims
   validates :public_liability_type, presence: true, if: :liability?
@@ -127,7 +141,7 @@ class Claim < ApplicationRecord
   validates :accident_and_health_claimant_last_name, presence: true, if: :accident_and_health?
   validates :accident_and_health_claimant_occupation, presence: true, if: :accident_and_health?
   validates :accident_and_health_claimant_id_number, presence: true, numericality: { only_integer: true }, length: { maximum: 13 }, if: :accident_and_health?
-  validates :health_and_accident_documents, attached: true, content_type: %w[image/png image/jpeg image/jpg application/pdf], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, presence: false
+  validates :health_and_accident_documents, attached: true, content_type: %w[image/png image/jpeg image/jpg application/pdf], size: { between: 1.kilobyte..50.megabytes , message: 'is not given between size' }, presence: false, if: :accident_and_health?
 
   # Death Claim validations
   # validates :accident_and_health_death_claim_claimant_first_name, presence: true, if: :death?
@@ -188,6 +202,17 @@ class Claim < ApplicationRecord
   # Auto assign claim status on create
   before_create :assign_claim_status
 
+  included do
+    # attribute :accept_declaration
+    # attribute :accept_information_sharing
+
+    validates :accept_declaration, presence: true, acceptance: true
+    validates :accept_information_sharing, presence: true, acceptance: true
+
+    after_validation :accept_declaration
+    after_validation :accept_information_sharing
+  end
+
   def accept_declaration
     self.declaration_accepted_at = Time.zone.now
   end
@@ -197,7 +222,7 @@ class Claim < ApplicationRecord
   end
 
   def generate_claim_number
-    self.claim_number = SecureRandom.hex(6)
+    self.claim_number = SecureRandom.hex(4)
   end
 
   def assign_claim_status
@@ -221,6 +246,10 @@ class Claim < ApplicationRecord
 
   def self.claim_type_options
     claim_types.keys.map { |key| [humanized_options(key), key] }
+  end
+
+  def self.type_of_property_loss_options
+    type_of_property_losses.keys.map { |key| [humanized_options(key), key] }
   end
 
   def self.liability_claim_type_options
