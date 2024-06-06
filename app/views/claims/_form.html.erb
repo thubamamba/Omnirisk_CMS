@@ -245,31 +245,45 @@
               <h4 class="border-0 border-gray-400 pb-2 mb-6 mt-6">Public Liability - Property Damage Claim</h4>
               <%# Witness %>
               <h5 class="border-b border-gray-400 pb-2 mb-6 mt-6">Witness details</h5>
-              <div class="flex xl:flex-row lg:flex-row flex-col">
+              <%# Start Witness Logic Here %>
+              <template data-nested-form-target="template">
+                <%= form.fields_for :witnesses, Witness.new, child_index: "NEW_RECORD" do |witness_fields| %>
+                  <%= render "claims/claim_witnesses", f: witness_fields %>
+                <% end %>
+              </template>
+              <%= form.fields_for :witnesses do |witness_fields| %>
+                <%= render "claims/claim_witnesses", f: witness_fields %>
+              <% end %>
+              <!-- Inserted elements will be injected before that target. -->
+              <div data-nested-form-target="target"></div>
+              <button type="button" class="text-md font-bold text-white bg-black dark:text-black dark:bg-white px-2 py-2 mb-4" data-action="nested-form#add">Add Witness</button>
+              <%# End Witness Logic Here %>
+
+<!--              <div class="flex xl:flex-row lg:flex-row flex-col">-->
                 <%# First name %>
-                <div class="w-full p-0.5">
-                  <div class="form-group">
-                    <%= form.label "Witness first name" %>
-                    <%= form.text_field :liability_property_witness_first_name, class: "form-control" %>
-                  </div>
-                </div>
+<!--                <div class="w-full p-0.5">-->
+<!--                  <div class="form-group">-->
+                    <%#= form.label "Witness first name" %>
+                    <%#= form.text_field :liability_property_witness_first_name, class: "form-control" %>
+<!--                  </div>-->
+<!--                </div>-->
 
                 <%# Last name %>
-                <div class="w-full p-0.5">
-                  <div class="form-group">
-                    <%= form.label "Witness last name" %>
-                    <%= form.text_field :liability_property_witness_last_name, class: "form-control" %>
-                  </div>
-                </div>
+<!--                <div class="w-full p-0.5">-->
+<!--                  <div class="form-group">-->
+                    <%#= form.label "Witness last name" %>
+                    <%#= form.text_field :liability_property_witness_last_name, class: "form-control" %>
+<!--                  </div>-->
+<!--                </div>-->
 
                 <%# Contact Number %>
-                <div class="w-full p-0.5">
-                  <div class="form-group">
-                    <%= form.label "Witness contact number" %>
-                    <%= form.text_field :liability_property_witness_contact_number, class: "form-control" %>
-                  </div>
-                </div>
-              </div>
+<!--                <div class="w-full p-0.5">-->
+<!--                  <div class="form-group">-->
+                    <%#= form.label "Witness contact number" %>
+                    <%#= form.text_field :liability_property_witness_contact_number, class: "form-control" %>
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
 
               <div class="flex xl:flex-row lg:flex-row flex-col">
                 <%# Police Reference number %>
@@ -403,7 +417,7 @@
                 <div id="accordion-flush-body-1" aria-labelledby="accordion-flush-heading-1">
                   <div class="py-5 border-b border-gray-200 dark:border-gray-700">
                     <p class="mb-2 text-gray-500 dark:text-gray-400">
-                      If your vehicle is standing at a towing company/panelbeater's premises, we will not pay for the storage, security and administration costs. When a decision is made to pay the claim, we will compensate you for only the reasonable first towing costs. CAR HIRE: We do not pay for car hire costs, unless the vehicle is used for business purposes to generate income; and proof will be required (attach copy pf your policy schedule to reflect car hire option on your policy OR a letter from your Company confirming that the vehicle is used for business purposes and it must include your employee number, your daily duties and your occupation). WITNESS: If you are able to contact your witness, please request that the attached witness statement be completed. (This witness cannot be a passenger in your car).
+                      If your vehicle is standing at a towing company/panel beater's premises, we will not pay for the storage, security and administration costs. When a decision is made to pay the claim, we will compensate you for only the reasonable first towing costs. CAR HIRE: We do not pay for car hire costs, unless the vehicle is used for business purposes to generate income; and proof will be required (attach copy pf your policy schedule to reflect car hire option on your policy OR a letter from your Company confirming that the vehicle is used for business purposes and it must include your employee number, your daily duties and your occupation). WITNESS: If you are able to contact your witness, please request that the attached witness statement be completed. (This witness cannot be a passenger in your car).
                     </p>
                   </div>
                 </div>
@@ -502,6 +516,21 @@
             </div>
           </div>
 
+          <%# Witness Details %>
+          <h5 class="border-b border-gray-400 pb-2 mb-6 mt-6">Witness details</h5>
+          <%# Start Witness Logic Here %>
+          <template data-nested-form-target="template">
+            <%= form.fields_for :witnesses, Witness.new, child_index: "NEW_RECORD" do |witness_fields| %>
+              <%= render "claims/claim_witnesses", f: witness_fields %>
+            <% end %>
+          </template>
+          <%= form.fields_for :witnesses do |witness_fields| %>
+            <%= render "claims/claim_witnesses", f: witness_fields %>
+          <% end %>
+          <!-- Inserted elements will be injected before that target. -->
+          <div data-nested-form-target="target"></div>
+          <button type="button" class="text-md font-bold text-white bg-black dark:text-black dark:bg-white px-2 py-2 mb-4" data-action="nested-form#add">Add Witness</button>
+          <%# End Witness Logic Here %>
 
           <%### Contact Person %>
           <h5 class="border-b border-gray-400 pb-2 mb-6 mt-6">Contact/liaison for the purposes of this claim</h5>
@@ -1222,13 +1251,15 @@
         </div>
       </div>
 
-      <%# Drivers physical address %>
-      <div class="form-group">
-        <%= form.label "Driver's license code", class: "required" %>
-        <%= form.text_field :vehicle_claim_vehicle_drivers_license_code, class: "form-control" %>
-      </div>
-
       <div class="flex xl:flex-row lg:flex-row flex-col">
+        <%# Drivers license code %>
+        <div class="w-full p-0.5">
+          <div class="form-group">
+            <%= form.label "Driver's license code", class: "required" %>
+            <%= form.text_field :vehicle_claim_vehicle_drivers_license_code, class: "form-control" %>
+          </div>
+        </div>
+
         <%# Was there any passengers? %>
         <div class="w-full p-0.5">
           <div class="form-group">
@@ -1236,15 +1267,36 @@
             <%= form.select :vehicle_claim_were_there_passengers, options_for_select([%w[Yes Yes], %w[No No]]), {}, class: "form-control inline" %>
           </div>
         </div>
+      </div>
 
-        <%# Were there any witnesses? %>
-        <div class="w-full p-0.5">
-          <div class="form-group">
-            <%= form.label "Were there any witnesses?", class: "required" %>
-            <%= form.select :vehicle_claim_were_there_witnesses, options_for_select([%w[Yes Yes], %w[No No]]), {}, class: "form-control inline" %>
-          </div>
+      <%# Were there any witnesses? %>
+      <div data-controller="conditional-form-element-vehicle-claims-witnesses">
+        <%= form.button "Validate", formaction: new_claim_path, formmethod: :get, data: { turbo_frame: :add_vehicle_claim_witnesses, conditional_form_element_vehicle_claims_witnesses_target: "vehicleClaimWitnessesSubmitBtn" } %>
+        <div class="form-group">
+          <%= form.label "Were there any witnesses?", class: "required" %>
+          <%= form.select :vehicle_claim_were_there_witnesses, options_for_select(Claim.vehicle_claim_were_there_witnesses_options, @claim.vehicle_claim_were_there_witnesses), { include_blank: "Select your option",  class: "form-control inline" }, { data: { action: "change->conditional-form-element-vehicle-claims-witnesses#remoteSubmitVehicleClaimWitness"}} %>
         </div>
       </div>
+
+      <%= turbo_frame_tag :add_vehicle_claim_witnesses do %>
+        <%# Add witness if there were any %>
+        <% if claim.yes_to_witnesses? %>
+          <h5 class="border-b border-gray-400 pb-2 mb-6 mt-6">Witness details</h5>
+          <%# Start Witness Logic Here %>
+          <template data-nested-form-target="template">
+            <%= form.fields_for :witnesses, Witness.new, child_index: "NEW_RECORD" do |witness_fields| %>
+              <%= render "claims/claim_witnesses", f: witness_fields %>
+            <% end %>
+          </template>
+          <%= form.fields_for :witnesses do |witness_fields| %>
+            <%= render "claims/claim_witnesses", f: witness_fields %>
+          <% end %>
+          <!-- Inserted elements will be injected before that target. -->
+          <div data-nested-form-target="target"></div>
+          <button type="button" class="text-md font-bold text-white bg-black dark:text-black dark:bg-white px-2 py-2 mb-4" data-action="nested-form#add">Add Witness</button>
+          <%# End Witness Logic Here %>
+        <% end %>
+      <% end %>
 
       <%# Accident description %>
       <div class="form-group">

@@ -9,6 +9,7 @@ class Claim < ApplicationRecord
   has_many :witnesses, dependent: :destroy
   has_many :damaged_items, dependent: :destroy
   accepts_nested_attributes_for :damaged_items, reject_if: :all_blank, allow_destroy: true
+  accepts_nested_attributes_for :witnesses
   belongs_to :municipality
   belongs_to :user
   has_one_attached :signature
@@ -55,6 +56,11 @@ class Claim < ApplicationRecord
     owned_vehicle: 'Owned Vehicle',
     leased_vehicle: 'Leased Vehicle',
     financed_vehicle: 'Financed Vehicle',
+  }
+
+  enum vehicle_claim_were_there_witnesses: {
+    yes_to_witnesses: 'Yes',
+    no_to_witnesses: 'No'
   }
 
   # Custom regex
@@ -186,7 +192,6 @@ class Claim < ApplicationRecord
   validates :vehicle_claim_is_municipal_vehicle_damaged, presence: true, if: :vehicle?
   validates :vehicle_claim_was_driver_authorized, presence: true, if: :vehicle?
   validates :vehicle_claim_is_driver_your_employee, presence: true, if: :vehicle?
-  validates :vehicle_claim_is_driver_your_employee, presence: true, if: :vehicle?
   validates :vehicle_claim_has_drivers_license_been_suspended, presence: true, if: :vehicle?
   validates :vehicle_claim_driver_physical_defects_status, presence: true, if: :vehicle?
   validates :vehicle_claim_vehicle_purposes, presence: true, if: :vehicle?
@@ -268,6 +273,10 @@ class Claim < ApplicationRecord
 
   def self.vehicle_claim_type_options
     vehicle_claim_types.keys.map { |key| [humanized_options(key), key] }
+  end
+
+  def self.vehicle_claim_were_there_witnesses_options
+    vehicle_claim_were_there_witnesses.keys.map { |key| [humanized_options(key), key] }
   end
 
   def self.humanized_options(key)

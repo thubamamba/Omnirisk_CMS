@@ -18,6 +18,7 @@ class ClaimsController < ApplicationController
   def show
     @pagy, @claim_comments = pagy(@claim.comments.order(created_at: :desc), items: 20)
     @pagy, @claim_property_electronic_damaged_items = pagy(@claim.damaged_items.order(created_at: :desc), items: 20)
+    @pagy, @claim_witnesses = pagy(@claim.witnesses.order(created_at: :desc), items: 20)
   end
 
   # GET /claims/new

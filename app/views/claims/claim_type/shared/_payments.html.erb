@@ -1,0 +1,23 @@
+<% if @claim.bank_details_branch_code.present? %>
+  <p class="font-normal text-md pb-3 text-black dark:text-white"><span class="font-semibold">Branch Code:</span> <%= @claim.bank_details_branch_code %></p>
+<% else %>
+  <p class="font-normal text-md pb-3 text-black dark:text-white"><span class="font-semibold">Branch Code:</span> Not provided</p>
+<% end %>
+
+<% if @claim.bank_details_account_holder_name.present? %>
+  <p class="font-normal text-md pb-3 text-black dark:text-white"><span class="font-semibold">Account Holder Name:</span> <%= @claim.bank_details_account_holder_name %></p>
+<% else %>
+  <p class="font-normal text-md pb-3 text-black dark:text-white"><span class="font-semibold">Account Holder Name:</span> Not provided</p>
+<% end %>
+
+<% if @claim.bank_details_account_number.present? %>
+  <p class="font-normal text-md pb-2 text-black dark:text-white"><span class="font-semibold">Account Number:</span> <%= @claim.bank_details_account_number %></p>
+<% else %>
+  <p class="font-normal text-md pb-2 text-black dark:text-white"><span class="font-semibold">Account Number:</span> Not provided</p>
+<% end %>
+
+<% if @claim.bank_details_bank_name.present? %>
+  <p class="font-normal text-md pb-2 text-black dark:text-white"><span class="font-semibold">Bank Name:</span> <%= @claim.bank_details_bank_name %></p>
+<% else %>
+  <p class="font-normal text-md pb-2 text-black dark:text-white"><span class="font-semibold">Bank Name:</span> Not provided</p>
+<% end %>

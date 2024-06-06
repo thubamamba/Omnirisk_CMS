@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_30_193805) do
+ActiveRecord::Schema[7.1].define(version: 2024_06_06_150414) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -234,7 +234,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_193805) do
     t.string "vehicle_value"
     t.string "liability_vehicle_drivable"
     t.boolean "liability_vehicle_towed"
-    t.string "liability_registered_owner_physical_address"
     t.string "liability_motor_claim_registered_owner_first_name"
     t.string "liability_motor_claim_registered_owner_last_name"
     t.string "liability_motor_claim_registered_owner_email"
@@ -245,8 +244,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_30_193805) do
     t.string "accident_and_health_claimant_last_name"
     t.string "accident_and_health_claimant_id_number"
     t.string "accident_and_health_claimant_occupation"
-    t.string "accident_and_health_death_claim_claimant_first_name"
-    t.string "accident_and_health_death_claim_claimant_last_name"
     t.string "accident_and_health_death_claim_claimant_employee_status"
     t.string "accident_and_health_death_claim_confirmation_of_form_accuracy"
     t.text "accident_and_health_death_claim_about_claimant_occupation"

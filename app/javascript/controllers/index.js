@@ -44,6 +44,9 @@ application.register('conditional-form-element-health-claims', ConditionalFormEl
 import ConditionalFormElementVehicleClaims from './conditional_form_element_vehicle_claims_controller'
 application.register('conditional-form-element-vehicle-claims', ConditionalFormElementVehicleClaims)
 
+import ConditionalFormElementVehicleClaimsWitnesses from './conditional_form_element_vehicle_claims_witnesses_controller'
+application.register('conditional-form-element-vehicle-claims-witnesses', ConditionalFormElementVehicleClaimsWitnesses)
+
 import DarkToggle from './dark_toggle_controller'
 application.register('dark-toggle', DarkToggle)
 

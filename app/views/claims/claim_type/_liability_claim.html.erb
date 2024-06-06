@@ -1,1 +1,699 @@
-<h1>Liability</h1>
+<div class="container px-4 mx-auto my-8">
+  <div data-controller="tabs"
+       data-tabs-active-tab-class="bg-omni-primary text-white py-2 px-4 focus:text-white rounded-md focus:outline-none focus:shadow-outline-omni-primary transition-all duration-300 text-lg font-semibold"
+       data-tabs-inactive-tab-class="border-transparent text-black dark:text-white focus:text-white hover:border-neutral-300 hover:text-neutral-700 dark:hover:text-neutral-300 text-lg font-medium">
+
+    <select id="" class="sm:hidden mb-4" data-action="tabs#change">
+      <option value="Tab 1">Claim Info</option>
+      <option value="Tab 2">Payments</option>
+      <option value="Tab 3">Documents</option>
+      <option value="Tab 3">Comments</option>
+    </select>
+
+    <div class="hidden sm:block mb-4 border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Claim Info
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Payments
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Documents
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Comments
+        </a>
+      </nav>
+    </div>
+
+    <%# Claim Info %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <div class="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
+        <%# Liability type %>
+        <% if @claim.liability_claim_type.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Liability Type</p>
+              <% liability_claim_type = @claim.liability_claim_type.humanize %>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= liability_claim_type %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Public Liability type %>
+        <% if @claim.public_liability_type.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Public Liability Type</p>
+              <% public_liability_claim_type = @claim.public_liability_type.humanize %>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= public_liability_claim_type %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability owner first name %>
+        <% if @claim.liability_owner_first_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Owner first name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_owner_first_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability owner first name %>
+        <% if @claim.liability_owner_last_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Owner last name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_owner_last_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability owner email %>
+        <% if @claim.liability_owner_email_address.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Owner email:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_owner_email_address %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability owner contact number %>
+        <% if @claim.liability_owner_contact_number.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Owner contact number:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_owner_contact_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability drivers first name %>
+        <% if @claim.liability_drivers_first_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers first name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_drivers_first_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability drivers last name %>
+        <% if @claim.liability_drivers_last_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers last name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_drivers_last_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability drivers license no %>
+        <% if @claim.liability_drivers_license_no.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers license no:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_drivers_license_no %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability drivers license date %>
+        <% if @claim.liability_drivers_license_date.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers license date:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_drivers_license_date.strftime("%B %d, %Y") %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability drivers license no %>
+        <% if @claim.liability_drivers_license_place.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers license place:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_drivers_license_place %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability drivers status %>
+        <% if @claim.liability_drivers_license_status.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers license status:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_drivers_license_status %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability drivers contact number %>
+        <% if @claim.liability_drivers_contact_number.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers contact no:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_drivers_contact_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability drivers email %>
+        <% if @claim.liability_drivers_email.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers email:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_drivers_email %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability drivers address %>
+        <% if @claim.liability_drivers_physical_address.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers address:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_drivers_physical_address %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability contact person first name %>
+        <% if @claim.liability_contact_person_first_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Contact person first name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_contact_person_first_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability contact person last name %>
+        <% if @claim.liability_contact_person_last_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Contact person last name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_contact_person_last_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability contact person contact number %>
+        <% if @claim.liability_contact_person_contact_number.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Contact person contact:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_contact_person_contact_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability contact person email %>
+        <% if @claim.liability_contact_person_email.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Contact person email:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_contact_person_email %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability contact person address %>
+        <% if @claim.liability_contact_person_physical_address.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Contact address:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_contact_person_physical_address %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Assessment contact person first name %>
+        <% if @claim.liability_assessment_contact_person_first_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Assessment contact person first name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_assessment_contact_person_first_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Assessment contact person last name %>
+        <% if @claim.liability_assessment_contact_person_last_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Assessment contact person last name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_assessment_contact_person_last_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Assessment contact person address %>
+        <% if @claim.liability_assessment_contact_person_address.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Assessment contact person address:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_assessment_contact_person_address %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Assessment contact person contact no %>
+        <% if @claim.liability_assessment_contact_person_telephone_number.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Assessment contact person contact no:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_assessment_contact_person_telephone_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+
+        <%# Liability vehicle make %>
+        <% if @claim.liability_vehicle_make.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle make:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_make %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability vehicle gross vehicle mass %>
+        <% if @claim.liability_vehicle_gross_vehicle_mass.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle gross mass:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_gross_vehicle_mass %></p>
+            </div>
+          </div>
+        <% end %>
+
+
+        <%# Liability vehicle registration %>
+        <% if @claim.liability_vehicle_registration_number.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle registration:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_registration_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability vehicle value %>
+        <% if @claim.liability_vehicle_value.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle value:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_value %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability vehicle model %>
+        <% if @claim.liability_vehicle_model.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle model:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_model %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability vehicle year %>
+        <% if @claim.liability_vehicle_year.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle year:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_year %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability vehicle transmission type %>
+        <% if @claim.liability_vehicle_transmission_type.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle transmission type:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_transmission_type %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability vehicle inspection address %>
+        <% if @claim.liability_vehicle_inspection_address.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle inspection address:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_inspection_address %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Police ref no %>
+        <% if @claim.liability_property_police_ref_number.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Police ref no.:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_property_police_ref_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Police station reported to %>
+        <% if @claim.liability_property_police_station_case_reported_to.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Police reported to.:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_property_police_station_case_reported_to %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Police report date %>
+        <% if @claim.liability_property_police_report_date.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Report date:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_property_police_report_date.strftime("%B %d, %Y") %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Police officer first name %>
+        <% if @claim.liability_property_police_officer_first_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Police officer first name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_property_police_officer_first_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Police officer last name %>
+        <% if @claim.liability_property_police_officer_last_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Police officer last name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_property_police_officer_last_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Claim is against municipality %>
+        <% if @claim.liability_is_claim_against_municipality.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Claim is against municipality:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_is_claim_against_municipality ? 'Yes' : 'No' %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability personal injury 1st name of injured %>
+        <% if @claim.liability_personal_injury_first_name_of_injured_person.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">First name of injured:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_personal_injury_first_name_of_injured_person %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability personal injury last name of injured %>
+        <% if @claim.liability_personal_injury_last_name_of_injured_person.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Last name of injured:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_personal_injury_last_name_of_injured_person %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability personal injury age of injured %>
+        <% if @claim.liability_personal_injury_age_of_injured_person.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Age of injured:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_personal_injury_age_of_injured_person %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability personal injury address of injured %>
+        <% if @claim.liability_personal_injury_address_of_injured_person.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Address of injured:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_personal_injury_address_of_injured_person %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability personal injury place of injured %>
+        <% if @claim.liability_personal_injury_place_of_occurrence.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Place of injured:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_personal_injury_place_of_occurrence %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Injury date %>
+        <% if @claim.liability_personal_injury_date_of_occurrence.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Injury date:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_personal_injury_date_of_occurrence.strftime("%B %d, %Y") %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability vehicle KM completed %>
+        <% if @claim.liability_vehicle_km_completed.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Liability vehicle KM completed:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_km_completed %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability vehicle value %>
+        <% if @claim.vehicle_value.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Liability vehicle KM completed:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_value %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability vehicle value %>
+        <% if @claim.liability_vehicle_drivable.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Liability vehicle KM completed:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_drivable %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Was the vehicle towed? %>
+        <% if @claim.liability_vehicle_towed.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Was vehicle towed:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_vehicle_towed ? 'Yes' : 'No' %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability registered owner first name %>
+        <% if @claim.liability_motor_claim_registered_owner_first_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Registered owner first name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_motor_claim_registered_owner_first_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability registered owner last name %>
+        <% if @claim.liability_motor_claim_registered_owner_last_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Registered owner last name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_motor_claim_registered_owner_last_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability registered owner email %>
+        <% if @claim.liability_motor_claim_registered_owner_email.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Registered owner email:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_motor_claim_registered_owner_email %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability registered owner contact number %>
+        <% if @claim.liability_motor_claim_registered_owner_telephone_number.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Registered owner contact number:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_motor_claim_registered_owner_telephone_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Liability registered owner contact number %>
+        <% if @claim.liability_motor_claim_registered_owner_telephone_number.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Registered owner contact number:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.liability_motor_claim_registered_owner_telephone_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+
+
+      </div>
+
+      <%# Description of loss %>
+      <% if @claim.liability_description_of_loss.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Description of loss:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-normal tracking-tight capitalize"><%= @claim.liability_description_of_loss %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Description of incident %>
+      <% if @claim.liability_description_of_incident.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Description of incident:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-normal tracking-tight capitalize"><%= @claim.liability_description_of_incident %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Claim details %>
+      <% if @claim.liability_claim_details.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Claim details:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-normal tracking-tight capitalize"><%= @claim.liability_claim_details %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Injury details %>
+      <% if @claim.liability_personal_injury_details.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Injury details:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-normal tracking-tight capitalize"><%= @claim.liability_personal_injury_details %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Witnesses %>
+      <% if @claim_witnesses.present? %>
+        <h2 class="text-lg font-semibold text-black dark:text-white">Witness Details</h2>
+        <div class="overflow-x-auto mt-4">
+          <table class="w-auto text-sm text-left text-gray-500 dark:text-gray-400 overflow-x-auto relative shadow-md sm:rounded-lg">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="py-3 px-6">Prefix</th>
+              <th scope="col" class="py-3 px-6">Name</th>
+              <th scope="col" class="py-3 px-6">Contact Number</th>
+              <th scope="col" class="py-3 px-6">Email Address</th>
+              <th scope="col" class="py-3 px-6">Physical Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @claim_witnesses.each do |witness| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="py-4 px-6"><%= witness.witness_prefix %></td>
+                <td class="py-4 px-6"><%= witness.witness_name %></td>
+                <td class="py-4 px-6"><%= witness.witness_contact_number %></td>
+                <td class="py-4 px-6"><%= witness.witness_email %></td>
+                <td class="py-4 px-6"><%= witness.witness_physical_address %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Payments %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <h2 class="text-lg font-semibold text-black dark:text-white">Bank Details</h2>
+      <div class="border-b w-28 mb-6"></div>
+      <%= render 'claims/claim_type/shared/payments' %>
+    </div>
+
+    <%# Documents %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <h2 class="text-lg font-semibold text-black dark:text-white">Liability Claim Photos</h2>
+      <div class="border-b w-28 mb-6"></div>
+      <% if @claim.liability_claim_photos.attached? %>
+        <div class="pb-12 container grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 mx-auto" data-controller="lightbox" data-lightbox-options-value='{"controls": true, "loop":true}'>
+          <% @claim.liability_claim_photos.each do |photo| %>
+            <%= image_tag photo, class: "property-claim-photo", alt: "Property Claim Photo" %>
+            <%#= link_to url_for(photo) do %>
+            <%#= image_tag url_for(photo), :alt => "#{@claim.vehicle_claim_supporting_docs}" %>
+            <%# end %>
+          <% end %>
+        </div>
+      <% else %>
+        <h2 class="text-lg font-semibold text-black dark:text-white">No liability claim photos attached</h2>
+      <% end %>
+
+
+      <h2 class="text-lg font-semibold text-black dark:text-white">Liability Motor Claim Photos</h2>
+      <div class="border-b w-28 mb-6"></div>
+      <% if @claim.liability_motor_claim_photos.attached? %>
+        <div class="pb-12 container grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 mx-auto" data-controller="lightbox" data-lightbox-options-value='{"controls": true, "loop":true}'>
+          <% @claim.liability_motor_claim_photos.each do |photo| %>
+            <%= image_tag photo, class: "property-claim-photo", alt: "Property Claim Photo" %>
+            <%#= link_to url_for(photo) do %>
+            <%#= image_tag url_for(photo), :alt => "#{@claim.vehicle_claim_supporting_docs}" %>
+            <%# end %>
+          <% end %>
+        </div>
+      <% else %>
+        <h2 class="text-lg font-semibold text-black dark:text-white">No liability motor claim photos attached</h2>
+      <% end %>
+    </div>
+
+    <%# Comments %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <%= render 'claims/claim_type/shared/comments' %>
+    </div>
+  </div>
+</div>

@@ -1,1 +1,347 @@
-<h1>accident_and_health</h1>
+<div class="container px-4 mx-auto my-8">
+  <div data-controller="tabs"
+       data-tabs-active-tab-class="bg-omni-primary text-white py-2 px-4 focus:text-white rounded-md focus:outline-none focus:shadow-outline-omni-primary transition-all duration-300 text-lg font-semibold"
+       data-tabs-inactive-tab-class="border-transparent text-black dark:text-white focus:text-white hover:border-neutral-300 hover:text-neutral-700 dark:hover:text-neutral-300 text-lg font-medium">
+
+    <select id="" class="sm:hidden mb-4" data-action="tabs#change">
+      <option value="Tab 1">Claim Info</option>
+      <option value="Tab 2">Payments</option>
+      <option value="Tab 3">Documents</option>
+      <option value="Tab 3">Comments</option>
+    </select>
+
+    <div class="hidden sm:block mb-4 border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Claim Info
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Payments
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Documents
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Comments
+        </a>
+      </nav>
+    </div>
+
+    <%# Claim Info %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <div class="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
+        <%# Vehicle ownership %>
+        <% if @claim.accident_and_health_claim_type.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Accident and Health Claim Type</p>
+              <% accident_and_health_claim_type = @claim.accident_and_health_claim_type.humanize %>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= accident_and_health_claim_type %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Claimant first name %>
+        <% if @claim.accident_and_health_claimant_first_name.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Claimant first name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_claimant_first_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Claimant last name %>
+        <% if @claim.accident_and_health_claimant_last_name.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Claimant last name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_claimant_last_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Claimant ID number %>
+        <% if @claim.accident_and_health_claimant_id_number.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Claimant ID number:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_claimant_id_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Claimant occupation %>
+        <% if @claim.accident_and_health_claimant_occupation.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Claimant occupation:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_claimant_occupation %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Claimant employee status %>
+        <% if @claim.accident_and_health_death_claim_claimant_employee_status.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Claimant employee status:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_death_claim_claimant_employee_status %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Confirmation of form accuracy %>
+        <% if @claim.accident_and_health_death_claim_confirmation_of_form_accuracy.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Confirmation of form accuracy:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_death_claim_confirmation_of_form_accuracy %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Date of death %>
+        <% if @claim.accident_and_health_death_claim_date_of_death.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Date of loss:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_death_claim_date_of_death.strftime("%B %d, %Y") %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Place of death %>
+        <% if @claim.accident_and_health_death_claim_place_of_death.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Place of death:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_death_claim_place_of_death %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Factors to death cause %>
+        <% if @claim.accident_and_health_death_claim_any_factors_to_death_cause.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Factors to death cause:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_death_claim_any_factors_to_death_cause %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Disability Date of death %>
+        <% if @claim.accident_and_health_disability_claim_accident_date.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Disability accident date:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_disability_claim_accident_date.strftime("%B %d, %Y") %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Disability accident place of accident %>
+        <% if @claim.accident_and_health_disability_claim_accident_place.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Disability place of accident:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_disability_claim_accident_place %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Disability claim SAPS or OAR case number %>
+        <% if @claim.accident_and_health_disability_claim_saps_and_oar_case_no.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Disability claim SAPS or OAR case number:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_disability_claim_saps_and_oar_case_no %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Is permanently disabled %>
+        <% if @claim.accident_and_health_disability_claim_is_permanently_disabled.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Is permanently damaged:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_disability_claim_is_permanently_disabled ? 'Yes' : 'No' %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Was person on duty %>
+        <% if @claim.accident_and_health_disability_claim_was_person_on_duty.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Was person on duty:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_disability_claim_was_person_on_duty %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Attending doctor first name %>
+        <% if @claim.accident_and_health_claim_attending_doctor_first_name.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Attending doctor first name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_claim_attending_doctor_first_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Attending doctor last name %>
+        <% if @claim.accident_and_health_claim_attending_doctor_last_name.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Attending doctor last name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_claim_attending_doctor_last_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Attending doctor practice number %>
+        <% if @claim.accident_and_health_claim_attending_doctor_practice_number.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Attending doctor practice number:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_claim_attending_doctor_practice_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Attending doctor contact number %>
+        <% if @claim.accident_and_health_claim_attending_doctor_contact_number.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Attending contact number:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_claim_attending_doctor_contact_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Attending doctor address %>
+        <% if @claim.accident_and_health_claim_attending_doctor_address.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Attending address:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_claim_attending_doctor_address %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Death cause %>
+        <% if @claim.accident_and_health_death_claim_death_cause.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Death cause:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.accident_and_health_death_claim_death_cause %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <%# Description of accident %>
+      <% if @claim.accident_and_health_death_claim_about_claimant_occupation.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">About claimant occupation:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-normal tracking-tight capitalize"><%= @claim.accident_and_health_death_claim_about_claimant_occupation %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Disability claim description of accident %>
+      <% if @claim.accident_and_health_disability_claim_description_of_accident.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Description of accident:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-normal tracking-tight capitalize"><%= @claim.accident_and_health_disability_claim_description_of_accident %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Description of injuries %>
+      <% if @claim.accident_and_health_ttd_claim_description_of_injuries.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Description of injuries:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-normal tracking-tight capitalize"><%= @claim.accident_and_health_ttd_claim_description_of_injuries %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Witnesses %>
+      <% if @claim_witnesses.present? %>
+        <h2 class="text-lg font-semibold text-black dark:text-white">Witness Details</h2>
+        <div class="overflow-x-auto mt-4">
+          <table class="w-auto text-sm text-left text-gray-500 dark:text-gray-400 overflow-x-auto relative shadow-md sm:rounded-lg">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="py-3 px-6">Prefix</th>
+              <th scope="col" class="py-3 px-6">Name</th>
+              <th scope="col" class="py-3 px-6">Contact Number</th>
+              <th scope="col" class="py-3 px-6">Email Address</th>
+              <th scope="col" class="py-3 px-6">Physical Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @claim_witnesses.each do |witness| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="py-4 px-6"><%= witness.witness_prefix %></td>
+                <td class="py-4 px-6"><%= witness.witness_name %></td>
+                <td class="py-4 px-6"><%= witness.witness_contact_number %></td>
+                <td class="py-4 px-6"><%= witness.witness_email %></td>
+                <td class="py-4 px-6"><%= witness.witness_physical_address %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Payments %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <h2 class="text-lg font-semibold text-black dark:text-white">Bank Details</h2>
+      <div class="border-b w-28 mb-6"></div>
+      <%= render 'claims/claim_type/shared/payments' %>
+    </div>
+
+    <%# Documents %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <h2 class="text-lg font-semibold text-black dark:text-white">Claim Supporting Documents</h2>
+      <div class="border-b w-28 mb-6"></div>
+      <% if @claim.health_and_accident_documents.attached? %>
+        <div class="pb-12 container grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 mx-auto" data-controller="lightbox" data-lightbox-options-value='{"controls": true, "loop":true}'>
+          <% @claim.health_and_accident_documents.each do |photo| %>
+            <%= image_tag photo, class: "property-claim-photo", alt: "Accident and health Claim Photo" %>
+            <%#= link_to url_for(photo) do %>
+            <%#= image_tag url_for(photo), :alt => "#{@claim.vehicle_claim_supporting_docs}" %>
+            <%# end %>
+          <% end %>
+        </div>
+      <% else %>
+        <h2 class="text-lg font-semibold text-black dark:text-white">No photos and/or documents attached</h2>
+      <% end %>
+    </div>
+
+    <%# Comments %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <%= render 'claims/claim_type/shared/comments' %>
+    </div>
+  </div>
+</div>
