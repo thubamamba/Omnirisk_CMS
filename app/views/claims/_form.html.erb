@@ -1,7 +1,7 @@
 <%#= form_with(model: claim, data: { controller: "signature-pad"} ) do |form| %>
 <%#= form_with model: claim, local: true, data: { controller: "signature-pad", action: "submit->signature-pad#beforeSubmit" } do |form| %>
 <%#= form_with model: claim, local: true do |form| %>
-<%= form_with(model: claim, data: {
+<%= form_with(model: claim, html: { method: :post, enctype: "multipart/form-data" }, data: {
   controller: "nested-form",
   nested_form_wrapper_selector_value: '.nested-form-wrapper'
 }) do |form| %>
@@ -1430,11 +1430,11 @@
   </div>
 
   <%# Signature %>
-  <!--  <div class="signature-pad-container mb-6">-->
-  <!--    <canvas data-signature-pad-target="canvas" width="400" height="200"></canvas>-->
+<!--    <div data-controller="signature-pad" class="signature-pad-container mb-6">-->
+<!--      <canvas data-signature-pad-target="canvas" width="400" height="200"></canvas>-->
   <%#= form.hidden_field :signature_data, data: { signature_pad_target: "input" } %>
-  <!--    <button type="button" data-action="signature-pad#clear">Clear Signature</button>-->
-  <!--  </div>-->
+<!--      <button type="button" data-action="signature-pad#clear">Clear Signature</button>-->
+<!--    </div>-->
 
 <!--  <div class="signature-pad-container mb-6">-->
 <!--    <canvas data-signature-pad-target="canvas"></canvas>-->
@@ -1455,25 +1455,13 @@
 <!--  </div>-->
 
   <%#= form.hidden_field :signature, class: 'signature_pad_input', data: { target: "signature-pad.input" } %>
-<!--  <div class="signature_pad text-center" data-target="signature-pad.signaturePad">-->
+<!--  <div class="signature_pad text-center" data-controller="signature-pad"  data-target="signature-pad.signaturePad">-->
 <!--    <div class="signature_pad_body">-->
 <!--      <canvas data-target="signature-pad.canvas"></canvas>-->
 <!--    </div>-->
 <!--    <div class="signature_pad_footer">-->
 <!--      <div class="text-muted">Sign above</div>-->
 <!--      <button type="button" class="btn btn-default signature_pad_clear" data-target="signature-pad.clearButton">Clear</button>-->
-      <%#= form.submit 'Save', class: 'btn btn-success signature_pad_save', data: { target: "signature-pad.saveButton" } %>
-<!--    </div>-->
-<!--  </div>-->
-
-  <%#= form.hidden_field :signature, class: 'signature_pad_input', data: { target: "signature-pad.input" } %>
-<!--  <div class="signature_pad text-center" data-target="signature-pad.signaturePad">-->
-<!--    <div class="signature_pad_body">-->
-<!--      <canvas data-target="signature-pad.canvas"></canvas>-->
-<!--    </div>-->
-<!--    <div class="signature_pad_footer">-->
-<!--      <div class="text-muted">Sign above</div>-->
-<!--      <button type="button" class="btn btn-default signature_pad_clear" data-action="click->signature-pad#clear" data-target="signature-pad.clearButton">Clear</button>-->
       <%#= form.submit 'Save', class: 'btn btn-success signature_pad_save', data: { target: "signature-pad.saveButton" } %>
 <!--    </div>-->
 <!--  </div>-->

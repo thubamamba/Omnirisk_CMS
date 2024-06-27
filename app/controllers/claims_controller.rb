@@ -1,9 +1,12 @@
 class ClaimsController < ApplicationController
   before_action :set_claim, only: [:show, :edit, :update, :destroy]
+  before_action :authorize_claim, only: [:update, :show, :edit, :destroy]
   # before_action :process_signature_data, only: :create
 
   # GET /claims
   def index
+    @claims = Claim.all
+
     if params[:search].present?
       @claims = @claims.where('claim_number ILIKE ?', "%#{params[:search]}%")
     end
@@ -31,7 +34,6 @@ class ClaimsController < ApplicationController
 
   # GET /claims/1/edit
   def edit
-    authorize @claim
   end
 
   # POST /claims or /claims.json
@@ -43,6 +45,7 @@ class ClaimsController < ApplicationController
 
     respond_to do |format|
       if @claim.save
+        attach_signature
         format.html { redirect_to @claim, notice: 'Claim was successfully created.' }
         format.json { render :show, status: :created, location: @claim }
       else
@@ -65,18 +68,16 @@ class ClaimsController < ApplicationController
     end
   end
 
-  def process_signature_data
-    if params[:claim][:signature].present?
-      attach_signature(@claim, params[:claim][:signature])
+  def attach_signature
+    signature_data = params[:claim][:signature_data]
+    if signature_data.present?
+      decoded_image = Base64.decode64(signature_data.split(',')[1])
+      @claim.signature.attach(
+        io: StringIO.new(decoded_image),
+        filename: "signature_#{Time.now.to_i}.png",
+        content_type: "image/png"
+      )
     end
-  end
-
-  def attach_signature(claim, signature)
-    decoded_data = Base64.decode64(signature.split(",")[1])
-    io = StringIO.new(decoded_data)
-    io.content_type = "image/png"
-    io.original_filename = generate_filename(claim)
-    claim.signature.attach(io)
   end
 
   def generate_filename(claim)
@@ -96,6 +97,10 @@ class ClaimsController < ApplicationController
   end
 
   private
+
+  def authorize_claim
+    authorize @claim
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_claim

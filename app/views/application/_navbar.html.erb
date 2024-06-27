@@ -1,8 +1,10 @@
 <nav class="flex flex-wrap items-center justify-between px-4 py-2 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800 text-sm font-medium" data-controller="toggle">
   <div class="flex items-center flex-shrink-0 mr-6">
     <%= link_to root_path, class: "flex items-center text-gray-700 hover:text-gray-800 dark:text-gray-100 dark:hover:text-gray-300" do %>
-      <%#= render_svg "logo", styles: "fill-current" %>
-      <%= image_tag "Entresure_Logo.png", alt: "Omnrisk Logo", class: "h-10", style: "" %>
+      <div data-controller="dark-toggle">
+        <%= image_tag "Logo_Light.svg", alt: "Omnrisk Logo", class: "h-10", data: { dark_toggle_target: "light" } %>
+        <%= image_tag "Logo_Dark.svg", alt: "Omnrisk Logo", class: "h-10 hidden", data: { dark_toggle_target: "dark" } %>
+      </div>
       <span class="sr-only"><%= Jumpstart.config.application_name %></span>
     <% end %>
   </div>

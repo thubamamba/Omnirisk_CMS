@@ -3,7 +3,11 @@
     <div class="max-w-md mx-auto my-10">
       <div class="flex justify-center pt-6 mb-4">
         <a class="" href="/">
-          <%= image_tag "Entresure_Logo.png", :class => "h-10", :alt => "Omnirisk Logo" %>
+          <div data-controller="dark-toggle">
+            <%= image_tag "Logo_Light.svg", alt: "Omnrisk Logo", class: "h-10", data: { theme_target: "light" } %>
+            <%= image_tag "Logo_Dark.svg", alt: "Omnrisk Logo", class: "h-10 hidden", data: { theme_target: "dark" } %>
+          </div>
+          <%#= image_tag "Logo_Dark.svg", :class => "h-10", :alt => "Omnirisk Logo" %>
         </a>
       </div>
       <div class="text-center">
