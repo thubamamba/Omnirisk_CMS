@@ -3,12 +3,27 @@ module Admin
     # See https://administrate-demo.herokuapp.com/customizing_controller_actions
     # for more information
     def show
+      @total_claims = total_claims
+      @total_new_claims = total_new_claims
+      @total_municipalities = total_municipalities
       @total_revenue = total_revenue
       @last_12_mos = last_12_mos
       @last_month = last_month
       @this_month = this_month
       @users = ::User.all.count
       @subscriptions = ::Pay::Subscription.active.count
+    end
+
+    def total_claims
+      ::Claim.count
+    end
+
+    def total_new_claims
+      ::Claim.where(status: 'Incoming').count
+    end
+
+    def total_municipalities
+      ::Municipality.count
     end
 
     def total_revenue

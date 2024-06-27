@@ -9,35 +9,24 @@
 <section class="main-content__body">
   <div class="flex">
     <div class="flex-1 shadow rounded p-4 m-4 text-center">
-      <h4 class="font-normal mb-2">Total Revenue</h4>
-      <p class="text-3xl font-bold"><%= number_to_currency @total_revenue %></p>
+      <h4 class="font-normal mb-2">Total Claims</h4>
+      <p class="text-3xl font-bold"><%= @total_claims %></p>
     </div>
 
     <div class="flex-1 shadow rounded p-4 m-4 text-center">
-      <h4 class="font-normal mb-2">Revenue Last 12mo</h4>
-      <p class="text-3xl font-bold"><%= number_to_currency @last_12_mos %></p>
+      <h4 class="font-normal mb-2">New Incoming Claims</h4>
+      <p class="text-3xl font-bold"><%= @total_new_claims %></p>
     </div>
+
 
     <div class="flex-1 shadow rounded p-4 m-4 text-center">
-      <h4 class="font-normal mb-2">Last Month's Revenue</h4>
-      <p class="text-3xl font-bold"><%= number_to_currency @last_month %></p>
+      <h4 class="font-normal mb-2">Total Municipalities</h4>
+      <p class="text-3xl font-bold"><%= @total_municipalities %></p>
     </div>
 
-    <div class="flex-1 shadow rounded p-4 m-4 text-center">
-      <h4 class="font-normal mb-2">This Month's Revenue To Date</h4>
-      <p class="text-3xl font-bold"><%= number_to_currency @this_month %></p>
-    </div>
-  </div>
-
-  <div class="flex">
     <div class="flex-1 shadow rounded p-4 m-4 text-center">
       <h4 class="font-normal mb-2">Users</h4>
       <p class="text-3xl font-bold"><%= @users %></p>
-    </div>
-
-    <div class="flex-1 shadow rounded p-4 m-4 text-center">
-      <h4 class="font-normal mb-2">Active Subscriptions</h4>
-      <p class="text-3xl font-bold"><%= @subscriptions %></p>
     </div>
   </div>
 </section>

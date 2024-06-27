@@ -11,6 +11,8 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   has_person_name
+  # has_many :audits, as: :auditable
+  audited
 
   validates :avatar, resizable_image: true
   validates :name, presence: true

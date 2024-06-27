@@ -13,13 +13,18 @@ namespace :admin do
   resources :connected_accounts
   resources :accounts
   resources :account_users
-  resources :plans
-  namespace :pay do
-    resources :customers
-    resources :charges
-    resources :payment_methods
-    resources :subscriptions
-  end
+  resources :claims
+  resources :comments
+  resources :municipalities
+  resources :damaged_items
+  resources :witnesses
+  # resources :plans
+  # namespace :pay do
+  #   resources :customers
+  #   resources :charges
+  #   resources :payment_methods
+  #   resources :subscriptions
+  # end
 
   root to: "dashboard#show"
 end
