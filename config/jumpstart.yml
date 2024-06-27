@@ -7,7 +7,7 @@ business_address: |-
   Pretoria,
   Gauteng, 0042
 domain: https://claims.omnirisksolutions.co.za/
-support_email: support@omnirisksolutions.co.za
+support_email: tech@weareclued.com
 default_from_email: Omnirisk Support <no-reply@omnirisksolutions.co.za>
 background_job_processor: async
 email_provider: mandrill
