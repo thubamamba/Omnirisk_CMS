@@ -35,8 +35,8 @@ Rails.application.routes.draw do
 
   scope controller: :static do
     # get :about
-    # get :terms
-    # get :privacy
+    get :terms
+    get :privacy
     get :pricing
   end
 
