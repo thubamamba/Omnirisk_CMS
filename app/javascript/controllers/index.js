@@ -17,8 +17,41 @@ application.register('popover', Popover)
 application.register('toggle', Toggle)
 application.register('slideover', Slideover)
 
+import Lightbox from '@stimulus-components/lightbox'
+application.register('lightbox', Lightbox)
+
 import Flatpickr from 'stimulus-flatpickr'
 application.register('flatpickr', Flatpickr)
 
+import RailsNestedForm from '@stimulus-components/rails-nested-form'
+application.register('nested-form', RailsNestedForm)
+
+import ConditionFormElement from './conditional_form_element_controller'
+application.register('condition-form-element', ConditionFormElement)
+
+import ConditionalFormElementPropertyClaims from './conditional_form_element_property_claims_controller'
+application.register('conditional-form-element-property-claims', ConditionalFormElementPropertyClaims)
+
+import ConditionalFormElementLiability from './conditional_form_element_liability_controller'
+application.register('conditional-form-element-liability', ConditionalFormElementLiability)
+
+import ConditionalFormElementPublicLiability from './conditional_form_element_public_liability_controller'
+application.register('conditional-form-element-public-liability', ConditionalFormElementPublicLiability)
+
+import ConditionalFormElementHealthClaims from './conditional_form_element_health_claims_controller'
+application.register('conditional-form-element-health-claims', ConditionalFormElementHealthClaims)
+
+import ConditionalFormElementVehicleClaims from './conditional_form_element_vehicle_claims_controller'
+application.register('conditional-form-element-vehicle-claims', ConditionalFormElementVehicleClaims)
+
+import ConditionalFormElementVehicleClaimsWitnesses from './conditional_form_element_vehicle_claims_witnesses_controller'
+application.register('conditional-form-element-vehicle-claims-witnesses', ConditionalFormElementVehicleClaimsWitnesses)
+
 import DarkToggle from './dark_toggle_controller'
 application.register('dark-toggle', DarkToggle)
+
+import SignaturePad from './signature_pad_controller'
+application.register('signature-pad', SignaturePad)
+
+import TextareaAutogrow from 'stimulus-textarea-autogrow'
+application.register('textarea-autogrow', TextareaAutogrow)

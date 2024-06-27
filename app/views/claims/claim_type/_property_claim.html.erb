@@ -1,0 +1,220 @@
+<div class="container px-4 mx-auto my-8">
+  <div data-controller="tabs"
+       data-tabs-active-tab-class="bg-omni-primary text-white py-2 px-4 focus:text-white rounded-md focus:outline-none focus:shadow-outline-omni-primary transition-all duration-300 text-lg font-semibold"
+       data-tabs-inactive-tab-class="border-transparent text-black dark:text-white focus:text-white hover:border-neutral-300 hover:text-neutral-700 dark:hover:text-neutral-300 text-lg font-medium">
+
+    <select id="" class="sm:hidden mb-4" data-action="tabs#change">
+      <option value="Tab 1">Claim Info</option>
+      <option value="Tab 2">Payments</option>
+      <option value="Tab 3">Documents</option>
+      <option value="Tab 3">Comments</option>
+    </select>
+
+    <div class="hidden sm:block mb-4 border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Claim Info
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Payments
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Documents
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Comments
+        </a>
+      </nav>
+    </div>
+
+    <%# Claim Info %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <div class="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
+        <%# Type of property loss %>
+        <% if @claim.type_of_property_loss.present? %>
+          <div class="">
+              <div class="flex flex-col mb-6">
+                <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Type of Property Loss:</p>
+                <% property_loss_type = @claim.type_of_property_loss.humanize %>
+                <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= property_loss_type %></p>
+              </div>
+          </div>
+        <% end %>
+
+        <% if @claim.is_property_insured_elsewhere.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Is property insured elsewhere:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.is_property_insured_elsewhere ? 'Yes' : 'No' %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @claim.was_property_occupied_during_damage.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Was the property occupied during the damage:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.was_property_occupied_during_damage %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @claim.have_you_suffered_previous_loss.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Have you suffered previous loss:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.have_you_suffered_previous_loss ? 'Yes' : 'No' %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @claim.has_other_party_interest.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">External party interest in property:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.has_other_party_interest ? 'Yes' : 'No' %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @claim.date_of_loss.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Date of loss:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.date_of_loss.strftime("%B %d, %Y") %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @claim.police_ref_number.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Police Ref Number:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.police_ref_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @claim.police_station_incident_reported_to.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Police Incident was Reported to:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.police_station_incident_reported_to %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @claim.nature_of_incident.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Nature of incident:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.nature_of_incident %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @claim.insured_property_ownership.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Insured property ownership:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.insured_property_ownership %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <% if @claim.incident_location.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Incident location:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.incident_location %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <% if @claim.description_of_incident.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Description of the incident:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-normal tracking-tight capitalize"><%= @claim.description_of_incident %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <% if @claim.incident_location.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Location of the incident:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.incident_location %></p>
+          </div>
+        </div>
+      <% end %>
+
+
+      <%# Electronic Equipment %>
+      <% if @claim_property_electronic_damaged_items.present? %>
+        <h2 class="text-lg font-semibold text-black dark:text-white">Electronic Equipment</h2>
+        <div class="overflow-x-auto mt-4">
+          <table class="w-auto text-sm text-left text-gray-500 dark:text-gray-400 overflow-x-auto relative shadow-md sm:rounded-lg">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="py-3 px-6">Item Name</th>
+              <th scope="col" class="py-3 px-6">Serial Number</th>
+              <th scope="col" class="py-3 px-6">Estimated value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @claim_property_electronic_damaged_items.each do |damaged_items| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="py-4 px-6"><%= damaged_items.item_name %></td>
+                <td class="py-4 px-6"><%= damaged_items.serial_number %></td>
+                <td class="py-4 px-6"><%= damaged_items.estimated_value %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Payments %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <h2 class="text-lg font-semibold text-black dark:text-white">Bank Details</h2>
+      <div class="border-b w-28 mb-6"></div>
+      <%= render 'claims/claim_type/shared/payments' %>
+    </div>
+
+    <%# Documents %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <% if @claim.property_claim_photos_docs.attached? %>
+        <div class="pb-12 container grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 mx-auto" data-controller="lightbox" data-lightbox-options-value='{"controls": true, "loop":true}'>
+          <% @claim.property_claim_photos_docs.each do |photo| %>
+            <%= image_tag photo, class: "property-claim-photo", alt: "Property Claim Photo" %>
+            <%#= link_to url_for(photo) do %>
+              <%#= image_tag url_for(photo), :alt => "#{@claim.property_claim_photos_docs}" %>
+            <%# end %>
+          <% end %>
+        </div>
+      <% else %>
+        <h2 class="text-lg font-semibold text-black dark:text-white">No property claim photos and/or documents attached</h2>
+      <% end %>
+    </div>
+
+    <%# Comments %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <%= render 'claims/claim_type/shared/comments' %>
+    </div>
+  </div>
+</div>

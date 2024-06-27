@@ -285,6 +285,23 @@
   resolved "https://registry.yarnpkg.com/@rails/request.js/-/request.js-0.0.9.tgz#89e2a575405dc07eb8a9b3d2fe04289e1f057cd0"
   integrity sha512-VleYUyrA3rwKMvYnz7MI9Ada85Vekjb/WVz7NuGgDO24Y3Zy9FFSpDMQW+ea/tlftD+CdX/W/sUosRA9/HkDOQ==
 
+"@stimulus-components/lightbox@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@stimulus-components/lightbox/-/lightbox-4.0.0.tgz#dbe56146a3d14582a13e568406292d52aa56cbb0"
+  integrity sha512-pj4PfnGANbc3Ef6I/5aPeRS8Tj2rK1b9dn8rlpJZs1K9narqM57ZtUTutHZsnOv95+4LqQVktj+auMgz+LKzjw==
+  dependencies:
+    lightgallery "^2.7.2"
+
+"@stimulus-components/rails-nested-form@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@stimulus-components/rails-nested-form/-/rails-nested-form-5.0.0.tgz#b443ad8ba5220328cfd704ca956ebf95ab8c4848"
+  integrity sha512-qrmmurT+KBPrz9iBlyrgJa6Di8i0j328kSk2SUR53nK5W0kDhw1YxVC91aUR+7EsFKiwJT1iB7oDSwpDhDQPeA==
+
+"@swc/helpers@^0.2.13":
+  version "0.2.14"
+  resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.2.14.tgz#20288c3627442339dd3d743c944f7043ee3590f0"
+  integrity sha512-wpCQMhf5p5GhNg2MmGKXzUNwxe7zRiCsmqYsamez2beP7mKPCSiu+BjZcdN95yYSzO857kr0VfQewmGpS77nqA==
+
 "@tailwindcss/aspect-ratio@^0.4.0":
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/@tailwindcss/aspect-ratio/-/aspect-ratio-0.4.2.tgz#9ffd52fee8e3c8b20623ff0dcb29e5c21fb0a9ba"
@@ -477,6 +494,14 @@ dlv@^1.1.3:
   version "1.1.3"
   resolved "https://registry.yarnpkg.com/dlv/-/dlv-1.1.3.tgz#5c198a8a11453596e751494d49874bc7732f2e79"
   integrity sha512-+HlytyjlPKnIG8XuRG8WvmBP8xs8P71y+SKKS6ZXWoEgLuePxtDoUEiH7WkdePWrQ5JBpE6aoVqfZfJUQkjXwA==
+
+dropzone@^6.0.0-beta.2:
+  version "6.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/dropzone/-/dropzone-6.0.0-beta.2.tgz#098be8fa84bdc08674cf0b74f4c889e2679083d6"
+  integrity sha512-k44yLuFFhRk53M8zP71FaaNzJYIzr99SKmpbO/oZKNslDjNXQsBTdfLs+iONd0U0L94zzlFzRnFdqbLcs7h9fQ==
+  dependencies:
+    "@swc/helpers" "^0.2.13"
+    just-extend "^5.0.0"
 
 eastasianwidth@^0.2.0:
   version "0.2.0"
@@ -700,6 +725,16 @@ jstz@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/jstz/-/jstz-2.1.1.tgz#fff3373a518fa7cce69299930466f5a2b980389d"
   integrity sha512-8hfl5RD6P7rEeIbzStBz3h4f+BQHfq/ABtoU6gXKQv5OcZhnmrIpG7e1pYaZ8hS9e0mp+bxUj08fnDUbKctYyA==
+
+just-extend@^5.0.0:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/just-extend/-/just-extend-5.1.1.tgz#4f33b1fc719964f816df55acc905776694b713ab"
+  integrity sha512-b+z6yF1d4EOyDgylzQo5IminlUmzSeqR1hs/bzjBNjuGras4FXq/6TrzjxfN0j+TmI0ltJzTNlqXUMCniciwKQ==
+
+lightgallery@^2.7.2:
+  version "2.7.2"
+  resolved "https://registry.yarnpkg.com/lightgallery/-/lightgallery-2.7.2.tgz#9309216986fbce60602b851e1ef80cf40769c3d3"
+  integrity sha512-Ewdcg9UPDqV0HGZeD7wNE4uYejwH2u0fMo5VAr6GHzlPYlhItJvjhLTR0cL0V1HjhMsH39PAom9iv69ewitLWw==
 
 lilconfig@^2.1.0:
   version "2.1.0"
@@ -1014,6 +1049,11 @@ signal-exit@^4.0.1:
   resolved "https://registry.yarnpkg.com/signal-exit/-/signal-exit-4.1.0.tgz#952188c1cbd546070e2dd20d0f41c0ae0530cb04"
   integrity sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==
 
+signature_pad@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/signature_pad/-/signature_pad-5.0.1.tgz#57e2bd5a9048ef6d4baa872dbdf72142ccdaacc2"
+  integrity sha512-cecM+btTU3iwG21Er6IbXaqfEHcB+0u1BWe989QeBQm4fan4+xdps/zvBgbig8R811h8vkg5p3rqEV5anv62pg==
+
 source-map-js@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/source-map-js/-/source-map-js-1.2.0.tgz#16b809c162517b5b8c3e7dcd315a2a5c2612b2af"
@@ -1031,7 +1071,13 @@ stimulus-flatpickr@^3.0.0-0:
   dependencies:
     "@hotwired/stimulus" "^3.0.0"
 
+stimulus-textarea-autogrow@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/stimulus-textarea-autogrow/-/stimulus-textarea-autogrow-4.1.0.tgz#faa2f7952062c4508b1566478dc203af7f24f632"
+  integrity sha512-hYz+xN3VZiO+eLl+zok4yvhH+mW5WkvOJEExyVP3J97dWQzc/qPDFdAM1EDJvfUIuRzJVq/WJynqqQwiied5iw==
+
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -1050,6 +1096,7 @@ string-width@^5.0.1, string-width@^5.1.2:
     strip-ansi "^7.0.1"
 
 "strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+  name strip-ansi-cjs
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
@@ -1081,7 +1128,7 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-tailwindcss-stimulus-components@^5.1.0:
+tailwindcss-stimulus-components@^5.1.1:
   version "5.1.1"
   resolved "https://registry.yarnpkg.com/tailwindcss-stimulus-components/-/tailwindcss-stimulus-components-5.1.1.tgz#0d1aee03819033844528863a0288de4dff54bfe5"
   integrity sha512-9e3H9WLZoGzWQBVOdYvxqM42MsJ4dfkfdrs3NGV+HYvHbIcF9tukl2MPKVZpBv/pP+puZbJv0lFgdn79IGVApA==

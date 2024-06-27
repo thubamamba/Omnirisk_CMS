@@ -1,6 +1,7 @@
 require "administrate/base_dashboard"
 
 class UserDashboard < Administrate::BaseDashboard
+  ADMIN_ROLE_OPTIONS = ["Please select", *User::ADMIN_ROLES.map { |role| [role.to_s.humanize, role] }]
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -26,6 +27,7 @@ class UserDashboard < Administrate::BaseDashboard
     confirmation_sent_at: Field::DateTime,
     unconfirmed_email: Field::String,
     admin: Field::Boolean,
+    admin_role: Field::Select.with_options(searchable: false, collection: ADMIN_ROLE_OPTIONS),
     time_zone: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
@@ -37,7 +39,12 @@ class UserDashboard < Administrate::BaseDashboard
     invitations_count: Field::Number,
     terms_of_service: Field::Boolean,
     accepted_terms_at: Field::DateTime,
-    accepted_privacy_at: Field::DateTime
+    accepted_privacy_at: Field::DateTime,
+    last_sign_in_at: Field::DateTime,
+    current_sign_in_at: Field::DateTime,
+    current_sign_in_ip: Field::String,
+    last_sign_in_ip: Field::String,
+    sign_in_count: Field::Number,
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -70,7 +77,13 @@ class UserDashboard < Administrate::BaseDashboard
     :confirmed_at,
     :confirmation_sent_at,
     :unconfirmed_email,
+    :last_sign_in_at,
+    :current_sign_in_at,
+    :current_sign_in_ip,
+    :last_sign_in_ip,
+    :sign_in_count,
     :admin,
+    :admin_role,
     :accepted_terms_at,
     :accepted_privacy_at,
     :created_at,

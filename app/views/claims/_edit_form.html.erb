@@ -1,0 +1,105 @@
+<%= form_with model: claim, local: true do |form| %>
+
+  <%# Claim Status %>
+  <div class="form-group">
+    <%= form.label "Claim status" %>
+    <%= form.select :status,
+                    Claim::CLAIM_STATUS, { include_blank: "Select your option" },
+                    { class: "form-control" } %>
+  </div>
+
+  <%# Guard risk number %>
+  <div class="form-group">
+    <%= form.label "Guard risk number" %>
+    <%= form.text_field :guard_risk_claim_number, class: "form-control" %>
+  </div>
+
+  <%# Image upload based on Claim type %>
+  <% if claim.claim_type == 'property' %>
+    <div class="form-group">
+      <%= form.label "Upload Additional images (forcible entry or damaged device)", class: "required" %>
+      <%= form.file_field :property_claim_photos_docs, multiple: true, direct_upload: true %>
+
+      <div class="mt-6">
+        <% if claim.property_claim_photos_docs.attached? %>
+          <% claim.property_claim_photos_docs.each do |image| %>
+            <%= form.hidden_field :property_claim_photos_docs, multiple: true, direct_upload: true, value: image.signed_id %>
+            <div class="pb-12 container grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 mx-auto">
+              <%= image_tag(image, height: 100) %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% elsif claim.claim_type == 'liability' %>
+    <%# Motor liability claim photos %>
+    <div class="form-group">
+      <%= form.label :liability_motor_claim_photos, "Please upload copies of drivers licence and page 1 of drivers identity document or the front and back of your card ID", class: "required" %>
+      <%= form.file_field :liability_motor_claim_photos, multiple: true, direct_upload: true %>
+
+      <div class="mt-6">
+        <% if claim.liability_motor_claim_photos.attached? %>
+          <% claim.liability_motor_claim_photos.each do |image| %>
+            <%= form.hidden_field :liability_motor_claim_photos, multiple: true, direct_upload: true, value: image.signed_id %>
+            <%= image_tag(image, height: 100) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% elsif claim.claim_type == 'accident_and_health?' %>
+    <%# Image and documents upload here %>
+    <div class="form-group">
+      <%= form.file_field :health_and_accident_documents, multiple: true, direct_upload: true %>
+
+      <div class="mt-6">
+        <% if claim.health_and_accident_documents.attached? %>
+          <% claim.health_and_accident_documents.each do |image| %>
+            <%= form.hidden_field :health_and_accident_documents, multiple: true, direct_upload: true, value: image.signed_id %>
+            <%= image_tag(image, height: 100) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  <% elsif claim.claim_type == 'vehicle' %>
+    <div class="mb-4">
+      <%= form.label "Upload supporting documents" %>
+      <p class="text-md font-medium text-gray-800 dark:text-gray-100">Letter of Demand on MTPL (not compulsory) AR Report, Municipal Incident Report, Drivers Licence, Sworn Affidavit</p>
+
+      <%= form.file_field :vehicle_claim_supporting_docs, multiple: true, direct_upload: true %>
+
+      <div class="mt-6">
+        <% if claim.vehicle_claim_supporting_docs.attached? %>
+          <% claim.vehicle_claim_supporting_docs.each do |image| %>
+          <%= form.hidden_field :vehicle_claim_supporting_docs, multiple: true, direct_upload: true, value: image.signed_id %>
+          <%= image_tag(image, height: 100) %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <%# Upload sketch %>
+    <div class="mb-4">
+      <%= form.label "Upload supporting documents" %>
+      <p class="text-md font-medium text-gray-800 dark:text-gray-100">Letter of Demand on MTPL (not compulsory) AR Report, Municipal Incident Report, Drivers Licence, Sworn Affidavit</p>
+
+      <%= form.file_field :vehicle_claim_accident_sketch %>
+
+      <div class="mt-6">
+        <% if claim.vehicle_claim_accident_sketch.attached? %>
+          <%= image_tag vehicle.vehicle_claim_accident_sketch.variant(resize_to_fit: [500, 500]), class: "h-full w-full rounded-full object-cover object-center" %>
+        <% end %>
+        </div>
+    </div>
+  <% end %>
+
+  <%# CTA %>
+  <div>
+    <%= form.button button_text(form.send(:submit_default_value)), class: "btn btn-primary" %>
+
+    <% if form.object.new_record? %>
+      <%= link_to t("cancel"), claims_path, class: "btn btn-secondary" %>
+    <% else %>
+      <%= link_to t("cancel"), claim_path(@claim), class: "btn btn-secondary" %>
+    <% end %>
+  </div>
+<% end %>

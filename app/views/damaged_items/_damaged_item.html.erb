@@ -1,0 +1,21 @@
+<div id="<%= dom_id damaged_item %>">
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Item name</p>
+    <%= damaged_item.item_name %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Serial number</p>
+    <%= damaged_item.serial_number %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Estimated value</p>
+    <%= damaged_item.estimated_value %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Claim</p>
+    <%= damaged_item.claim_id %>
+  </div>
+  <% if action_name != "show" %>
+    <%= link_to "View this damaged item", damaged_item, class: "btn btn-secondary" %>
+  <% end %>
+</div>

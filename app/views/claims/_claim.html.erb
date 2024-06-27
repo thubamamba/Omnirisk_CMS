@@ -1,0 +1,82 @@
+<div class="flex flex-col justify-center items-center overflow-x-auto mt-12">
+  <div class="overflow-x-auto w-full">
+    <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+      <div class="shadow border-b border-gray-200 sm:rounded-lg overflow-x-auto">
+        <table class="min-w-full table-auto overflow-y-auto divide-y divide-gray-200">
+          <thead class="bg-gray-50 dark:bg-gray-800">
+          <tr>
+            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+              Municipality
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+              <%= sortable @claims, :claim_number, "Claim number", class: "" %>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+              <%= sortable @claims, :claim_type, "Claim type", class: "" %>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+              <%= sortable @claims, :status, "Status", class: "" %>
+            </th>
+
+            <th scope="col" class="px-6 py-3 text-center text-xs font-bold text-gray-900 dark:text-white uppercase tracking-wider">
+              <%= sortable @claims, :created_at, "Date Created", class: "" %>
+            </th>
+
+            <th scope="col" class="relative ">
+
+            </th>
+          </tr>
+          </thead>
+          <% @claims.each do |claim| %>
+            <tbody class="bg-white dark:bg-gray-700 divide-y divide-gray-200 dark:divide-gray-800">
+            <tr>
+              <%# Municipality %>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-base font-medium text-gray-900 dark:text-white text-center capitalize">
+                  <%= claim.municipality.name %>
+                </div>
+              </td>
+
+              <%# Claim Number %>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-base font-medium text-gray-900 dark:text-white uppercase text-center">
+                  <%= claim.claim_number %>
+                </div>
+              </td>
+
+              <%# Claim Type %>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-base font-medium text-gray-900 dark:text-white capitalize text-center">
+                  <%= claim.claim_type %>
+                </div>
+              </td>
+
+              <%# Claim Status %>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-base font-medium text-gray-900 dark:text-white capitalize text-center">
+                  <%= claim.status %>
+                </div>
+              </td>
+
+              <%# Created at %>
+              <td class="px-6 py-4 whitespace-nowrap">
+                <div class="text-base font-medium text-gray-900 dark:text-white text-center">
+                  <%= claim.created_at.strftime("%b %d, %Y") %>
+                </div>
+              </td>
+
+              <td class="px-6 py-4 whitespace-nowrap text-center text-base font-bold hvr-grow">
+                <%# Link to see claim %>
+                <%= link_to "View claim", claim_path(claim), class: "hover:text-omni-secondary text-omni-primary no-underline capitalize" %>
+              </td>
+            </tr>
+            </tbody>
+          <% end %>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,358 @@
+<div class="container px-4 mx-auto my-8">
+  <div data-controller="tabs"
+       data-tabs-active-tab-class="bg-omni-primary text-white py-2 px-4 focus:text-white rounded-md focus:outline-none focus:shadow-outline-omni-primary transition-all duration-300 text-lg font-semibold"
+       data-tabs-inactive-tab-class="border-transparent text-black dark:text-white focus:text-white hover:border-neutral-300 hover:text-neutral-700 dark:hover:text-neutral-300 text-lg font-medium">
+
+    <select id="" class="sm:hidden mb-4" data-action="tabs#change">
+      <option value="Tab 1">Claim Info</option>
+      <option value="Tab 2">Payments</option>
+      <option value="Tab 3">Documents</option>
+      <option value="Tab 3">Comments</option>
+    </select>
+
+    <div class="hidden sm:block mb-4 border-b border-gray-200">
+      <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Claim Info
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Payments
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Documents
+        </a>
+        <a href="#"
+           data-tabs-target="tab"
+           data-action="click->tabs#change:prevent"
+           class="whitespace-nowrap border-b-2 py-4 px-1 text-sm font-medium">
+          Comments
+        </a>
+      </nav>
+    </div>
+
+    <%# Claim Info %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <div class="grid xl:grid-cols-4 lg:grid-cols-4 md:grid-cols-4 grid-cols-2 gap-4">
+        <%# Vehicle ownership %>
+        <% if @claim.vehicle_claim_type.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle Ownership</p>
+              <% vehicle_claim_type = @claim.vehicle_claim_type.humanize %>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= vehicle_claim_type %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Police case no %>
+        <% if @claim.vehicle_claim_police_no.present? %>
+          <div class="">
+            <div class="">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Police case no.:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_police_no %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Financier %>
+        <% if @claim.vehicle_claim_leaser_of_financier.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle leaser or financier:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_leaser_of_financier %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Date of loss %>
+        <% if @claim.vehicle_claim_date_of_loss.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Date of loss:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_date_of_loss.strftime("%B %d, %Y") %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Vehicle model %>
+        <% if @claim.vehicle_claim_vehicle_model.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle model:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_vehicle_model %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Manufacturer %>
+        <% if @claim.vehicle_claim_vehicle_manufacturer.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle manufacturer:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_vehicle_manufacturer %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# KM completed %>
+        <% if @claim.vehicle_claim_vehicle_km_completed.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">KM completed:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_vehicle_km_completed %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Registration %>
+        <% if @claim.vehicle_claim_vehicle_registration.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Vehicle registration:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_vehicle_registration %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Drivers first name %>
+        <% if @claim.vehicle_claim_vehicle_drivers_first_name.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers first name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_vehicle_drivers_first_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Drivers last name %>
+        <% if @claim.vehicle_claim_vehicle_drivers_last_name.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers last name:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_vehicle_drivers_last_name %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Drivers ID number %>
+        <% if @claim.vehicle_claim_vehicle_drivers_id_number.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers ID number:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_vehicle_drivers_id_number %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Drivers occupation %>
+        <% if @claim.vehicle_claim_vehicle_drivers_occupation.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers occupation:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_vehicle_drivers_occupation %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Drivers license code %>
+        <% if @claim.vehicle_claim_vehicle_drivers_license_code.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Drivers license code:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_vehicle_drivers_license_code %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Were there passengers %>
+        <% if @claim.vehicle_claim_were_there_passengers.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Were there any passengers?:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_were_there_passengers %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Were there witnesses %>
+        <% if @claim.vehicle_claim_were_there_witnesses.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Were there any witnesses?:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_were_there_witnesses %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Is vehicle damaged %>
+        <% if @claim.vehicle_claim_is_municipal_vehicle_damaged.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Is there any damage to the Municipal Vehicle?:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_is_municipal_vehicle_damaged %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Was driver authorized to drive %>
+        <% if @claim.vehicle_claim_was_driver_authorized.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Did the driver permission to drive vehicle?:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_was_driver_authorized %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Is driver an employee %>
+        <% if @claim.vehicle_claim_is_driver_your_employee.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Is driver your employee?:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_is_driver_your_employee %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Has license been suspended %>
+        <% if @claim.vehicle_claim_has_drivers_license_been_suspended.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Has driver license ever been suspended or has endorsements?:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_has_drivers_license_been_suspended %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# What was the vehicle being used for?  %>
+        <% if @claim.vehicle_claim_vehicle_purposes.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">What was the vehicle being used for?:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_vehicle_purposes %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Any other damaged vehicle %>
+        <% if @claim.vehicle_claim_any_other_vehicle_damaged.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Was another vehicle damaged?:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_any_other_vehicle_damaged %></p>
+            </div>
+          </div>
+        <% end %>
+
+        <%# Was vehicle stolen or hijacked %>
+        <% if @claim.vehicle_claim_was_vehicle_stolen_hijacked.present? %>
+          <div class="">
+            <div class="flex flex-col mb-6">
+              <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Was the vehicle Stolen or Hijacked?:</p>
+              <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_was_vehicle_stolen_hijacked %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <%# Description of accident %>
+      <% if @claim.vehicle_claim_accident_description.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Description of the incident:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-normal tracking-tight capitalize"><%= @claim.vehicle_claim_accident_description %></p>
+          </div>
+        </div>
+      <% end %>
+
+      <%# Accident address %>
+      <% if @claim.vehicle_claim_accident_address.present? %>
+        <div class="">
+          <div class="flex flex-col mb-6">
+            <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Location of the incident:</p>
+            <p class="text-black dark:text-white text-md font-normal leading-tight tracking-tight capitalize"><%= @claim.vehicle_claim_accident_address %></p>
+          </div>
+        </div>
+      <% end %>
+
+
+      <%# Witnesses %>
+      <% if @claim_witnesses.present? %>
+        <h2 class="text-lg font-semibold text-black dark:text-white">Witness Details</h2>
+        <div class="overflow-x-auto mt-4">
+          <table class="w-auto text-sm text-left text-gray-500 dark:text-gray-400 overflow-x-auto relative shadow-md sm:rounded-lg">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="py-3 px-6">Prefix</th>
+              <th scope="col" class="py-3 px-6">Name</th>
+              <th scope="col" class="py-3 px-6">Contact Number</th>
+              <th scope="col" class="py-3 px-6">Email Address</th>
+              <th scope="col" class="py-3 px-6">Physical Address</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @claim_witnesses.each do |witness| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <td class="py-4 px-6"><%= witness.witness_prefix %></td>
+                <td class="py-4 px-6"><%= witness.witness_name %></td>
+                <td class="py-4 px-6"><%= witness.witness_contact_number %></td>
+                <td class="py-4 px-6"><%= witness.witness_email %></td>
+                <td class="py-4 px-6"><%= witness.witness_physical_address %></td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Payments %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <h2 class="text-lg font-semibold text-black dark:text-white">Bank Details</h2>
+      <div class="border-b w-28 mb-6"></div>
+      <%= render 'claims/claim_type/shared/payments' %>
+    </div>
+
+    <%# Documents %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <h2 class="text-lg font-semibold text-black dark:text-white">Vehicle Claim Supporting Documents</h2>
+      <div class="border-b w-28 mb-6"></div>
+      <% if @claim.vehicle_claim_supporting_docs.attached? %>
+        <div class="pb-12 container grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 mx-auto" data-controller="lightbox" data-lightbox-options-value='{"controls": true, "loop":true}'>
+          <% @claim.vehicle_claim_supporting_docs.each do |photo| %>
+            <%= image_tag photo, class: "property-claim-photo", alt: "Property Claim Photo" %>
+            <%#= link_to url_for(photo) do %>
+            <%#= image_tag url_for(photo), :alt => "#{@claim.vehicle_claim_supporting_docs}" %>
+            <%# end %>
+          <% end %>
+        </div>
+      <% else %>
+        <h2 class="text-lg font-semibold text-black dark:text-white">No vehicle claim photos and/or documents attached</h2>
+      <% end %>
+
+      <h2 class="text-lg font-semibold text-black dark:text-white">Vehicle Claim Accident Sketch</h2>
+      <div class="border-b w-28 mb-6"></div>
+      <% if @claim.vehicle_claim_accident_sketch %>
+        <div class="pb-12 container grid grid-cols-2 gap-2 md:grid-cols-3 lg:grid-cols-4 mx-auto" data-controller="lightbox" data-lightbox-options-value='{"controls": true, "loop":true}'>
+          <%= image_tag @claim.vehicle_claim_accident_sketch, class: "property-claim-photo", alt: "Property Claim Photo" %>
+        </div>
+      <% else %>
+        <p class="text-lg font-semibold text-black dark:text-white">No vehicle claim accident sketch attached</p>
+      <% end %>
+    </div>
+
+    <%# Comments %>
+    <div class="hidden bg-white shadow p-8 dark:bg-gray-800" data-tabs-target="panel">
+      <%= render 'claims/claim_type/shared/comments' %>
+    </div>
+  </div>
+</div>

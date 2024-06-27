@@ -1,0 +1,17 @@
+<div id="<%= dom_id municipality %>">
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Account</p>
+    <%= municipality.account_id %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Name</p>
+    <%= municipality.name %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Is active</p>
+    <%= municipality.is_active %>
+  </div>
+  <% if action_name != "show" %>
+    <%= link_to "View this municipality", municipality, class: "btn btn-secondary" %>
+  <% end %>
+</div>

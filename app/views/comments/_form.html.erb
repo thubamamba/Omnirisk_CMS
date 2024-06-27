@@ -1,0 +1,22 @@
+<%= form_with model: [@claim, @comment], local: true do |form| %>
+  <%= render "error_messages", resource: form.object %>
+
+  <%= form.hidden_field :claim_id, value: @claim.id %>
+
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description, class: "form-control" %>
+  </div>
+
+  <div>
+    <%= form.button button_text(form.send(:submit_default_value)), class: "btn btn-primary" %>
+
+    <% if form.object.new_record? %>
+      <%= link_to t("cancel"), claim_path(@claim), class: "btn btn-secondary" %>
+    <% else %>
+      <%= link_to t("cancel"), claim_path(@claim), class: "btn btn-secondary" %>
+    <% end %>
+  </div>
+<% end %>

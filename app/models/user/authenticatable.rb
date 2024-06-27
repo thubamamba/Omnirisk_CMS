@@ -6,7 +6,7 @@ module User::Authenticatable
 
     # Include default devise modules. Others available are:
     # :lockable, :timeoutable, and :trackable
-    devise(*[:database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable, (:omniauthable if defined? OmniAuth)].compact)
+    devise(*[:database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :confirmable, :lockable, :trackable, (:omniauthable if defined? OmniAuth)].compact)
 
     has_many :api_tokens, dependent: :destroy
     has_many :connected_accounts, as: :owner, dependent: :destroy

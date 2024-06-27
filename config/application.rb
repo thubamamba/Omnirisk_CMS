@@ -22,7 +22,8 @@ module JumpstartApp
     config.to_prepare do
       Users::SessionsController.layout "auth"
       Users::RegistrationsController.layout proc { |_controller| user_signed_in? ? "application" : "auth" }
-      Users::PasswordsController.layout proc { |_controller| user_signed_in? ? "application" : "auth" }
+      # Users::PasswordsController.layout proc { |_controller| user_signed_in? ? "application" : "auth" }
+      Users::PasswordsController.layout "auth" 
     end
 
     # Configuration for the application, engines, and railties goes here.
@@ -32,6 +33,11 @@ module JumpstartApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.time_zone = "Pretoria"
+    config.active_record.default_timezone = :utc
+
+    config.active_record.yaml_column_permitted_classes = [Symbol, Date, Time, ActiveSupport::TimeWithZone, ActiveSupport::TimeZone, ActiveSupport::HashWithIndifferentAccess, BigDecimal]
 
     # Use ErrorsController for handling 404s and 500s.
     config.exceptions_app = routes

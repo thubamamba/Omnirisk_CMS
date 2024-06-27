@@ -1,0 +1,35 @@
+<%= content_for :title, "Damaged Items" %>
+<%= turbo_stream_from :damaged_items %>
+
+<div class="container px-4 mx-auto my-8">
+  <div class="flex items-center justify-between mb-4">
+    <div>
+      <h1 class="h3">Damaged Items</h1>
+
+      <div class="text-sm font-medium">
+        <span class="text-gray-500 dark:text-gray-300/75">Sort by:</span>
+        <%= sortable @damaged_items, :item_name, "Item name", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @damaged_items, :serial_number, "Serial number", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @damaged_items, :estimated_value, "Estimated value", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+        <%= sortable @damaged_items, :claim_id, "Claim", class: "text-gray-700 dark:text-gray-300 mr-1" %>
+      </div>
+    </div>
+
+    <%= link_to t("scaffold.new.title", model: "Damaged Item"), new_damaged_item_path, class: "btn btn-secondary" %>
+  </div>
+
+  <%= tag.div id: ("damaged_items" if first_page?), class: "bg-white dark:bg-gray-900 dark:border dark:border-gray-700 rounded-md shadow p-6 space-y-8" do %>
+    <%= render partial: "damaged_items/damaged_item", collection: @damaged_items, as: :damaged_item, cached: true %>
+
+    <div class="hidden only:block text-center">
+      <p class="mb-4 h3">Create your first Damaged Item</p>
+      <%= link_to t("scaffold.new.title", model: "Damaged Item"), new_damaged_item_path, class: "btn btn-primary" %>
+    </div>
+  <% end %>
+
+  <% if @pagy.pages > 1 %>
+    <div class="my-6 text-center">
+      <%== pagy_nav(@pagy) %>
+    </div>
+  <% end %>
+</div>

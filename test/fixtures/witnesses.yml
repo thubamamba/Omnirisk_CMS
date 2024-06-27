@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  claim: one
+  witness_prefix: MyString
+  witness_name: MyString
+  witness_contact_number: MyString
+  witness_email: MyString
+  witness_physical_address: MyString
+
+two:
+  claim: two
+  witness_prefix: MyString
+  witness_name: MyString
+  witness_contact_number: MyString
+  witness_email: MyString
+  witness_physical_address: MyString

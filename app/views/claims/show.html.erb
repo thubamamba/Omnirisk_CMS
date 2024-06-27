@@ -1,0 +1,71 @@
+<%= content_for :title, "Claims ##{@claim.id}" %>
+<%= turbo_stream_from @claim %>
+
+<div class="container px-4 mx-auto my-8">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="h3">
+      <%= link_to "Claims", claims_path, class: "text-black dark:text-white" %>
+      <span class="text-gray-400 font-light mx-2">\</span>
+      Claim #<span class="uppercase"><%= @claim.claim_number %></span>
+    </h1>
+    <%= link_to t("edit"), edit_claim_path(@claim), class: "btn btn-secondary" %>
+  </div>
+
+  <div class="p-8 bg-white dark:bg-gray-900 dark:border dark:border-gray-700 rounded shadow">
+    <div class="flex xl:flex-row lg:flex-row md:flex-row flex-col justify-between px-14 xl:space-y-0 lg:space-y-0 md:space-y-0 space-y-3 xl:space-x-0 lg:space-x-0 md:space-x-0 space-x-3">
+
+      <%# Municipality %>
+      <div class="flex flex-col">
+        <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Municipality</p>
+        <p class="text-black dark:text-white text-lg font-normal leading-tight tracking-tight capitalize"><%= @claim.municipality.name %></p>
+      </div>
+
+      <%# Claim Type %>
+      <div class="flex flex-col">
+        <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Claim Type</p>
+        <p class="text-black dark:text-white text-lg font-normal leading-tight tracking-tight capitalize"><%= @claim.claim_type %></p>
+      </div>
+
+      <%# Guardrisk Number %>
+      <div class="flex flex-col">
+        <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Guard Risk Number</p>
+        <p class="text-black dark:text-white text-lg font-normal leading-tight tracking-tight uppercase">
+          <% if @claim.guard_risk_claim_number.present? %>
+            <%= @claim.guard_risk_claim_number %>
+          <% else %>
+            N/A
+          <% end %>
+        </p>
+      </div>
+
+      <%# Claim Status %>
+      <div class="flex flex-col">
+        <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Claim Status</p>
+        <p class="text-black dark:text-white text-lg font-normal leading-tight tracking-tight capitalize"><%= @claim.status %></p>
+      </div>
+
+      <%# Claim added by %>
+      <div class="flex flex-col">
+        <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Created By</p>
+        <p class="text-black dark:text-white text-lg font-normal leading-tight tracking-tight capitalize"><%= @claim.user.name %></p>
+      </div>
+
+      <%# Date Created %>
+      <div class="flex flex-col">
+        <p class="text-gray-500 dark:text-gray-100 text-md font-medium">Created At</p>
+        <p class="text-black dark:text-white text-lg font-normal leading-tight tracking-tight"><%= @claim.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%# Render partial for each claim type %>
+<% if @claim.claim_type === 'accident_and_health' %>
+  <%= render partial: "claims/claim_type/accident_and_health_claim", locals: { claim: @claim } %>
+<% elsif @claim.claim_type == 'liability' %>
+  <%= render partial: "claims/claim_type/liability_claim", locals: { claim: @claim } %>
+<% elsif @claim.claim_type === 'property' %>
+  <%= render partial: "claims/claim_type/property_claim", locals: { claim: @claim } %>
+<% elsif @claim.claim_type == 'vehicle' %>
+  <%= render partial: "claims/claim_type/vehicle_claim", locals: { claim: @claim } %>
+<% end %>

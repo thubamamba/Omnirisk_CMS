@@ -1,0 +1,29 @@
+<div id="<%= dom_id witness %>">
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Claim</p>
+    <%= witness.claim_id %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Witness prefix</p>
+    <%= witness.witness_prefix %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Witness name</p>
+    <%= witness.witness_name %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Witness contact number</p>
+    <%= witness.witness_contact_number %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Witness email</p>
+    <%= witness.witness_email %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Witness physical address</p>
+    <%= witness.witness_physical_address %>
+  </div>
+  <% if action_name != "show" %>
+    <%= link_to "View this witness", witness, class: "btn btn-secondary" %>
+  <% end %>
+</div>

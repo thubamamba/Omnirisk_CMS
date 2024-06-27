@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   authenticated :user, lambda { |u| u.admin? } do
     draw :admin
+    mount Flipper::UI.app(Flipper) => "/flipper", :as => :flipper_ui
   end
 
   resources :announcements, only: [:index, :show]
@@ -21,10 +22,21 @@ Rails.application.routes.draw do
     end
   end
 
+  # resources :damaged_items
+  # resources :witnesses
+  # resources :comments
+  # resources :municipalities
+  resources :claims do
+    resources :comments, only: [:new, :create]
+    member do
+      delete :delete_property_claim_photos
+    end
+  end
+
   scope controller: :static do
-    get :about
-    get :terms
-    get :privacy
+    # get :about
+    # get :terms
+    # get :privacy
     get :pricing
   end
 
@@ -32,9 +44,7 @@ Rails.application.routes.draw do
   match "/500", via: :all, to: "errors#internal_server_error"
 
   authenticated :user do
-    root to: "dashboard#show", as: :user_root
-    # Alternate route to use if logged in users should still see public root
-    # get "/dashboard", to: "dashboard#show", as: :user_root
+    root to: "claims#index", as: :user_root
   end
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

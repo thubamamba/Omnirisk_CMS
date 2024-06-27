@@ -9,10 +9,12 @@
       <div class="sm:flex items-center justify-between mb-3">
         <h1 class="flex-1 h3"><%= t(".title") %></h1>
 
-        <% if @accounts.exists? %>
-          <div>
-            <%= link_to t(".create"), new_account_path, class: "btn btn-primary" %>
-          </div>
+        <% if Flipper.enabled?(:add_team_account) && current_user.admin? %>
+          <% if @accounts.exists? %>
+            <div>
+              <%= link_to t(".create"), new_account_path, class: "btn btn-primary" %>
+            </div>
+          <% end %>
         <% end %>
       </div>
 
@@ -26,7 +28,6 @@
                   <%= tag.span account.name, class: "text-gray-900 dark:text-gray-100 font-semibold text-sm no-underline hover:text-primary-500 dark:hover:text-primary-500" %>
                   <%= badge "Personal", class: "ml-3" if account.personal_account_for?(current_user) %>
                 <% end %>
-
               </td>
 
               <td class="hidden sm:table-cell text-sm text-right">
