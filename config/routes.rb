@@ -40,6 +40,10 @@ Rails.application.routes.draw do
     get :pricing
   end
 
+  # Removes the sign up page
+  post "/users/sign_up", to: redirect('/')
+  get "/users/sign_up", to: redirect('/')
+
   match "/404", via: :all, to: "errors#not_found"
   match "/500", via: :all, to: "errors#internal_server_error"
 
