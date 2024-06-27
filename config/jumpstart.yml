@@ -10,7 +10,7 @@ domain: https://claims.omnirisksolutions.co.za/
 support_email: support@omnirisksolutions.co.za
 default_from_email: Omnirisk Support <no-reply@omnirisksolutions.co.za>
 background_job_processor: async
-email_provider: 
+email_provider: mandrill
 personal_accounts: false
 apns: false
 fcm: false
